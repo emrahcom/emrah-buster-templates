@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/static/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+</head>
+<body>
+    <div id="app" class="container">
+        <div id="stream-add-modal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+            <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Add Stream Clone</h4>
+                    </div>
+                    <div class="modal-body">
+                        <input type="text" class="form-control input input-lg" v-model="new_stream_name" placeholder="Clone Name">
+                        <input type="text" class="form-control input input-lg stream-uri" v-model="new_stream_src" placeholder="Stream Source">
+                        <input type="text" class="form-control input input-lg stream-uri" v-model="new_stream_dst" placeholder="Stream Destination">
+                    </div>
+                    <div class="modal-footer">
+                        <div class="btn-group btn-block">
+                        <button type="button" class="btn btn-lg btn-success col-md-6 col-sm-6 col-xs-6" @click="add_stream(new_stream_name, new_stream_src, new_stream_dst)">
+                            <span class="glyphicon glyphicon-ok"></span>&nbsp;Add
+                        </button>
+                        <button type="button" class="btn btn-lg btn-danger col-md-6 col-sm-6 col-xs-6" @click="reset_modals">
+                            <span class="glyphicon glyphicon-remove"></span>&nbsp;Cancel
+                        </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="stream-edit-modal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+            <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Edit Stream Clone</h4>
+                    </div>
+                    <div class="modal-body">
+                        <input type="text" class="form-control input input-lg" v-model="new_stream_name" placeholder="Clone Name" readonly>
+                        <br>
+                        <input type="text" class="form-control input input-lg stream-uri" v-model="new_stream_src" placeholder="Stream Source">
+                        <input type="text" class="form-control input input-lg stream-uri" v-model="new_stream_dst" placeholder="Stream Destination">
+                    </div>
+                    <div class="modal-footer">
+                        <div class="btn-group btn-block">
+                        <button type="button" class="btn btn-lg btn-success col-md-6 col-sm-6 col-xs-6" @click="update_stream">
+                            <span class="glyphicon glyphicon-ok"></span>&nbsp;Save
+                        </button>
+                        <button type="button" class="btn btn-lg btn-danger col-md-6 col-sm-6 col-xs-6" @click="reset_modals">
+                            <span class="glyphicon glyphicon-remove"></span>&nbsp;Cancel
+                        </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="deletion-dialog" role="dialog">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Are you sure?</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>This will remove the stream clone from the list. <strong>This can not be undone.</strong></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" @click="$root.delete_stream(old_stream_name)"><span class="glyphicon glyphicon-trash"></span>&nbsp;Remove</button>
+                        <button type="button" class="btn btn-default" @click="reset_modals">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="stream-list">
+            <stream-record v-for="s in streams" :s="s"></stream-record>
+        </div>
+        <button id="stream-add-button" type="button" class="btn btn-primary btn-block btn-lg" data-toggle="modal" data-target="#stream-add-modal" @click="reset_modals"><span class="glyphicon glyphicon-facetime-video"></span>&nbsp;Add Stream Clone</button>
+    </div>
+</body>
+<script src="/static/application.js"></script>
+</html>

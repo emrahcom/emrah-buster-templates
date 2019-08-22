@@ -1,0 +1,87 @@
+# -----------------------------------------------------------------------------
+# DEFAULT SERVER
+# -----------------------------------------------------------------------------
+server {
+	listen 80 default_server;
+	listen [::]:80 default_server;
+
+	server_name _;
+	root /usr/local/eb;
+	index index.html index.htm;
+
+# -----------------------------------------------------------------------------
+# HLS
+# -----------------------------------------------------------------------------
+	# hls channel
+	location ~* /livestream/hlsplayer/(.*) {
+		try_files $uri /livestream/hlsplayer/index.php?channel=$1;
+		add_header X-Node "hls_channel";
+	}
+
+	# hls player
+	location = /livestream/hlsplayer/index.php {
+		include snippets/fastcgi-php.conf;
+		fastcgi_pass unix:/var/run/php/php7.3-fpm.sock;
+
+		add_header X-Node "hls_player";
+	}
+
+	# hls player static files
+	location /livestream/hlsplayer {
+		add_header X-Node "hls_player_static";
+	}
+
+	# hls files
+	location ~ /livestream/hls/ {
+		types {
+			application/x-mpegURL m3u8;
+			video/MP2T ts;
+		}
+
+		add_header Access-Control-Allow-Origin *;
+		add_header Cache-Control no-cache;
+		add_header X-Node "hls";
+	}
+
+# -----------------------------------------------------------------------------
+# DASH
+# -----------------------------------------------------------------------------
+	# dash channel
+	location ~* /livestream/dashplayer/(.*) {
+		try_files $uri /livestream/dashplayer/index.php?channel=$1;
+		add_header X-Node "dash_channel";
+	}
+
+	# dash player
+	location = /livestream/dashplayer/index.php {
+		include snippets/fastcgi-php.conf;
+		fastcgi_pass unix:/var/run/php/php7.3-fpm.sock;
+
+		add_header X-Node "dash_player";
+	}
+
+	# dash player static files
+	location /livestream/dashplayer {
+		add_header X-Node "dash_player_static";
+	}
+
+	# dash files
+	location ~ /livestream/dash/ {
+		types {
+			application/dash+xml mpd;
+			video/mp4 mp4;
+		}
+
+		add_header Access-Control-Allow-Origin *;
+		add_header Cache-Control no-cache;
+		add_header X-Node "dash";
+	}
+
+# -----------------------------------------------------------------------------
+# UNRELATED
+# -----------------------------------------------------------------------------
+	# deny others
+	location / {
+		deny all;
+	}
+}

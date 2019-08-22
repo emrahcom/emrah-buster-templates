@@ -1,0 +1,6 @@
+{
+    "Clone Test": {
+        "dst": "rtmp://127.0.0.1/livestream/clone",
+        "src": "rtmp://127.0.0.1/livestream/test"
+    }
+}

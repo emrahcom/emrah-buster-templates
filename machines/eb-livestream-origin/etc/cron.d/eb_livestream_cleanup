@@ -1,0 +1,5 @@
+SHELL=/bin/sh
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+
+* *	* * *	root	/root/eb_scripts/livestream_cleanup.sh >/dev/null 2>&1
+* *	* * *	root	/root/eb_scripts/broken_stream_cleanup.sh >/dev/null 2>&1
