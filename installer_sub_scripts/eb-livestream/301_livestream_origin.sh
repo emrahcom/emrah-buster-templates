@@ -60,7 +60,7 @@ lxc-copy -n eb-buster -N $MACH -p /var/lib/lxc/
 
 # shared directories
 mkdir -p $SHARED/cache
-cp -arp $MACHINE_HOST/usr/local/eb/livestream $SHARED/
+cp -arp ../eb-livestream-host/usr/local/eb/livestream $SHARED/
 
 # container config
 rm -rf $ROOTFS/var/cache/apt/archives
