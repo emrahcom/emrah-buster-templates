@@ -21,7 +21,7 @@ About
 
 `emrah-buster` is an installer to create the containerized systems on Debian
 Buster host. It built on top of LXC (Linux containers). This repository
-contains the `emrah-buster`s templates.
+contains the `emrah-buster` templates.
 
 Usage
 =====
@@ -116,8 +116,6 @@ bash eb eb-livestream
 -  [nginx-rtmp-module](https://github.com/arut/nginx-rtmp-module)
 
 -  [video.js](https://github.com/videojs/video.js)
-
--  [videojs-contrib-hls](https://github.com/videojs/videojs-contrib-hls)
 
 -  [dash.js](https://github.com/Dash-Industry-Forum/dash.js/)
 

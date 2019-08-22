@@ -5,8 +5,8 @@ if (!preg_match('/^[a-zA-Z0-9_-]+$/', $channel)) {
 ?>
 <html>
 <head>
-    <link href="//vjs.zencdn.net/7.4.1/video-js.min.css" rel="stylesheet">
-    <script src="//vjs.zencdn.net/7.4.1/video.min.js"></script>
+    <link href="https://unpkg.com/video.js/dist/video-js.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/video.js/dist/video.min.js"></script>
 </head>
 
 <body>
