@@ -1,9 +1,3 @@
-About
-=====
-
-`emrah-buster` is an installer to create the containerized systems on Debian
-Buster host. It built on top of LXC (Linux containers).
-
 Table of contents
 =================
 
@@ -21,6 +15,12 @@ Table of contents
 - [Requirements](#requirements)
 
 ---
+
+About
+=====
+
+`emrah-buster` is an installer to create the containerized systems on Debian
+Buster host. It built on top of LXC (Linux containers).
 
 Usage
 =====
