@@ -157,6 +157,7 @@ lxc-attach -n $MACH -- \
     "chown www-data:www-data /usr/local/eb/livestream/hls
      chown www-data:www-data /usr/local/eb/livestream/dash"
 
+# livestream cloner
 rm -rf $ROOTFS/var/www/livestream_cloner
 mkdir -p $ROOTFS/var/www/livestream_cloner
 rsync -aChu var/www/livestream_cloner/ $ROOTFS/var/www/livestream_cloner/
@@ -164,12 +165,14 @@ lxc-attach -n $MACH -- \
     zsh -c \
     "chown www-data:www-data /var/www/livestream_cloner -R"
 
+# uwsgi
 cp etc/uwsgi/apps-available/livestream_cloner.ini \
     $ROOTFS/etc/uwsgi/apps-available/
 ln -s ../apps-available/livestream_cloner.ini $ROOTFS/etc/uwsgi/apps-enabled/
 lxc-attach -n $MACH -- systemctl stop uwsgi.service
 lxc-attach -n $MACH -- systemctl start uwsgi.service
 
+# nginx
 cp etc/nginx/access_list_http.conf $ROOTFS/etc/nginx/
 cp etc/nginx/access_list_rtmp_play.conf $ROOTFS/etc/nginx/
 cp etc/nginx/access_list_rtmp_publish.conf $ROOTFS/etc/nginx/
@@ -188,9 +191,20 @@ lxc-attach -n $MACH -- \
 lxc-attach -n $MACH -- systemctl stop nginx.service
 lxc-attach -n $MACH -- systemctl start nginx.service
 
-cp -arp root/eb_scripts/ $ROOTFS/root/
+# systemd services
+cp -arp root/eb_scripts $ROOTFS/root/
 chmod u+x $ROOTFS/root/eb_scripts/*.sh
-cp etc/cron.d/eb_livestream_cleanup $ROOTFS/etc/cron.d/
+
+cp etc/systemd/system/livestream_cleanup.service \
+    $ROOTFS/etc/systemd/system/
+cp etc/systemd/system/broken_stream_cleanup.service \
+    $ROOTFS/etc/systemd/system/
+
+lxc-attach -n $MACH -- \
+    zsh -c \
+    "systemctl daemon-reload
+     systemctl enable livestream_cleanup.service
+     systemctl enable broken_stream_cleanup.service"
 
 # -----------------------------------------------------------------------------
 # CONTAINER SERVICES

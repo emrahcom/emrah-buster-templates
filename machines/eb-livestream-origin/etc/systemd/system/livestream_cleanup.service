@@ -1,0 +1,14 @@
+[Unit]
+Description=Livestream Cleanup
+After=nginx.service
+
+[Service]
+User=root
+Group=root
+ExecStart=/root/eb_scripts/livestream_cleanup.sh
+KillMode=process
+Restart=always
+RestartSec=600
+
+[Install]
+WantedBy=multi-user.target
