@@ -1,0 +1,6 @@
+*~
+*.sw?
+!*.swf
+*.log
+*.pyc
+**/__pycache__/
