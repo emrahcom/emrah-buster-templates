@@ -25,6 +25,9 @@ nft add element eb-nat tcp2port { $SSH_PORT : 22 }
 # http
 nft add element eb-nat tcp2ip { 80 : $IP }
 nft add element eb-nat tcp2port { 80 : 80 }
+# https
+nft add element eb-nat tcp2ip { 443 : $IP }
+nft add element eb-nat tcp2port { 443 : 443 }
 
 # -----------------------------------------------------------------------------
 # INIT
@@ -112,7 +115,7 @@ lxc-attach -n $MACH -- \
 lxc-attach -n $MACH -- \
     zsh -c \
     "export DEBIAN_FRONTEND=noninteractive
-     apt-get install -y nginx-extras php-fpm"
+     apt-get install -y nginx-extras php-fpm ssl-cert"
 
 # -----------------------------------------------------------------------------
 # SYSTEM CONFIGURATION

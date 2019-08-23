@@ -5,6 +5,10 @@ server {
 	listen 80 default_server;
 	listen [::]:80 default_server;
 
+	listen 443 ssl default_server;
+	listen [::]:443 ssl default_server;
+	include snippets/snakeoil.conf;
+
 	server_name _;
 	root /usr/local/eb;
 	index index.html index.htm;
