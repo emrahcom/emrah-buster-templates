@@ -104,9 +104,10 @@ lxc-attach -n $MACH -- \
 # update
 lxc-attach -n $MACH -- \
     zsh -c \
-    "apt-get $APT_PROXY_OPTION update
-     while [ $(fuser /var/lib/dpkg/lock-frontend) ]; do sleep 1; done
-     apt-get $APT_PROXY_OPTION -y dist-upgrade"
+    "apt-get $APT_PROXY_OPTION update"
+lxc-attach -n $MACH -- \
+    zsh -c \
+    "apt-get $APT_PROXY_OPTION -y dist-upgrade"
 
 # packages
 lxc-attach -n $MACH -- \
