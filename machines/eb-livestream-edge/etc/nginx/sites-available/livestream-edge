@@ -7,7 +7,7 @@ server {
 
 	listen 443 ssl default_server;
 	listen [::]:443 ssl default_server;
-	include snippets/snakeoil.conf;
+	include snippets/eb_ssl.conf;
 
 	server_name _;
 	root /usr/local/eb;
@@ -79,6 +79,13 @@ server {
 		add_header Access-Control-Allow-Origin *;
 		add_header Cache-Control no-cache;
 		add_header X-Node "dash";
+	}
+
+# -----------------------------------------------------------------------------
+# Let's Encrypt
+# -----------------------------------------------------------------------------
+	location /.well-known {
+		root /var/www/html;
 	}
 
 # -----------------------------------------------------------------------------

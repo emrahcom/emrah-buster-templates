@@ -115,12 +115,21 @@ lxc-attach -n $MACH -- \
 lxc-attach -n $MACH -- \
     zsh -c \
     "export DEBIAN_FRONTEND=noninteractive
-     apt-get install -y nginx-extras php-fpm ssl-cert"
+     apt-get install -y ssl-cert ca-certificates certbot
+     apt-get install -y nginx-extras php-fpm"
 
 # -----------------------------------------------------------------------------
 # SYSTEM CONFIGURATION
 # -----------------------------------------------------------------------------
+# ssl
+lxc-attach -n $MACH -- \
+    zsh -c \
+    "ln -s ssl-cert-snakeoil.pem /etc/ssl/certs/ssl-eb.pem
+     ln -s ssl-cert-snakeoil.key /etc/ssl/private/ssl-eb.key"
+
+# nginx
 cp etc/nginx/conf.d/custom.conf $ROOTFS/etc/nginx/conf.d/
+cp etc/nginx/snippets/eb_ssl.conf $ROOTFS/etc/nginx/snippets/
 cp etc/nginx/sites-available/livestream-edge \
     $ROOTFS/etc/nginx/sites-available/
 ln -s ../sites-available/livestream-edge $ROOTFS/etc/nginx/sites-enabled/

@@ -12,6 +12,7 @@ Table of contents
         - [To install eb-livestream](#to-install-eb-livestream)
         - [After install eb-livestream](#after-install-eb-livestream)
         - [Related links to eb-livestream](#related-links-to-eb-livestream)
+- [Let's Encrypt support](#lets-encrypt-support)
 - [Requirements](#requirements)
 
 ---
@@ -118,6 +119,30 @@ bash eb eb-livestream
 -  [video.js](https://github.com/videojs/video.js)
 
 -  [dash.js](https://github.com/Dash-Industry-Forum/dash.js/)
+
+---
+
+Let's Encrypt support
+=====================
+
+To use Let's Encrypt certificate, connect to the related container as root and
+
+```bash
+FQDN="your.host.fqdn"
+
+certbot certonly --webroot -w /var/www/html -d $FQDN
+
+chmod 750 /etc/letsencrypt/{archive,live}
+chown root:ssl-cert /etc/letsencrypt/{archive,live}
+rm -f /etc/ssl/certs/ssl-eb.pem
+rm -f /etc/ssl/private/ssl-eb.key
+ln -s /etc/letsencrypt/live/$FQDN/fullchain.pem \
+    /etc/ssl/certs/ssl-eb.pem
+ln -s /etc/letsencrypt/live/$FQDN/privkey.pem \
+    /etc/ssl/private/ssl-eb.key
+
+systemctl restart nginx.service
+```
 
 ---
 
