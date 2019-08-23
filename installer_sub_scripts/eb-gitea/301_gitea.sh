@@ -123,6 +123,11 @@ lxc-attach -n $MACH -- \
      apt-get install -y ssl-cert ca-certificates certbot
      apt-get install -y nginx-extras"
 
+lxc-attach -n $MACH -- \
+    zsh -c \
+    "export DEBIAN_FRONTEND=noninteractive
+     apt-get install -y git"
+
 # -----------------------------------------------------------------------------
 # SYSTEM CONFIGURATION
 # -----------------------------------------------------------------------------
@@ -146,11 +151,12 @@ lxc-attach -n $MACH -- systemctl start nginx.service
 # GITEA
 # -----------------------------------------------------------------------------
 # gitea user
-lxc-attach -n $MACH -- adduser gitea --disabled-password --gecos ""
+lxc-attach -n $MACH -- adduser gitea --system --group --disabled-password \
+    --shell /bin/bash --gecos ''
 
 # gitea database
 lxc-attach -n $MACH -- mysql <<EOF
-CREATE DATABASE gitea DEFAULT CHARACTER SET utf8;
+CREATE DATABASE gitea DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 CREATE USER gitea@localhost IDENTIFIED VIA unix_socket;
 GRANT ALL PRIVILEGES on gitea.* to gitea@localhost;
 EOF
