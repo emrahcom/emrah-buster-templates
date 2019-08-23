@@ -1,0 +1,30 @@
+# -----------------------------------------------------------------------------
+# DEFAULT SERVER
+# -----------------------------------------------------------------------------
+server {
+	listen 80 default_server;
+	listen [::]:80 default_server;
+
+	listen 443 ssl default_server;
+	listen [::]:443 ssl default_server;
+	include snippets/eb_ssl.conf;
+
+	server_name _;
+	root /var/www/html;
+	index index.html index.htm;
+
+# -----------------------------------------------------------------------------
+# Let's Encrypt
+# -----------------------------------------------------------------------------
+	location /.well-known {
+		root /var/www/html;
+	}
+
+# -----------------------------------------------------------------------------
+# UNRELATED
+# -----------------------------------------------------------------------------
+	# deny others
+	location / {
+		deny all;
+	}
+}
