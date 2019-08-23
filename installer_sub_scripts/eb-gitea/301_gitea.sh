@@ -171,7 +171,8 @@ latest_lnk="https://dl.gitea.io/$latest_dir/$latest_ver-linux-amd64"
 
 mkdir -p /root/eb_store
 [[ ! -f "/root/eb_store/$latest_ver-linux-amd64" ]] && \
-    wget -qNP /root/eb_store/ $latest_lnk
+    wget -qNP /root/eb_store/ $latest_lnk || \
+    echo "Gitea already exists. Skipped the download"
 
 # -----------------------------------------------------------------------------
 # CONTAINER SERVICES
