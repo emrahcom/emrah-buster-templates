@@ -161,6 +161,17 @@ CREATE USER gitea@localhost IDENTIFIED VIA unix_socket;
 GRANT ALL PRIVILEGES on gitea.* to gitea@localhost;
 EOF
 
+# gitea download
+latest_dir=$(curl -s https://dl.gitea.io/gitea/ | \
+	     ack -o "/gitea/\d+\.\d+\.\d+/" | tail -n1 | \
+	     sed 's~\(^/\|/$\)~~g')
+latest_ver=$(echo $latest_dir | sed 's~/~-~g')
+latest_lnk="https://dl.gitea.io/$latest_dir/$latest_ver-linux-amd64"
+
+mkdir /root/eb_store
+[[ ! -f "/root/eb_store/$latest_ver-linux-amd64" ]] && \
+    wget $latest_lnk
+
 # -----------------------------------------------------------------------------
 # CONTAINER SERVICES
 # -----------------------------------------------------------------------------
