@@ -174,6 +174,13 @@ mkdir -p /root/eb_store
     wget -qNP /root/eb_store/ $latest_lnk || \
     echo "Gitea already exists. Skipped the download"
 
+# deploy gitea application
+cp /root/eb_store/$latest_ver-linux-amd64 $ROOTFS/home/gitea/gitea
+lxc-attach -n $MACH -- \
+    zsh -c \
+    "chown gitea:gitea /home/gitea/gitea
+     chmod u+x /home/gitea/gitea"
+
 # Gitea initial config
 lxc-attach -n $MACH -- \
     zsh -c \
