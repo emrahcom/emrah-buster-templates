@@ -199,7 +199,7 @@ lxc-attach -n $MACH -- \
 	 -d 'domain=$REMOTE_IP&ssh_port=$SSH_PORT&run_user=gitea' \
 	 -d 'app_url=https://$REMOTE_IP/&http_port=3000' \
 	 -d 'ssl_mode=disable' \
-	 http://127.0.0.1/install
+	 http://127.0.0.1:3000/install
      sleep 3"
 lxc-attach -n $MACH -- \
     zsh -c \
