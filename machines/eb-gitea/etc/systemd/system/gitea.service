@@ -1,0 +1,18 @@
+[Unit]
+Description=Gitea
+After=network-online.target
+After=mariadb.service
+Requires=mariadb.service
+
+[Service]
+User=gitea
+Group=gitea
+WorkingDirectory=/home/gitea
+ExecStart=/home/gitea/gitea web
+Restart=always
+RestartSec=2s
+LimitMEMLOCK=infinity
+LimitNOFILE=65535
+
+[Install]
+WantedBy=multi-user.target

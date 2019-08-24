@@ -174,7 +174,7 @@ mkdir -p /root/eb_store
     wget -qNP /root/eb_store/ $latest_lnk || \
     echo "Gitea already exists. Skipped the download"
 
-# deploy gitea application
+# deploy the gitea application
 cp /root/eb_store/$latest_ver-linux-amd64 $ROOTFS/home/gitea/gitea
 lxc-attach -n $MACH -- \
     zsh -c \
@@ -198,11 +198,23 @@ lxc-attach -n $MACH -- \
 	 -d 'log_root_path=/home/gitea/log' \
 	 -d 'domain=172.17.17.253&ssh_port=30013&run_user=gitea' \
 	 -d 'app_url=https://172.17.17.253/&http_port=3000' \
+	 -d 'ssl_mode=disable' \
 	 http://127.0.0.1/install
      sleep 3"
 lxc-attach -n $MACH -- \
     zsh -c \
     "pkill gitea"
+lxc-attach -n $MACH -- \
+    zsh -c \
+    "sed -i '/^INSTALL_LOCK/ s/true/false/' /home/gitea/custom/conf/app.ini"
+
+# systemd the gitea service
+cp etc/systemd/system/gitea.service $ROOTFS/etc/systemd/system/
+lxc-attach -n $MACH -- \
+    zsh -c \
+    "systemctl daemon-reload
+     systemctl enable gitea.service
+     systemctl restart gitea.service"
 
 # -----------------------------------------------------------------------------
 # CONTAINER SERVICES
