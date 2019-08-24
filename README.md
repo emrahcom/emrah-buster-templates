@@ -16,7 +16,6 @@ Table of contents
         - [Main components of eb-gitea](#main-components-of-eb-gitea)
         - [To install eb-gitea](#to-install-eb-gitea)
         - [After install eb-gitea](#after-install-eb-gitea)
-        - [Related links to eb-gitea](#related-links-to-eb-gitea)
 - [Let's Encrypt support](#lets-encrypt-support)
 - [Requirements](#requirements)
 
@@ -77,15 +76,15 @@ Install a ready-to-use live streaming media system.
 
 ### Main components of eb-livestream
 
--  Nginx server with nginx-rtmp-module as a stream origin.
-   It gets the RTMP stream and convert it to HLS and DASH.
+- Nginx server with nginx-rtmp-module as a stream origin.
+  It gets the RTMP stream and convert it to HLS and DASH.
 
--  Nginx server with standart modules as a stream edge.
-   It publish the HLS and DASH stream.
+- Nginx server with standart modules as a stream edge.
+  It publish the HLS and DASH stream.
 
--  Web based HLS video player.
+- Web based HLS video player.
 
--  Web based DASH video player.
+- Web based DASH video player.
 
 ### To install eb-livestream
 
@@ -97,33 +96,33 @@ bash eb eb-livestream
 
 ### After install eb-livestream
 
--  `rtmp://<IP_ADDRESS>/livestream/<CHANNEL_NAME>` to push
-    an RTMP stream.
+- `rtmp://<IP_ADDRESS>/livestream/<CHANNEL_NAME>` to push
+   an RTMP stream.
 
--  `http://<IP_ADDRESS>/livestream/hls/<CHANNEL_NAME>/index.m3u8` to pull
-   the HLS stream.
+- `http://<IP_ADDRESS>/livestream/hls/<CHANNEL_NAME>/index.m3u8` to pull
+  the HLS stream.
 
--  `http://<IP_ADDRESS>/livestream/dash/<CHANNEL_NAME>/index.mpd` to pull
-   the DASH stream.
+- `http://<IP_ADDRESS>/livestream/dash/<CHANNEL_NAME>/index.mpd` to pull
+  the DASH stream.
 
--  `http://<IP_ADDRESS>/livestream/hlsplayer/<CHANNEL_NAME>` for
-   the HLS video player page.
+- `http://<IP_ADDRESS>/livestream/hlsplayer/<CHANNEL_NAME>` for
+  the HLS video player page.
 
--  `http://<IP_ADDRESS>/livestream/dashplayer/<CHANNEL_NAME>` for
-   the DASH video player page.
+- `http://<IP_ADDRESS>/livestream/dashplayer/<CHANNEL_NAME>` for
+  the DASH video player page.
 
--  `http://<IP_ADDRESS>:8000/livestream/status` for the RTMP status page.
+- `http://<IP_ADDRESS>:8000/livestream/status` for the RTMP status page.
 
--  `http://<IP_ADDRESS>:8000/livestream/cloner` for the stream cloner page.
-   Thanks to [nejdetckenobi](https://github.com/nejdetckenobi)
+- `http://<IP_ADDRESS>:8000/livestream/cloner` for the stream cloner page.
+  Thanks to [nejdetckenobi](https://github.com/nejdetckenobi)
 
 ### Related links to eb-livestream
 
--  [nginx-rtmp-module](https://github.com/arut/nginx-rtmp-module)
+- [nginx-rtmp-module](https://github.com/arut/nginx-rtmp-module)
 
--  [video.js](https://github.com/videojs/video.js)
+- [video.js](https://github.com/videojs/video.js)
 
--  [dash.js](https://github.com/Dash-Industry-Forum/dash.js/)
+- [dash.js](https://github.com/Dash-Industry-Forum/dash.js/)
 
 ---
 
@@ -136,10 +135,10 @@ other architecture.
 
 ### Main components of eb-gitea
 
-- Gitea
-- Git
-- MariaDB
-- Nginx
+- [Gitea](https://gitea.io/)
+- [Git](https://git-scm.com/)
+- [MariaDB](https://mariadb.org/)
+- [Nginx](http://nginx.org/)
 
 ### To install eb-gitea
 
@@ -156,24 +155,19 @@ the initial configuration form of Gitea. Only two fields will be changed:
 
 Very easy!
 
--  Access `https://<IP_ADDRESS>/install` to fill the Gitea config form.
+- Access `https://<IP_ADDRESS>/install` to fill the Gitea config form.
 
--  **SSH Server Domain**: Write your host FQDN or IP address. Examples:   
-   *git.mydomain.com*   
-   *123.2.3.4*
+- **SSH Server Domain**: Write your host FQDN or IP address. Examples:   
+  *git.mydomain.com*   
+  *123.2.3.4*
 
--  **Gitea Base URL**: Write your URL. HTTP and HTTPS are OK. Examples:   
-   *https://git.mydomain.com/*    
-   *https://123.2.3.4/*
+- **Gitea Base URL**: Write your URL. HTTP and HTTPS are OK. Examples:   
+  *https://git.mydomain.com/*    
+  *https://123.2.3.4/*
 
--  The first registered user will be the administrator.
+- Don't change the other fields. They are all OK.
 
-### Related links to eb-gitea
-
-- [Gitea](https://gitea.io/)
-- [Git](https://git-scm.com/)
-- [MariaDB](https://mariadb.org/)
-- [Nginx](http://nginx.org/)
+- The first registered user will be the administrator.
 
 ---
 
@@ -209,12 +203,12 @@ Internet access during the installation. It's not a good idea to use your
 desktop machine or an already in-use production server as a host machine.
 Please, use one of the followings as a host:
 
--  a cloud host from a hosting/cloud service
-   ([Digital Ocean](https://www.digitalocean.com/?refcode=92b0165840d8)'s
-   droplet, [Amazon](https://console.aws.amazon.com) EC2 instance etc)
+- a cloud host from a hosting/cloud service
+  ([Digital Ocean](https://www.digitalocean.com/?refcode=92b0165840d8)'s
+  droplet, [Amazon](https://console.aws.amazon.com) EC2 instance etc)
 
--  a virtual machine (VMware, VirtualBox etc)
+- a virtual machine (VMware, VirtualBox etc)
 
--  a Debian Buster container
+- a Debian Buster container
 
--  a physical machine with a fresh installed [Debian Buster](https://www.debian.org/distrib/netinst)
+- a physical machine with a fresh installed [Debian Buster](https://www.debian.org/distrib/netinst)
