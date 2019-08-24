@@ -174,6 +174,28 @@ mkdir -p /root/eb_store
     wget -qNP /root/eb_store/ $latest_lnk || \
     echo "Gitea already exists. Skipped the download"
 
+# Gitea initial config
+lxc-attach -n $MACH -- \
+    zsh -c \
+    "su -l gitea -c '/home/gitea/gitea web' &
+     sleep 3"
+lxc-attach -n $MACH -- \
+    zsh -c \
+    "curl -X POST \
+	 -d 'app_name=Gitea: Git with a cup of tea' \
+         -d 'db_type=MySQL&db_host=/var/run/mysqld/mysqld.sock' \
+         -d 'db_user=gitea&db_passwd=&db_name=gitea&charset=utf8mb4' \
+	 -d 'repo_root_path=/home/gitea/gitea-repositories' \
+	 -d 'lfs_root_path=/home/gitea/data/lfs' \
+	 -d 'log_root_path=/home/gitea/log' \
+	 -d 'domain=172.17.17.253&ssh_port=30013&run_user=gitea' \
+	 -d 'app_url=https://172.17.17.253/&http_port=3000' \
+	 http://127.0.0.1/install
+     sleep 3"
+lxc-attach -n $MACH -- \
+    zsh -c \
+    "pkill gitea"
+
 # -----------------------------------------------------------------------------
 # CONTAINER SERVICES
 # -----------------------------------------------------------------------------
