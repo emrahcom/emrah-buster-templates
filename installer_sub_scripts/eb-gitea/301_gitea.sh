@@ -196,8 +196,8 @@ lxc-attach -n $MACH -- \
 	 -d 'repo_root_path=/home/gitea/gitea-repositories' \
 	 -d 'lfs_root_path=/home/gitea/data/lfs' \
 	 -d 'log_root_path=/home/gitea/log' \
-	 -d 'domain=172.17.17.253&ssh_port=30013&run_user=gitea' \
-	 -d 'app_url=https://172.17.17.253/&http_port=3000' \
+	 -d 'domain=$REMOTE_IP&ssh_port=$SSH_PORT&run_user=gitea' \
+	 -d 'app_url=https://$REMOTE_IP/&http_port=3000' \
 	 -d 'ssl_mode=disable' \
 	 http://127.0.0.1/install
      sleep 3"
