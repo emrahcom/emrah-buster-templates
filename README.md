@@ -12,6 +12,11 @@ Table of contents
         - [To install eb-livestream](#to-install-eb-livestream)
         - [After install eb-livestream](#after-install-eb-livestream)
         - [Related links to eb-livestream](#related-links-to-eb-livestream)
+    - [eb-gitea](#eb-gitea)
+        - [Main components of eb-gitea](#main-components-of-eb-gitea)
+        - [To install eb-gitea](#to-install-eb-gitea)
+        - [After install eb-gitea](#after-install-eb-gitea)
+        - [Related links to eb-gitea](#related-links-to-eb-gitea)
 - [Let's Encrypt support](#lets-encrypt-support)
 - [Requirements](#requirements)
 
@@ -119,6 +124,56 @@ bash eb eb-livestream
 -  [video.js](https://github.com/videojs/video.js)
 
 -  [dash.js](https://github.com/Dash-Industry-Forum/dash.js/)
+
+---
+
+eb-gitea
+-------------
+
+Install a ready-to-use self-hosted Git service. Only AMD64 architecture is
+supported for this template. Please contact me if you need eb-gitea for an
+other architecture.
+
+### Main components of eb-gitea
+
+- Gitea
+- Git
+- MariaDB
+- Nginx
+
+### To install eb-gitea
+
+```bash
+wget https://raw.githubusercontent.com/emrahcom/emrah-buster-base/master/installer/eb
+wget https://raw.githubusercontent.com/emrahcom/emrah-buster-templates/master/installer/eb-gitea.conf
+bash eb eb-gitea
+```
+
+### After install eb-gitea
+There is one more step to finish the installation. It's needed to fill
+the initial configuration form of Gitea. Only two fields will be changed:
+**SSH Server Domain** and **Gitea Base URL**.
+
+Very easy!
+
+-  Access `https://<IP_ADDRESS>/install` to fill the Gitea config form.
+
+-  **SSH Server Domain**: Write your host FQDN or IP address. Examples:   
+   *git.mydomain.com*   
+   *123.2.3.4*
+
+-  **Gitea Base URL**: Write your URL. HTTP and HTTPS are OK. Examples:   
+   *https://git.mydomain.com/*    
+   *https://123.2.3.4/*
+
+-  The first registered user will be the administrator.
+
+### Related links to eb-gitea
+
+- [Gitea](https://gitea.io/)
+- [Git](https://git-scm.com/)
+- [MariaDB](https://mariadb.org/)
+- [Nginx](http://nginx.org/)
 
 ---
 
