@@ -197,10 +197,10 @@ lxc-attach -n $MACH -- \
 
 lxc-attach -n $MACH -- \
     zsh -c \
-    "while true; do sleep 1; curl http://127.0.0.1:3000 && break; done"
+    "while true; do sleep 1; curl -s http://127.0.0.1:3000 && break; done"
 lxc-attach -n $MACH -- \
     zsh -c \
-    "curl -X POST \
+    "curl -s -X POST \
 	 -d 'app_name=Gitea: Git with a cup of tea' \
          -d 'db_type=MySQL&db_host=/var/run/mysqld/mysqld.sock' \
          -d 'db_user=gitea&db_passwd=&db_name=gitea&charset=utf8mb4' \
