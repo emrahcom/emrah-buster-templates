@@ -172,7 +172,7 @@ latest_lnk="https://dl.gitea.io/$latest_dir/$latest_ver-linux-amd64"
 mkdir -p /root/eb_store
 if [[ ! -f "/root/eb_store/$latest_ver-linux-amd64" ]]
 then
-    wget -qNP /root/eb_store/ $latest_lnk
+    wget -NP /root/eb_store/ $latest_lnk
 else
     echo "Gitea already exists. Skipped the download"
 fi
