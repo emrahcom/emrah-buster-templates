@@ -197,7 +197,7 @@ lxc-attach -n $MACH -- \
 
 lxc-attach -n $MACH -- \
     zsh -c \
-    "while true; do sleep 1; curl -s http://127.0.0.1:3000 && break; done"
+    "while true; do sleep 1; curl --head http://127.0.0.1:3000 && break; done"
 lxc-attach -n $MACH -- \
     zsh -c \
     "curl -s -X POST \
