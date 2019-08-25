@@ -193,7 +193,7 @@ lxc-attach -n $MACH -- \
 # Gitea initial config
 lxc-attach -n $MACH -- \
     zsh -c \
-    "su -l gitea -c '/home/gitea/gitea web'" &
+    "su -l gitea -c '/home/gitea/gitea web' >/dev/null 2>&1" &
 
 sleep 3
 lxc-attach -n $MACH -- \
