@@ -169,6 +169,11 @@ latest_dir=$(curl -s https://dl.gitea.io/gitea/ | \
 latest_ver=$(echo $latest_dir | sed 's~/~-~g')
 latest_lnk="https://dl.gitea.io/$latest_dir/$latest_ver-linux-amd64"
 
+[[ -z "$latest_ver" ]] && \
+[[ -n "$(find /root/eb_store -maxdepth 1 -name 'gitea-*-linux-amd64')" ]] && \
+latest_ver=$(ls -1 /root/eb_store/gitea-*-linux-amd64 | ack -o 'gitea-*$' | \
+             ack -o '\d+\.\d+\.\d+' | tail -n1)
+
 mkdir -p /root/eb_store
 if [[ ! -f "/root/eb_store/$latest_ver-linux-amd64" ]]
 then
