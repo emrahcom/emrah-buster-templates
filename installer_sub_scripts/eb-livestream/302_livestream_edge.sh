@@ -139,6 +139,10 @@ rm $ROOTFS/etc/nginx/sites-enabled/default
 lxc-attach -n $MACH -- systemctl stop nginx.service
 lxc-attach -n $MACH -- systemctl start nginx.service
 
+# certbot service
+cp ../common/lib/systemd/system/certbot.service $ROOTFS/lib/systemd/system/
+lxc-attach -n $MACH -- systemctl daemon-reload
+
 # -----------------------------------------------------------------------------
 # VIDEO PLAYERS
 # -----------------------------------------------------------------------------
