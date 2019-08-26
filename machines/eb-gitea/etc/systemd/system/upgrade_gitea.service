@@ -2,11 +2,11 @@
 Description=Upgrade Gitea
 After=network-online.target
 After=mariadb.service
+After=gitea.service
 
 [Service]
 User=root
 Group=root
-ExecStartPre=/bin/sleep 60
 ExecStart=/root/eb_scripts/upgrade_gitea.sh
 Restart=always
 RestartSec=43200
