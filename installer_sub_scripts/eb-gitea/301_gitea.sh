@@ -177,7 +177,8 @@ latest_ver=$(ls -1 /root/eb_store/gitea-*-linux-amd64 | \
 mkdir -p /root/eb_store
 if [[ ! -f "/root/eb_store/$latest_ver-linux-amd64" ]]
 then
-    wget -NP /root/eb_store/ $latest_lnk
+    wget -NP /tmp $latest_lnk
+    mv /tmp/$latest_ver-linux-amd64 /root/eb_store/
 else
     echo "Gitea already exists. Skipped the download"
 fi
@@ -219,13 +220,20 @@ lxc-attach -n $MACH -- \
     zsh -c \
     "sed -i '/^INSTALL_LOCK/ s/true/false/' /home/gitea/custom/conf/app.ini"
 
-# systemd the gitea service
+# Gitea upgrade script
+cp root/eb_scripts/upgrade_gitea.sh $ROOTFS/root/eb_scripts/
+chmod u+x $ROOTFS/root/eb_scripts/upgrade_gitea.sh
+
+# systemd the gitea services
 cp etc/systemd/system/gitea.service $ROOTFS/etc/systemd/system/
+cp etc/systemd/system/upgrade_gitea.service $ROOTFS/etc/systemd/system/
 lxc-attach -n $MACH -- \
     zsh -c \
     "systemctl daemon-reload
      systemctl enable gitea.service
-     systemctl restart gitea.service"
+     systemctl enable upgrade_gitea.service
+     systemctl restart gitea.service
+     systemctl restart upgrade_gitea.service"
 
 # -----------------------------------------------------------------------------
 # CONTAINER SERVICES
