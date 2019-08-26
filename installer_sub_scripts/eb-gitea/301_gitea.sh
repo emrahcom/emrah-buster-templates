@@ -38,6 +38,19 @@ echo
 echo "-------------------------- $MACH --------------------------"
 
 # -----------------------------------------------------------------------------
+# REINSTALL_IF_EXISTS
+# -----------------------------------------------------------------------------
+EXISTS=$(lxc-info -n $MACH | egrep '^State' || true)
+if [ -n "$EXISTS" -a "$REINSTALL_GITEA_IF_EXISTS" != true ]
+then
+    echo "Already installed. Skipped..."
+    echo
+    echo "Please set REINSTALL_GITEA_IF_EXISTS in $APP_CONFIG"
+    echo "if you want to reinstall this container"
+    exit
+fi
+
+# -----------------------------------------------------------------------------
 # CONTAINER SETUP
 # -----------------------------------------------------------------------------
 # stop the template container if it's running
