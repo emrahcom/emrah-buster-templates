@@ -1,0 +1,15 @@
+[Unit]
+Description=Upgrade Gitea
+After=network-online.target
+After=mariadb.service
+After=gitea.service
+
+[Service]
+User=root
+Group=root
+ExecStart=/root/eb_scripts/upgrade_gitea.sh
+Restart=always
+RestartSec=43200
+
+[Install]
+WantedBy=multi-user.target
