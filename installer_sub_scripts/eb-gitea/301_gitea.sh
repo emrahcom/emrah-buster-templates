@@ -23,19 +23,19 @@ echo GITEA="$IP" >> $INSTALLER/000_source
 # NFTABLES RULES
 # -----------------------------------------------------------------------------
 # public ssh
-nft delete element eb-nat tcp2ip { $SSH_PORT } || true
+nft delete element eb-nat tcp2ip { $SSH_PORT } 2>/dev/null || true
 nft add element eb-nat tcp2ip { $SSH_PORT : $IP }
-nft delete element eb-nat tcp2port { $SSH_PORT } || true
+nft delete element eb-nat tcp2port { $SSH_PORT } 2>/dev/null || true
 nft add element eb-nat tcp2port { $SSH_PORT : 22 }
 # http
-nft delete element eb-nat tcp2ip { 80 } || true
+nft delete element eb-nat tcp2ip { 80 } 2>/dev/null || true
 nft add element eb-nat tcp2ip { 80 : $IP }
-nft delete element eb-nat tcp2port { 80 } || true
+nft delete element eb-nat tcp2port { 80 } 2>/dev/null || true
 nft add element eb-nat tcp2port { 80 : 80 }
 # https
-nft delete element eb-nat tcp2ip { 443 } || true
+nft delete element eb-nat tcp2ip { 443 } 2>/dev/null || true
 nft add element eb-nat tcp2ip { 443 : $IP }
-nft delete element eb-nat tcp2port { 443 } || true
+nft delete element eb-nat tcp2port { 443 } 2>/dev/null || true
 nft add element eb-nat tcp2port { 443 : 443 }
 
 # -----------------------------------------------------------------------------
