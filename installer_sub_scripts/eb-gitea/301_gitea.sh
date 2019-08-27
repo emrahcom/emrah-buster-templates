@@ -10,9 +10,6 @@ source $INSTALLER/000_source
 MACH="eb-gitea"
 cd $MACHINES/$MACH
 
-echo
-echo "-------------------------- $MACH --------------------------"
-
 ROOTFS="/var/lib/lxc/$MACH/rootfs"
 DNS_RECORD=$(grep "address=/$MACH/" /etc/dnsmasq.d/eb_gitea | head -n1)
 IP=${DNS_RECORD##*/}
@@ -39,9 +36,12 @@ nft delete element eb-nat tcp2port { 443 } 2>/dev/null || true
 nft add element eb-nat tcp2port { 443 : 443 }
 
 # -----------------------------------------------------------------------------
-# RUN or EXIT
+# INIT
 # -----------------------------------------------------------------------------
 [ "$DONT_RUN_GITEA" = true ] && exit
+
+echo
+echo "-------------------------- $MACH --------------------------"
 
 # -----------------------------------------------------------------------------
 # REINSTALL_IF_EXISTS
