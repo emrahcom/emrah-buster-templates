@@ -20,13 +20,19 @@ echo LIVESTREAM_ORIGIN="$IP" >> $INSTALLER/000_source
 # NFTABLES RULES
 # -----------------------------------------------------------------------------
 # public ssh
+nft delete element eb-nat tcp2ip { $SSH_PORT } 2>/dev/null || true
 nft add element eb-nat tcp2ip { $SSH_PORT : $IP }
+nft delete element eb-nat tcp2port { $SSH_PORT } 2>/dev/null || true
 nft add element eb-nat tcp2port { $SSH_PORT : 22 }
 # rtmp push
+nft delete element eb-nat tcp2ip { 1935 } 2>/dev/null || true
 nft add element eb-nat tcp2ip { 1935 : $IP }
+nft delete element eb-nat tcp2port { 1935 } 2>/dev/null || true
 nft add element eb-nat tcp2port { 1935 : 1935 }
 # admin web
+nft delete element eb-nat tcp2ip { 8000 } 2>/dev/null || true
 nft add element eb-nat tcp2ip { 8000 : $IP }
+nft delete element eb-nat tcp2port { 8000 } 2>/dev/null || true
 nft add element eb-nat tcp2port { 8000 : 80 }
 
 # -----------------------------------------------------------------------------
