@@ -10,6 +10,9 @@ source $INSTALLER/000_source
 MACH="eb-gitea"
 cd $MACHINES/$MACH
 
+echo
+echo "-------------------------- $MACH --------------------------"
+
 ROOTFS="/var/lib/lxc/$MACH/rootfs"
 DNS_RECORD=$(grep "address=/$MACH/" /etc/dnsmasq.d/eb_gitea | head -n1)
 IP=${DNS_RECORD##*/}
@@ -20,22 +23,25 @@ echo GITEA="$IP" >> $INSTALLER/000_source
 # NFTABLES RULES
 # -----------------------------------------------------------------------------
 # public ssh
+nft delete element eb-nat tcp2ip { $SSH_PORT } || true
 nft add element eb-nat tcp2ip { $SSH_PORT : $IP }
+nft delete element eb-nat tcp2port { $SSH_PORT } || true
 nft add element eb-nat tcp2port { $SSH_PORT : 22 }
 # http
+nft delete element eb-nat tcp2ip { 80 } || true
 nft add element eb-nat tcp2ip { 80 : $IP }
+nft delete element eb-nat tcp2port { 80 } || true
 nft add element eb-nat tcp2port { 80 : 80 }
 # https
+nft delete element eb-nat tcp2ip { 443 } || true
 nft add element eb-nat tcp2ip { 443 : $IP }
+nft delete element eb-nat tcp2port { 443 } || true
 nft add element eb-nat tcp2port { 443 : 443 }
 
 # -----------------------------------------------------------------------------
-# INIT
+# RUN or EXIT
 # -----------------------------------------------------------------------------
 [ "$DONT_RUN_GITEA" = true ] && exit
-
-echo
-echo "-------------------------- $MACH --------------------------"
 
 # -----------------------------------------------------------------------------
 # REINSTALL_IF_EXISTS
