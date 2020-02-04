@@ -187,14 +187,16 @@ EOF
 
 # gitea download
 latest_dir=$(curl -s https://dl.gitea.io/gitea/ | \
-	     ack -o "/gitea/\d+\.\d+\.\d+/" | tail -n1 | \
-	     sed 's~\(^/\|/$\)~~g')
+             ack -o "/gitea/\d+\.\d+\.\d+/" | ack -o "[0-9.]+" | \
+             awk -F '\.' '{printf "%03d%03d%03d-%s\n", $1, $2, $3, $0}' | \
+             sort -n | tail -n1 | \
+             awk -F '-' '{printf "gitea/%s", $2}')
 latest_ver=$(echo $latest_dir | sed 's~/~-~g')
 latest_lnk="https://dl.gitea.io/$latest_dir/$latest_ver-linux-amd64"
 
 [[ -z "$latest_ver" ]] && \
 [[ -n "$(find /root/eb_store -maxdepth 1 -name 'gitea-*-linux-amd64')" ]] && \
-latest_ver=$(ls -1 /root/eb_store/gitea-*-linux-amd64 | \
+latest_ver=$(ls -1tr /root/eb_store/gitea-*-linux-amd64 | \
              ack -o 'gitea-\d+\.\d+\.\d+' | tail -n1)
 
 mkdir -p /root/eb_store
@@ -225,16 +227,16 @@ lxc-attach -n $MACH -- \
 lxc-attach -n $MACH -- \
     zsh -c \
     "curl -s -X POST \
-	 -d 'app_name=Gitea: Git with a cup of tea' \
-         -d 'db_type=MySQL&db_host=/var/run/mysqld/mysqld.sock' \
-         -d 'db_user=gitea&db_passwd=&db_name=gitea&charset=utf8mb4' \
-	 -d 'repo_root_path=/home/gitea/gitea-repositories' \
-	 -d 'lfs_root_path=/home/gitea/data/lfs' \
-	 -d 'log_root_path=/home/gitea/log' \
-	 -d 'domain=$REMOTE_IP&ssh_port=$SSH_PORT&run_user=gitea' \
-	 -d 'app_url=https://$REMOTE_IP/&http_port=3000' \
-	 -d 'ssl_mode=disable' \
-	 http://127.0.0.1:3000/install
+     -d 'app_name=Gitea: Git with a cup of tea' \
+     -d 'db_type=MySQL&db_host=/var/run/mysqld/mysqld.sock' \
+     -d 'db_user=gitea&db_passwd=&db_name=gitea&charset=utf8mb4' \
+     -d 'repo_root_path=/home/gitea/gitea-repositories' \
+     -d 'lfs_root_path=/home/gitea/data/lfs' \
+     -d 'log_root_path=/home/gitea/log' \
+     -d 'domain=$REMOTE_IP&ssh_port=$SSH_PORT&run_user=gitea' \
+     -d 'app_url=https://$REMOTE_IP/&http_port=3000' \
+     -d 'ssl_mode=disable' \
+     http://127.0.0.1:3000/install
      sleep 3"
 lxc-attach -n $MACH -- \
     zsh -c \
