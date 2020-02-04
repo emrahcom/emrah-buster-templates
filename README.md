@@ -182,6 +182,11 @@ details.
 - DISABLE_REGISTRATION = true
 - REQUIRE_SIGNIN_VIEW = true
 - DEFAULT_KEEP_EMAIL_PRIVATE = true
+- [mailer] ENABLED = true
+- [mailer] HOST = my-smtp-server.domain.com:587
+- [mailer] FROM = emrah@domain.com
+- [mailer] USER = emrah@domain.com
+- [mailer] PASSWD = my-secret
 
 ---
 
