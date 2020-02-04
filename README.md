@@ -16,6 +16,7 @@ Table of contents
         - [Main components of eb-gitea](#main-components-of-eb-gitea)
         - [To install eb-gitea](#to-install-eb-gitea)
         - [After install eb-gitea](#after-install-eb-gitea)
+        - [Customizing eb-gitea](#customizing-eb-gitea)
 - [Let's Encrypt support](#lets-encrypt-support)
 - [Requirements](#requirements)
 
@@ -168,6 +169,19 @@ Very easy!
 - Don't change the other fields. They are all OK.
 
 - The first registered user will be the administrator.
+
+### Customizing eb-gitea
+Edit `/home/gitea/custom/conf/app.ini` file and restart the service to
+customize Gitea. These are the customized settings of my private server.
+See [cheat-sheet](https://docs.gitea.io/en-us/config-cheat-sheet/) for more
+details.
+
+- PASSWORD_COMPLEXITY = lower,upper,digit
+- FORCE_PRIVATE = true
+- DEFAULT_PRIVATE = true
+- DISABLE_REGISTRATION = true
+- REQUIRE_SIGNIN_VIEW = true
+- DEFAULT_KEEP_EMAIL_PRIVATE = true
 
 ---
 
