@@ -8,8 +8,10 @@
 DOWNLOAD_ONLY=1
 
 latest_dir=$(curl -s https://dl.gitea.io/gitea/ | \
-	     ack -o "/gitea/\d+\.\d+\.\d+/" | tail -n1 | \
-	     sed 's~\(^/\|/$\)~~g')
+             ack -o "/gitea/\d+\.\d+\.\d+/" | ack -o "[0-9.]+" | \
+             awk -F '\.' '{printf "%03d%03d%03d-%s\n", $1, $2, $3, $0}' | \
+             sort -n | tail -n1 | \
+             awk -F '-' '{printf "gitea/%s", $2}')
 latest_ver=$(echo $latest_dir | sed 's~/~-~g')
 latest_lnk="https://dl.gitea.io/$latest_dir/$latest_ver-linux-amd64"
 
