@@ -123,8 +123,7 @@ lxc-attach -n $MACH -- \
 # update
 lxc-attach -n $MACH -- \
     zsh -c \
-    "apt-get $APT_PROXY_OPTION update
-     sleep 3
+    "apt-get $APT_PROXY_OPTION update && sleep 3
      apt-get $APT_PROXY_OPTION -y dist-upgrade"
 
 # packages
@@ -140,13 +139,13 @@ lxc-attach -n $MACH -- \
 lxc-attach -n $MACH -- \
     zsh -c \
     "export DEBIAN_FRONTEND=noninteractive
-     apt-get install -y ssl-cert ca-certificates certbot
-     apt-get install -y nginx-extras"
+     apt-get $APT_PROXY_OPTION -y install ssl-cert ca-certificates certbot
+     apt-get $APT_PROXY_OPTION -y install nginx-extras"
 
 lxc-attach -n $MACH -- \
     zsh -c \
     "export DEBIAN_FRONTEND=noninteractive
-     apt-get install -y git"
+     apt-get $APT_PROXY_OPTION -y install git"
 
 # -----------------------------------------------------------------------------
 # SYSTEM CONFIGURATION
