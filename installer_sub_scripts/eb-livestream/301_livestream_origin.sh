@@ -111,18 +111,25 @@ lxc-attach -n $MACH -- \
 # -----------------------------------------------------------------------------
 # PACKAGES
 # -----------------------------------------------------------------------------
+# fake install
+lxc-attach -n $MACH -- \
+    zsh -c \
+    "export DEBIAN_FRONTEND=noninteractive
+     apt-get $APT_PROXY_OPTION -dy reinstall hostname"
+
 # multimedia repo
 cp etc/apt/sources.list.d/multimedia.list $ROOTFS/etc/apt/sources.list.d/
 lxc-attach -n $MACH -- \
     zsh -c \
-    "apt-get $APT_PROXY_OPTION -oAcquire::AllowInsecureRepositories=true update
-     sync
+    "export DEBIAN_FRONTEND=noninteractive
+     apt-get $APT_PROXY_OPTION -oAcquire::AllowInsecureRepositories=true update
      apt-get $APT_PROXY_OPTION --allow-unauthenticated -y install \
          deb-multimedia-keyring"
 # update
 lxc-attach -n $MACH -- \
     zsh -c \
-    "apt-get $APT_PROXY_OPTION update && sleep 3
+    "export DEBIAN_FRONTEND=noninteractive
+     apt-get $APT_PROXY_OPTION update
      apt-get $APT_PROXY_OPTION -y dist-upgrade"
 
 # packages

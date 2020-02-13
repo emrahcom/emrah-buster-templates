@@ -111,10 +111,17 @@ lxc-attach -n $MACH -- \
 # -----------------------------------------------------------------------------
 # PACKAGES
 # -----------------------------------------------------------------------------
+# fake install
+lxc-attach -n $MACH -- \
+    zsh -c \
+    "export DEBIAN_FRONTEND=noninteractive
+     apt-get $APT_PROXY_OPTION -dy reinstall hostname"
+
 # update
 lxc-attach -n $MACH -- \
     zsh -c \
-    "apt-get $APT_PROXY_OPTION update && sleep 3
+    "export DEBIAN_FRONTEND=noninteractive
+     apt-get $APT_PROXY_OPTION update
      apt-get $APT_PROXY_OPTION -y dist-upgrade"
 
 # packages
