@@ -5,11 +5,11 @@
 # will be upgraded too and the gitea service will restart with the new
 # executable.
 
-DOWNLOAD_ONLY=1
+DOWNLOAD_ONLY=0
 
 latest_dir=$(curl -s https://dl.gitea.io/gitea/ | \
              ack -o "/gitea/\d+\.\d+\.\d+/" | ack -o "[0-9.]+" | \
-             awk -F '\.' '{printf "%03d%03d%03d-%s\n", $1, $2, $3, $0}' | \
+             awk -F '.' '{printf "%03d%03d%03d-%s\n", $1, $2, $3, $0}' | \
              sort -n | tail -n1 | \
              awk -F '-' '{printf "gitea/%s", $2}')
 latest_ver=$(echo $latest_dir | sed 's~/~-~g')
