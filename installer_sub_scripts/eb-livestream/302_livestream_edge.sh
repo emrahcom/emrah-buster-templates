@@ -104,7 +104,8 @@ lxc-wait -n $MACH -s RUNNING
 # -----------------------------------------------------------------------------
 lxc-attach -n $MACH -- \
     zsh -c \
-    "echo $MACH > /etc/hostname
+    "set -e
+     echo $MACH > /etc/hostname
      sed -i 's/\(127.0.1.1\s*\).*$/\1$MACH/' /etc/hosts
      hostname $MACH"
 
@@ -114,20 +115,23 @@ lxc-attach -n $MACH -- \
 # fake install
 lxc-attach -n $MACH -- \
     zsh -c \
-    "export DEBIAN_FRONTEND=noninteractive
+    "set -e
+     export DEBIAN_FRONTEND=noninteractive
      apt-get $APT_PROXY_OPTION -dy reinstall hostname"
 
 # update
 lxc-attach -n $MACH -- \
     zsh -c \
-    "export DEBIAN_FRONTEND=noninteractive
+    "set -e
+     export DEBIAN_FRONTEND=noninteractive
      apt-get $APT_PROXY_OPTION update
      apt-get $APT_PROXY_OPTION -y dist-upgrade"
 
 # packages
 lxc-attach -n $MACH -- \
     zsh -c \
-    "export DEBIAN_FRONTEND=noninteractive
+    "set -e
+     export DEBIAN_FRONTEND=noninteractive
      apt-get $APT_PROXY_OPTION -y install ssl-cert ca-certificates certbot
      apt-get $APT_PROXY_OPTION -y install nginx-extras php-fpm"
 
@@ -137,7 +141,8 @@ lxc-attach -n $MACH -- \
 # ssl
 lxc-attach -n $MACH -- \
     zsh -c \
-    "ln -s ssl-cert-snakeoil.pem /etc/ssl/certs/ssl-eb.pem
+    "set -e
+     ln -s ssl-cert-snakeoil.pem /etc/ssl/certs/ssl-eb.pem
      ln -s ssl-cert-snakeoil.key /etc/ssl/private/ssl-eb.key"
 
 # nginx
@@ -162,7 +167,8 @@ cp -arp usr/local/eb/livestream/hlsplayer $SHARED/livestream/
 cp -arp usr/local/eb/livestream/dashplayer $SHARED/livestream/
 lxc-attach -n $MACH -- \
     zsh -c \
-    "chown www-data: /usr/local/eb/livestream/hlsplayer -R
+    "set -e
+     chown www-data: /usr/local/eb/livestream/hlsplayer -R
      chown www-data: /usr/local/eb/livestream/dashplayer -R"
 
 # -----------------------------------------------------------------------------

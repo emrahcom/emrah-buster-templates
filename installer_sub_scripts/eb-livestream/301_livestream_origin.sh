@@ -104,7 +104,8 @@ lxc-wait -n $MACH -s RUNNING
 # -----------------------------------------------------------------------------
 lxc-attach -n $MACH -- \
     zsh -c \
-    "echo $MACH > /etc/hostname
+    "set -e
+     echo $MACH > /etc/hostname
      sed -i 's/\(127.0.1.1\s*\).*$/\1$MACH/' /etc/hosts
      hostname $MACH"
 
@@ -114,32 +115,37 @@ lxc-attach -n $MACH -- \
 # fake install
 lxc-attach -n $MACH -- \
     zsh -c \
-    "export DEBIAN_FRONTEND=noninteractive
+    "set -e
+     export DEBIAN_FRONTEND=noninteractive
      apt-get $APT_PROXY_OPTION -dy reinstall hostname"
 
 # multimedia repo
 cp etc/apt/sources.list.d/multimedia.list $ROOTFS/etc/apt/sources.list.d/
 lxc-attach -n $MACH -- \
     zsh -c \
-    "export DEBIAN_FRONTEND=noninteractive
+    "set -e
+     export DEBIAN_FRONTEND=noninteractive
      apt-get $APT_PROXY_OPTION -oAcquire::AllowInsecureRepositories=true update
      apt-get $APT_PROXY_OPTION --allow-unauthenticated -y install \
          deb-multimedia-keyring"
 # update
 lxc-attach -n $MACH -- \
     zsh -c \
-    "export DEBIAN_FRONTEND=noninteractive
+    "set -e
+     export DEBIAN_FRONTEND=noninteractive
      apt-get $APT_PROXY_OPTION update
      apt-get $APT_PROXY_OPTION -y dist-upgrade"
 
 # packages
 lxc-attach -n $MACH -- \
     zsh -c \
-    "export DEBIAN_FRONTEND=noninteractive
+    "set -e
+     export DEBIAN_FRONTEND=noninteractive
      apt-get $APT_PROXY_OPTION -y install xmlstarlet libxml2-utils"
 lxc-attach -n $MACH -- \
     zsh -c \
-    "export DEBIAN_FRONTEND=noninteractive
+    "set -e
+     export DEBIAN_FRONTEND=noninteractive
      apt-get $APT_PROXY_OPTION -y install ffmpeg
      apt-get $APT_PROXY_OPTION -y install nginx libnginx-mod-rtmp
      apt-get $APT_PROXY_OPTION -y install xz-utils
@@ -155,7 +161,8 @@ lxc-attach -n $MACH -- \
      chown www-data: /usr/local/eb/livestream/stat -R"
 lxc-attach -n $MACH -- \
     zsh -c \
-    "export DEBIAN_FRONTEND=noninteractive
+    "set -e
+     export DEBIAN_FRONTEND=noninteractive
      apt-get $APT_PROXY_OPTION -y install uwsgi uwsgi-plugin-python3
      apt-get $APT_PROXY_OPTION --install-recommends -y install python3-pip
      pip3 install --upgrade setuptools
@@ -167,7 +174,8 @@ lxc-attach -n $MACH -- \
 # -----------------------------------------------------------------------------
 lxc-attach -n $MACH -- \
     zsh -c \
-    "chown www-data:www-data /usr/local/eb/livestream/hls
+    "set -e
+     chown www-data:www-data /usr/local/eb/livestream/hls
      chown www-data:www-data /usr/local/eb/livestream/dash"
 
 # livestream cloner
@@ -176,7 +184,8 @@ mkdir -p $ROOTFS/var/www/livestream_cloner
 rsync -aChu var/www/livestream_cloner/ $ROOTFS/var/www/livestream_cloner/
 lxc-attach -n $MACH -- \
     zsh -c \
-    "chown www-data:www-data /var/www/livestream_cloner -R"
+    "set -e
+     chown www-data:www-data /var/www/livestream_cloner -R"
 
 # uwsgi
 cp etc/uwsgi/apps-available/livestream_cloner.ini \
@@ -199,7 +208,8 @@ ln -s ../sites-available/livestream-origin $ROOTFS/etc/nginx/sites-enabled/
 rm $ROOTFS/etc/nginx/sites-enabled/default
 lxc-attach -n $MACH -- \
     zsh -c \
-    "sed -i 's/^worker_processes .*$/worker_processes 1;/' \
+    "set -e
+     sed -i 's/^worker_processes .*$/worker_processes 1;/' \
          /etc/nginx/nginx.conf"
 lxc-attach -n $MACH -- systemctl stop nginx.service
 lxc-attach -n $MACH -- systemctl start nginx.service
@@ -215,7 +225,8 @@ cp etc/systemd/system/broken_stream_cleanup.service \
 
 lxc-attach -n $MACH -- \
     zsh -c \
-    "systemctl daemon-reload
+    "set -e
+     systemctl daemon-reload
      systemctl enable livestream_cleanup.service
      systemctl enable broken_stream_cleanup.service"
 

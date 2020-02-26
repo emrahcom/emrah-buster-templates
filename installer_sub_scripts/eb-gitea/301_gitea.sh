@@ -113,7 +113,8 @@ lxc-wait -n $MACH -s RUNNING
 # -----------------------------------------------------------------------------
 lxc-attach -n $MACH -- \
     zsh -c \
-    "echo $MACH > /etc/hostname
+    "set -e
+     echo $MACH > /etc/hostname
      sed -i 's/\(127.0.1.1\s*\).*$/\1$MACH/' /etc/hosts
      hostname $MACH"
 
@@ -123,20 +124,23 @@ lxc-attach -n $MACH -- \
 # fake install
 lxc-attach -n $MACH -- \
     zsh -c \
-    "export DEBIAN_FRONTEND=noninteractive
+    "set -e
+     export DEBIAN_FRONTEND=noninteractive
      apt-get $APT_PROXY_OPTION -dy reinstall hostname"
 
 # update
 lxc-attach -n $MACH -- \
     zsh -c \
-    "export DEBIAN_FRONTEND=noninteractive
+    "set -e
+     export DEBIAN_FRONTEND=noninteractive
      apt-get $APT_PROXY_OPTION update
      apt-get $APT_PROXY_OPTION -y dist-upgrade"
 
 # packages
 lxc-attach -n $MACH -- \
     zsh -c \
-    "export DEBIAN_FRONTEND=noninteractive
+    "set -e
+     export DEBIAN_FRONTEND=noninteractive
      debconf-set-selections <<< \
          'mysql-server mysql-server/root_password password'
      debconf-set-selections <<< \
@@ -145,13 +149,15 @@ lxc-attach -n $MACH -- \
 
 lxc-attach -n $MACH -- \
     zsh -c \
-    "export DEBIAN_FRONTEND=noninteractive
+    "set -e
+     export DEBIAN_FRONTEND=noninteractive
      apt-get $APT_PROXY_OPTION -y install ssl-cert ca-certificates certbot
      apt-get $APT_PROXY_OPTION -y install nginx-extras"
 
 lxc-attach -n $MACH -- \
     zsh -c \
-    "export DEBIAN_FRONTEND=noninteractive
+    "set -e
+     export DEBIAN_FRONTEND=noninteractive
      apt-get $APT_PROXY_OPTION -y install git"
 
 # -----------------------------------------------------------------------------
@@ -160,7 +166,8 @@ lxc-attach -n $MACH -- \
 # ssl
 lxc-attach -n $MACH -- \
     zsh -c \
-    "ln -s ssl-cert-snakeoil.pem /etc/ssl/certs/ssl-eb.pem
+    "set -e
+     ln -s ssl-cert-snakeoil.pem /etc/ssl/certs/ssl-eb.pem
      ln -s ssl-cert-snakeoil.key /etc/ssl/private/ssl-eb.key"
 
 # nginx
@@ -218,21 +225,25 @@ fi
 cp /root/eb_store/$latest_ver-linux-amd64 $ROOTFS/home/gitea/
 lxc-attach -n $MACH -- \
     zsh -c \
-    "chown gitea:gitea /home/gitea/$latest_ver-linux-amd64
+    "set -e
+     chown gitea:gitea /home/gitea/$latest_ver-linux-amd64
      chmod u+x /home/gitea/$latest_ver-linux-amd64
      su -l gitea -c 'ln -s $latest_ver-linux-amd64 /home/gitea/gitea'"
 
 # Gitea initial config
 lxc-attach -n $MACH -- \
     zsh -c \
-    "su -l gitea -c '/home/gitea/gitea web >/dev/null 2>&1'" &
+    "set -e
+     su -l gitea -c '/home/gitea/gitea web >/dev/null 2>&1'" &
 
 lxc-attach -n $MACH -- \
     zsh -c \
-    "while true; do sleep 1; curl --head http://127.0.0.1:3000 && break; done"
+    "set -e
+     while true; do sleep 1; curl --head http://127.0.0.1:3000 && break; done"
 lxc-attach -n $MACH -- \
     zsh -c \
-    "curl -s -X POST \
+    "set -e
+     curl -s -X POST \
      -d 'app_name=Gitea: Git with a cup of tea' \
      -d 'db_type=MySQL&db_host=/var/run/mysqld/mysqld.sock' \
      -d 'db_user=gitea&db_passwd=&db_name=gitea&charset=utf8mb4' \
@@ -246,10 +257,12 @@ lxc-attach -n $MACH -- \
      sleep 3"
 lxc-attach -n $MACH -- \
     zsh -c \
-    "pkill gitea"
+    "set -e
+     pkill gitea"
 lxc-attach -n $MACH -- \
     zsh -c \
-    "sed -i '/^INSTALL_LOCK/ s/true/false/' /home/gitea/custom/conf/app.ini"
+    "set -e
+     sed -i '/^INSTALL_LOCK/ s/true/false/' /home/gitea/custom/conf/app.ini"
 
 # Gitea upgrade script
 cp root/eb_scripts/upgrade_gitea.sh $ROOTFS/root/eb_scripts/
@@ -260,7 +273,8 @@ cp etc/systemd/system/gitea.service $ROOTFS/etc/systemd/system/
 cp etc/systemd/system/upgrade_gitea.service $ROOTFS/etc/systemd/system/
 lxc-attach -n $MACH -- \
     zsh -c \
-    "systemctl daemon-reload
+    "set -e
+     systemctl daemon-reload
      systemctl enable gitea.service
      systemctl enable upgrade_gitea.service
      systemctl restart gitea.service
