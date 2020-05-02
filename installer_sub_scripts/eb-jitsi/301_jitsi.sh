@@ -119,9 +119,9 @@ lxc-wait -n $MACH -s RUNNING
 lxc-attach -n $MACH -- \
     zsh -c \
     "set -e
-     echo $JITSI_HOST > /etc/hostname
-     sed -i 's/\(127.0.1.1\s*\).*$/\1$JITSI_HOST/' /etc/hosts
-     hostname $JITSI_HOST"
+     echo $MACH > /etc/hostname
+     sed -i 's/\(127.0.1.1\s*\).*$/\1$JITSI_HOST $MACH/' /etc/hosts
+     hostname $MACH"
 
 # -----------------------------------------------------------------------------
 # PACKAGES
