@@ -202,9 +202,12 @@ lxc-attach -n $MACH -- \
 # SYSTEM CONFIGURATION
 # -----------------------------------------------------------------------------
 # nginx
-rm $ROOTFS/etc/nginx/sites-enabled/default
-rm -rf /var/www/html
-ln -s /usr/share/jitsi-meet /var/www/html
+lxc-attach -n $MACH -- \
+    zsh -c \
+    "set -e
+     rm /etc/nginx/sites-enabled/default
+     rm -rf /var/www/html
+     ln -s /usr/share/jitsi-meet /var/www/html"
 
 lxc-attach -n $MACH -- systemctl stop nginx.service
 lxc-attach -n $MACH -- systemctl start nginx.service
