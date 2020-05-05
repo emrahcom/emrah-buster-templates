@@ -176,18 +176,6 @@ lxc-attach -n $MACH -- \
      export DEBIAN_FRONTEND=noninteractive
      debconf-set-selections <<< \
          'jicofo jitsi-videobridge/jvb-hostname string $JITSI_HOST'
-     debconf-set-selections <<< \
-         'jitsi-videobridge2 jitsi-videobridge/jvb-hostname string $JITSI_HOST'
-     debconf-set-selections <<< \
-         'jitsi-meet-web-config jitsi-meet/jvb-hostname string $JITSI_HOST'
-     debconf-set-selections <<< \
-         'jitsi-meet-web-config jitsi-videobridge/jvb-hostname string $JITSI_HOST'
-     debconf-set-selections <<< \
-         'jitsi-meet-prosody jitsi-videobridge/jvb-hostname string $JITSI_HOST'
-     debconf-set-selections <<< \
-         'jitsi-meet-prosody jitsi-meet-prosody/jvb-hostname string $JITSI_HOST'
-     debconf-set-selections <<< \
-         'jitsi-meet-turnserver jitsi-meet-turnserver/jvb-hostname string $JITSI_HOST'
 
      debconf-set-selections <<< \
          'jitsi-meet-web-config jitsi-meet/cert-choice select I want to use my own certificate'
