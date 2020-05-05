@@ -159,8 +159,8 @@ lxc-attach -n $MACH -- \
 lxc-attach -n $MACH -- \
     zsh -c \
     "set -e
-     ln -s ssl-cert-snakeoil.pem /etc/ssl/certs/ssl-eb.pem
-     ln -s ssl-cert-snakeoil.key /etc/ssl/private/ssl-eb.key"
+     cp -ap /etc/ssl/private/ssl-cert-snakeoil.key /etc/ssl/private/ssl-eb.key
+     cp -ap /etc/ssl/certs/ssl-cert-snakeoil.pem /etc/ssl/certs/ssl-eb.pem"
 
 # jitsi sources list and jitsi GPG key
 cp etc/apt/sources.list.d/jitsi.list $ROOTFS/etc/apt/sources.list.d/
