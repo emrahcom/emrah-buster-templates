@@ -148,26 +148,20 @@ lxc-attach -n $MACH -- \
      export DEBIAN_FRONTEND=noninteractive
      apt-get $APT_PROXY_OPTION -y install apt-transport-https gnupg"
 
-# ssl
+# ssl packages
 lxc-attach -n $MACH -- \
     zsh -c \
     "set -e
      export DEBIAN_FRONTEND=noninteractive
      apt-get $APT_PROXY_OPTION -y install ssl-cert ca-certificates certbot"
 
-# ssl early config, needed for the jitsi install
+# jitsi
+cp etc/apt/sources.list.d/jitsi-stable.list $ROOTFS/etc/apt/sources.list.d/
 lxc-attach -n $MACH -- \
     zsh -c \
     "set -e
-     cp -ap /etc/ssl/private/ssl-cert-snakeoil.key /etc/ssl/private/ssl-eb.key
-     cp -ap /etc/ssl/certs/ssl-cert-snakeoil.pem /etc/ssl/certs/ssl-eb.pem"
-
-# jitsi sources list and jitsi GPG key
-cp etc/apt/sources.list.d/jitsi.list $ROOTFS/etc/apt/sources.list.d/
-lxc-attach -n $MACH -- \
-    zsh -c \
-    "set -e
-     wget -qO -  https://download.jitsi.org/jitsi-key.gpg.key | apt-key add -
+     apt-get --allow-insecure-repositories update
+     apt-get --allow-unauthenticated -y install jitsi-archive-keyring
      apt-get update"
 
 lxc-attach -n $MACH -- \
@@ -176,19 +170,26 @@ lxc-attach -n $MACH -- \
      export DEBIAN_FRONTEND=noninteractive
      debconf-set-selections <<< \
          'jicofo jitsi-videobridge/jvb-hostname string $JITSI_HOST'
-
      debconf-set-selections <<< \
-         'jitsi-meet-web-config jitsi-meet/cert-choice select I want to use my own certificate'
-     debconf-set-selections <<< \
-         'jitsi-meet-web-config jitsi-meet/cert-path-key string /etc/ssl/private/ssl-eb.key'
-     debconf-set-selections <<< \
-         'jitsi-meet-web-config jitsi-meet/cert-path-crt string /etc/ssl/certs/ssl-eb.pem'
+         'jitsi-meet-web-config jitsi-meet/cert-choice select Generate a new self-signed certificate (You will later get a chance to obtain a Let's encrypt certificate)'
 
      apt-get $APT_PROXY_OPTION -y --install-recommends install jitsi-meet"
 
 # -----------------------------------------------------------------------------
 # SYSTEM CONFIGURATION
 # -----------------------------------------------------------------------------
+# ssl certificates
+lxc-attach -n $MACH -- \
+    zsh -c \
+    "set -e
+     ln -s ssl-cert-snakeoil.key /etc/ssl/private/ssl-eb.key
+     ln -s ssl-cert-snakeoil.pem /etc/ssl/certs/ssl-eb.pem
+
+     rm /etc/jitsi/meet/$JITSI_HOST.key
+     rm /etc/jitsi/meet/$JITSI_HOST.crt
+     ln -s /etc/ssl/private/ssl-eb.key /etc/jitsi/meet/$JITSI_HOST.key
+     ln -s /etc/ssl/certs/ssl-eb.pem /etc/jitsi/meet/$JITSI_HOST.crt"
+
 # nginx
 lxc-attach -n $MACH -- \
     zsh -c \
