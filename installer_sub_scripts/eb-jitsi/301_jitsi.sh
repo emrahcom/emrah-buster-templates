@@ -176,14 +176,46 @@ lxc-attach -n $MACH -- \
      apt-get $APT_PROXY_OPTION -y --install-recommends install jitsi-meet"
 
 # -----------------------------------------------------------------------------
+# SELF-SIGNED CERTIFICATE
+# -----------------------------------------------------------------------------
+cd /root/eb_ssl
+rm -f /root/eb_ssl/ssl_eb_jitsi.*
+
+# the extension file for multiple hosts:
+# the container IP, the host IP and the host name
+cat >ssl_eb_jitsi.ext <<EOF
+authorityKeyIdentifier=keyid,issuer
+basicConstraints=CA:FALSE
+keyUsage = digitalSignature, nonRepudiation, keyEncipherment, dataEncipherment
+subjectAltName = @alt_names
+
+[alt_names]
+EOF
+
+echo "DNS.1 = $JITSI_HOST" >>ssl_eb_jitsi.ext
+echo "IP.1 = $REMOTE_IP" >>ssl_eb_jitsi.ext
+echo "IP.2 = $IP" >>ssl_eb_jitsi.ext
+
+# the domain key and the domain certificate
+openssl req -nodes -newkey rsa:2048 \
+    -keyout ssl_eb_jitsi.key -out ssl_eb_jitsi.csr \
+    -subj "/O=emrah-buster/OU=jitsi/CN=$JITSI_HOST"
+openssl x509 -req -CA eb_CA.pem -CAkey eb_CA.key -CAcreateserial \
+    -days 10950 -in ssl_eb_jitsi.csr -out ssl_eb_jitsi.pem \
+    -extfile ssl_eb_jitsi.ext
+
+cd $MACHINES/$MACH
+
+# -----------------------------------------------------------------------------
 # SYSTEM CONFIGURATION
 # -----------------------------------------------------------------------------
-# ssl certificates
+cp /root/eb_ssl/eb_CA.pem $ROOTFS/usr/share/jitsi-meet/static/jitsi-CA.pem
+cp /root/eb_ssl/ssl_eb_jitsi.key $ROOTFS/etc/ssl/private/ssl-eb.key
+cp /root/eb_ssl/ssl_eb_jitsi.pem $ROOTFS/etc/ssl/certs/ssl-eb.pem
+
 lxc-attach -n $MACH -- \
     zsh -c \
     "set -e
-     ln -s ssl-cert-snakeoil.key /etc/ssl/private/ssl-eb.key
-     ln -s ssl-cert-snakeoil.pem /etc/ssl/certs/ssl-eb.pem
 
      rm /etc/jitsi/meet/$JITSI_HOST.key
      rm /etc/jitsi/meet/$JITSI_HOST.crt
