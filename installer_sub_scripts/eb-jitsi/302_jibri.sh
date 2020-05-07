@@ -138,6 +138,13 @@ sed -i "s/___PASSWD2___/$PASSWD2/" $ROOTFS/etc/jitsi/jibri/config.json
 cp usr/local/bin/finalize_recording.sh $ROOTFS/usr/local/bin/
 chmod 755 $ROOTFS/usr/local/bin/finalize_recording.sh
 
+# jibri service
+lxc-attach -n $MACH -- \
+    zsh -c \
+    "set -e
+     systemctl enable jibri.service
+     systemctl start jibri.service"
+
 # -----------------------------------------------------------------------------
 # CONTAINER SERVICES
 # -----------------------------------------------------------------------------
