@@ -217,6 +217,9 @@ lxc-attach -n $MACH -- \
     zsh -c \
     "set -e
 
+     chmod 640 /etc/ssl/private/ssl-eb.key
+     chown root:ssl-cert /etc/ssl/private/ssl-eb.key
+
      rm /etc/jitsi/meet/$JITSI_HOST.key
      rm /etc/jitsi/meet/$JITSI_HOST.crt
      ln -s /etc/ssl/private/ssl-eb.key /etc/jitsi/meet/$JITSI_HOST.key
