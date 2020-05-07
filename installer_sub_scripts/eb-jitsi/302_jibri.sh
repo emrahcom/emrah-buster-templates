@@ -70,7 +70,7 @@ lxc-attach -n $MACH -- \
 [ -z "$(lsmod | ack snd_aloop)" ] && modprobe snd_aloop
 [ -z "$(egrep '^snd_aloop' /etc/modules)" ] && echo snd_aloop >>/etc/modules
 
-# jitsi-CA
+# jitsi CA certificate
 lxc-attach -n $MACH -- \
     zsh -c \
     "set -e
@@ -83,11 +83,60 @@ mkdir -p $ROOTFS/etc/chromium/policies/managed
 cp etc/chromium/policies/managed/eb_policies.json \
     $ROOTFS/etc/chromium/policies/managed/
 
+# -----------------------------------------------------------------------------
+# JIBRI
+# -----------------------------------------------------------------------------
 # jibri groups
 lxc-attach -n $MACH -- \
     zsh -c \
     "set -e
      usermod -aG adm,audio,video,plugdev jibri"
+
+# prosody config
+cat >> $ROOTFS/etc/prosody/conf.avail/$JITSI_HOST.cfg.lua <<EOF
+
+VirtualHost "recorder.$JITSI_HOST"
+    modules_enabled = {
+      "ping";
+    }
+    authentication = "internal_plain"
+EOF
+
+# prosody register
+PASSWD1=$(echo -n $RANDOM$RANDOM | sha256sum | cut -c 1-20)
+PASSWD2=$(echo -n $RANDOM$RANDOM$RANDOM | sha256sum | cut -c 1-20)
+
+lxc-attach -n $MACH -- \
+    zsh -c \
+    "set -e
+     prosodyctl register jibri auth.$JITSI_HOST $PASSWD1
+     prosodyctl register recorder recorder.$JITSI_HOST $PASSWD2"
+
+# jicofo config
+cat >> $ROOTFS/etc/jitsi/jicofo/sip-communicator.properties <<EOF
+org.jitsi.jicofo.jibri.BREWERY=JibriBrewery@internal.auth.$JITSI_HOST
+org.jitsi.jicofo.jibri.PENDING_TIMEOUT=90
+EOF
+
+# jitsi-meet config
+sed -i 's~//\s*fileRecordingsEnabled.*~fileRecordingsEnabled: true,~' \
+    /etc/jitsi/meet/$JITSI_HOST-config.js
+sed -i 's~//\s*fileRecordingsServiceSharingEnabled.*~fileRecordingsServiceSharingEnabled: true,~' \
+    /etc/jitsi/meet/$JITSI_HOST-config.js
+sed -i 's~//\s*liveStreamingEnabled.*~liveStreamingEnabled: true,~' \
+    /etc/jitsi/meet/$JITSI_HOST-config.js
+sed -i "/liveStreamingEnabled/a \\\n    hiddenDomain: 'recorder.$JITSI_HOST'," \
+    /etc/jitsi/meet/$JITSI_HOST-config.js
+
+# jibri config
+cp etc/jitsi/jibri/config.json $ROOTFS/etc/jitsi/jibri/config.json
+sed -i "s/___JITSI_HOST___/$JITSI_HOST/" $ROOTFS/etc/jitsi/jibri/config.json
+sed -i "s/___PASSWD1___/$PASSWD1/" $ROOTFS/etc/jitsi/jibri/config.json
+sed -i "s/___PASSWD2___/$PASSWD2/" $ROOTFS/etc/jitsi/jibri/config.json
+
+# finalize_recording.sh
+cp usr/local/bin/finalize_recording.sh $ROOTFS/usr/local/bin/
+chmod 755 $ROOTFS/usr/local/bin/finalize_recording.sh
 
 # -----------------------------------------------------------------------------
 # CONTAINER SERVICES
