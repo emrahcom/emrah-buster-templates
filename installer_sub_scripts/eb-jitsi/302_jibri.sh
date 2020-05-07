@@ -120,13 +120,13 @@ EOF
 
 # jitsi-meet config
 sed -i 's~//\s*fileRecordingsEnabled.*~fileRecordingsEnabled: true,~' \
-    /etc/jitsi/meet/$JITSI_HOST-config.js
+    $ROOTFS/etc/jitsi/meet/$JITSI_HOST-config.js
 sed -i 's~//\s*fileRecordingsServiceSharingEnabled.*~fileRecordingsServiceSharingEnabled: true,~' \
-    /etc/jitsi/meet/$JITSI_HOST-config.js
+    $ROOTFS/etc/jitsi/meet/$JITSI_HOST-config.js
 sed -i 's~//\s*liveStreamingEnabled.*~liveStreamingEnabled: true,~' \
-    /etc/jitsi/meet/$JITSI_HOST-config.js
+    $ROOTFS/etc/jitsi/meet/$JITSI_HOST-config.js
 sed -i "/liveStreamingEnabled/a \\\n    hiddenDomain: 'recorder.$JITSI_HOST'," \
-    /etc/jitsi/meet/$JITSI_HOST-config.js
+    $ROOTFS/etc/jitsi/meet/$JITSI_HOST-config.js
 
 # jibri config
 cp etc/jitsi/jibri/config.json $ROOTFS/etc/jitsi/jibri/config.json
