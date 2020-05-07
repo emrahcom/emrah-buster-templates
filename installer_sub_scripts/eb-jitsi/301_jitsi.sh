@@ -209,7 +209,7 @@ cd $MACHINES/$MACH
 # -----------------------------------------------------------------------------
 # SYSTEM CONFIGURATION
 # -----------------------------------------------------------------------------
-cp /root/eb_ssl/eb_CA.pem $ROOTFS/usr/share/jitsi-meet/static/jitsi-CA.pem
+cp /root/eb_ssl/eb_CA.crt $ROOTFS/usr/share/jitsi-meet/static/jitsi-CA.crt
 cp /root/eb_ssl/ssl_eb_jitsi.key $ROOTFS/etc/ssl/private/ssl-eb.key
 cp /root/eb_ssl/ssl_eb_jitsi.pem $ROOTFS/etc/ssl/certs/ssl-eb.pem
 
