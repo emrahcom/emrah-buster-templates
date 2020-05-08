@@ -58,9 +58,9 @@ lxc-attach -n $MACH -- \
     zsh -c \
     "set -e
      export DEBIAN_FRONTEND=noninteractive
+     apt-get $APT_PROXY_OPTION -y install libnss3-tools
      apt-get $APT_PROXY_OPTION -y install va-driver-all vdpau-driver-all
      apt-get $APT_PROXY_OPTION -y install chromium chromium-driver
-     apt-get $APT_PROXY_OPTION -y install nvidia-openjdk-8-jre
      apt-get $APT_PROXY_OPTION -y install jibri"
 
 # -----------------------------------------------------------------------------
@@ -69,14 +69,6 @@ lxc-attach -n $MACH -- \
 # snd_aloop module
 [ -z "$(lsmod | ack snd_aloop)" ] && modprobe snd_aloop
 [ -z "$(egrep '^snd_aloop' /etc/modules)" ] && echo snd_aloop >>/etc/modules
-
-# jitsi CA certificate
-lxc-attach -n $MACH -- \
-    zsh -c \
-    "set -e
-     cp /usr/share/jitsi-meet/static/jitsi-CA.crt \
-         /usr/local/share/ca-certificates/
-     update-ca-certificates"
 
 # chromium managed policies
 mkdir -p $ROOTFS/etc/chromium/policies/managed
@@ -91,6 +83,18 @@ lxc-attach -n $MACH -- \
     zsh -c \
     "set -e
      usermod -aG adm,audio,video,plugdev jibri"
+
+# pki
+lxc-attach -n $MACH -- \
+    zsh -c \
+    "set -e
+     mkdir -p /home/jibri/.pki/nssdb
+     chmod 700 /home/jibri/.pki
+     chmod 700 /home/jibri/.pki/nssdb
+
+     certutil -A -n "jitsi" -i /usr/local/share/ca-certificates/jitsi-CA.crt \
+         -t "TCu,Cu,Tu" -d sql:/home/jibri/.pki/nssdb/
+     chown jibri:jibri /home/jibri/.pki -R"
 
 # prosody config
 cat >> $ROOTFS/etc/prosody/conf.avail/$JITSI_HOST.cfg.lua <<EOF

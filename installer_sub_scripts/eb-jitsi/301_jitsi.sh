@@ -93,6 +93,11 @@ sed -i '/^# Network configuration/d' /var/lib/lxc/$MACH/config
 
 cat >> /var/lib/lxc/$MACH/config <<EOF
 
+# Devices
+lxc.cgroup.devices.allow = c 116:* rwm
+lxc.mount.entry = /dev/snd dev/snd none bind,optional,create=dir
+lxc.mount.entry = /dev/shm dev/shm none bind,optional,create=dir
+
 # Network configuration
 lxc.net.0.type = veth
 lxc.net.0.link = $BRIDGE
@@ -209,6 +214,8 @@ cd $MACHINES/$MACH
 # -----------------------------------------------------------------------------
 # SYSTEM CONFIGURATION
 # -----------------------------------------------------------------------------
+# certificates
+cp /root/eb_ssl/eb_CA.pem $ROOTFS/usr/local/share/ca-certificates/jitsi-CA.crt
 cp /root/eb_ssl/eb_CA.pem $ROOTFS/usr/share/jitsi-meet/static/jitsi-CA.crt
 cp /root/eb_ssl/ssl_eb_jitsi.key $ROOTFS/etc/ssl/private/ssl-eb.key
 cp /root/eb_ssl/ssl_eb_jitsi.pem $ROOTFS/etc/ssl/certs/ssl-eb.pem
@@ -216,6 +223,7 @@ cp /root/eb_ssl/ssl_eb_jitsi.pem $ROOTFS/etc/ssl/certs/ssl-eb.pem
 lxc-attach -n $MACH -- \
     zsh -c \
     "set -e
+     update-ca-certificates
 
      chmod 640 /etc/ssl/private/ssl-eb.key
      chown root:ssl-cert /etc/ssl/private/ssl-eb.key
