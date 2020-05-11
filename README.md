@@ -20,8 +20,8 @@ Table of contents
     - [eb-jitsi](#eb-jitsi)
         - [Main components of eb-jitsi](#main-components-of-eb-jitsi)
         - [To install eb-jitsi](#to-install-eb-jitsi)
-        - [After install eb-jitsi](#after-install-eb-jitsi)
         - [Customizing eb-jitsi](#customizing-eb-jitsi)
+        - [VideoBridge NAT config](#videobridge-nat-config)
 - [Let's Encrypt support](#lets-encrypt-support)
 - [Requirements](#requirements)
 
