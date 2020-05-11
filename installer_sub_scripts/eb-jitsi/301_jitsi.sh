@@ -96,7 +96,7 @@ cat >> /var/lib/lxc/$MACH/config <<EOF
 # Devices
 lxc.cgroup.devices.allow = c 116:* rwm
 lxc.mount.entry = /dev/snd dev/snd none bind,optional,create=dir
-lxc.mount.entry = /dev/shm dev/shm none bind,optional,create=dir
+#lxc.mount.entry = /dev/shm dev/shm none bind,optional,create=dir
 
 # Network configuration
 lxc.net.0.type = veth
