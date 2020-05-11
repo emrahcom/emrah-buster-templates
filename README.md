@@ -17,6 +17,11 @@ Table of contents
         - [To install eb-gitea](#to-install-eb-gitea)
         - [After install eb-gitea](#after-install-eb-gitea)
         - [Customizing eb-gitea](#customizing-eb-gitea)
+    - [eb-jitsi](#eb-jitsi)
+        - [Main components of eb-jitsi](#main-components-of-eb-jitsi)
+        - [To install eb-jitsi](#to-install-eb-jitsi)
+        - [After install eb-jitsi](#after-install-eb-jitsi)
+        - [Customizing eb-jitsi](#customizing-eb-jitsi)
 - [Let's Encrypt support](#lets-encrypt-support)
 - [Requirements](#requirements)
 
@@ -187,6 +192,70 @@ details.
 - [mailer] FROM = emrah@domain.com
 - [mailer] USER = emrah@domain.com
 - [mailer] PASSWD = my-secret
+
+---
+
+eb-jitsi
+--------
+
+Install a ready-to-use self-hosted Jitsi/Jibri service.
+
+Thanks to [Ave](https://ave.zone/) and [Fatih](https://www.fatihmalakci.com/)
+for their support.
+
+### Main components of eb-jitsi
+
+- [Jitsi](https://jitsi.org/)
+- [Jibri](https://github.com/jitsi/jibri)
+- [Nginx](http://nginx.org/)
+
+### To install eb-jitsi
+
+Download the installer
+
+```bash
+wget https://raw.githubusercontent.com/emrahcom/emrah-buster-base/master/installer/eb
+wget https://raw.githubusercontent.com/emrahcom/emrah-buster-templates/master/installer/eb-jitsi.conf
+```
+
+Open `eb-jitsi.conf` file with an editor and change the `JITSI_HOST` value.
+
+```bash
+vim eb-jitsi.conf
+```
+
+Use a resolvable host address.
+
+```
+export JITSI_HOST=jitsi.mydomain.com
+```
+
+And run the installer
+
+```bash
+bash eb eb-jitsi
+```
+
+### Customizing eb-jitsi
+You may want to change the following values in
+`/etc/jitsi/meet/YOUR_HOST_ADDRESS-config.js`. This file is on the
+`eb-jitsi` container, not on the host.
+
+- startAudioMuted
+- resolution
+- startVideoMuted
+- requireDisplayName
+- defaultLanguage
+
+### VideoBridge NAT config
+You need to update the videobridge NAT config if your host IP changed or the
+recording property don't run properly.
+
+`/etc/jitsi/videobridge/sip-communicator.properties` on `eb-jitsi` container
+
+```
+org.ice4j.ice.harvest.NAT_HARVESTER_PUBLIC_ADDRESS=<PUBLIC_IP_ADDRESS>
+```
 
 ---
 
