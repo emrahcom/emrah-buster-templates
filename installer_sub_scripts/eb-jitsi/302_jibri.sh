@@ -60,7 +60,8 @@ lxc-attach -n $MACH -- \
      export DEBIAN_FRONTEND=noninteractive
      apt-get $APT_PROXY_OPTION -y install libnss3-tools
      apt-get $APT_PROXY_OPTION -y install va-driver-all vdpau-driver-all
-     apt-get $APT_PROXY_OPTION -y install chromium chromium-driver
+     apt-get $APT_PROXY_OPTION -y --install-recommends install chromium \
+         chromium-driver
      apt-get $APT_PROXY_OPTION -y install jibri"
 
 # -----------------------------------------------------------------------------
@@ -141,6 +142,15 @@ sed -i "s/___PASSWD2___/$PASSWD2/" $ROOTFS/etc/jitsi/jibri/config.json
 # the finalize_recording script
 cp usr/local/bin/finalize_recording.sh $ROOTFS/usr/local/bin/
 chmod 755 $ROOTFS/usr/local/bin/finalize_recording.sh
+
+# NAT config for videobridge
+PUBLIC=$(dig +short $JITSI_HOST)
+[ -z "$PUBLIC" ] && PUBLIC=$REMOTE_IP
+
+cat >>$ROOTFS/etc/jitsi/videobridge/sip-communicator.properties <<EOF
+org.ice4j.ice.harvest.NAT_HARVESTER_LOCAL_ADDRESS=$JITSI
+org.ice4j.ice.harvest.NAT_HARVESTER_PUBLIC_ADDRESS=$PUBLIC
+EOF
 
 # jibri service
 lxc-attach -n $MACH -- \
