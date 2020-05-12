@@ -140,21 +140,21 @@ org.jitsi.jicofo.jibri.PENDING_TIMEOUT=90
 EOF
 
 # jitsi-meet config
-sed -i 's~//\s*resolution.*~resolution: 720,~' \
+sed -i 's~//\s*resolution:.*~resolution: 720,~' \
     $ROOTFS/etc/jitsi/meet/$JITSI_HOST-config.js
-sed -i 's~//\s*startAudioMuted.*~startAudioMuted: 10,~' \
+sed -i 's~//\s*startAudioMuted:.*~startAudioMuted: 10,~' \
     $ROOTFS/etc/jitsi/meet/$JITSI_HOST-config.js
-sed -i 's~//\s*startVideoMuted.*~startVideoMuted: 10,~' \
+sed -i 's~//\s*startVideoMuted:.*~startVideoMuted: 10,~' \
     $ROOTFS/etc/jitsi/meet/$JITSI_HOST-config.js
-sed -i 's~//\s*requireDisplayName.*~requireDisplayName: true,~' \
+sed -i 's~//\s*requireDisplayName:.*~requireDisplayName: true,~' \
     $ROOTFS/etc/jitsi/meet/$JITSI_HOST-config.js
 #sed -i 's~//\s*fileRecordingsEnabled.*~fileRecordingsEnabled: true,~' \
 #    $ROOTFS/etc/jitsi/meet/$JITSI_HOST-config.js
 #sed -i 's~//\s*fileRecordingsServiceSharingEnabled.*~fileRecordingsServiceSharingEnabled: true,~' \
 #    $ROOTFS/etc/jitsi/meet/$JITSI_HOST-config.js
-sed -i 's~//\s*liveStreamingEnabled.*~liveStreamingEnabled: true,~' \
+sed -i 's~//\s*liveStreamingEnabled:.*~liveStreamingEnabled: true,~' \
     $ROOTFS/etc/jitsi/meet/$JITSI_HOST-config.js
-sed -i "/liveStreamingEnabled/a \\\n    hiddenDomain: 'recorder.$JITSI_HOST'," \
+sed -i "/liveStreamingEnabled:/a \\\n    hiddenDomain: 'recorder.$JITSI_HOST'," \
     $ROOTFS/etc/jitsi/meet/$JITSI_HOST-config.js
 
 # jibri config
