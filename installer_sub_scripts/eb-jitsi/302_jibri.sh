@@ -148,10 +148,10 @@ sed -i 's~//\s*startVideoMuted:.*~startVideoMuted: 10,~' \
     $ROOTFS/etc/jitsi/meet/$JITSI_HOST-config.js
 sed -i 's~//\s*requireDisplayName:.*~requireDisplayName: true,~' \
     $ROOTFS/etc/jitsi/meet/$JITSI_HOST-config.js
-#sed -i 's~//\s*fileRecordingsEnabled.*~fileRecordingsEnabled: true,~' \
-#    $ROOTFS/etc/jitsi/meet/$JITSI_HOST-config.js
-#sed -i 's~//\s*fileRecordingsServiceSharingEnabled.*~fileRecordingsServiceSharingEnabled: true,~' \
-#    $ROOTFS/etc/jitsi/meet/$JITSI_HOST-config.js
+sed -i 's~//\s*fileRecordingsEnabled.*~fileRecordingsEnabled: true,~' \
+    $ROOTFS/etc/jitsi/meet/$JITSI_HOST-config.js
+sed -i 's~//\s*fileRecordingsServiceSharingEnabled.*~fileRecordingsServiceSharingEnabled: true,~' \
+    $ROOTFS/etc/jitsi/meet/$JITSI_HOST-config.js
 sed -i 's~//\s*liveStreamingEnabled:.*~liveStreamingEnabled: true,~' \
     $ROOTFS/etc/jitsi/meet/$JITSI_HOST-config.js
 sed -i "/liveStreamingEnabled:/a \\\n    hiddenDomain: 'recorder.$JITSI_HOST'," \
