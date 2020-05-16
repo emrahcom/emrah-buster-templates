@@ -293,8 +293,8 @@ Internet access during the installation. It's not a good idea to use your
 desktop machine or an already in-use production server as a host machine.
 Please, use one of the followings as a host:
 
-- a cloud host from a hosting/cloud service
-  ([Digital Ocean](https://www.digitalocean.com/?refcode=92b0165840d8)'s
+- a cloud computer from a hosting/cloud service
+  ([DigitalOcean](https://www.digitalocean.com/?refcode=92b0165840d8)'s
   droplet, [Amazon](https://console.aws.amazon.com) EC2 instance etc)
 
 - a virtual machine (VMware, VirtualBox etc)
