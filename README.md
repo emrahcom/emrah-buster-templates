@@ -252,8 +252,7 @@ You may want to change the following values in
 - defaultLanguage
 
 ### VideoBridge NAT config
-You need to update the videobridge NAT config if your host IP changed or the
-recording property don't run properly.
+You need to update the videobridge NAT config if your host IP changed.
 
 `/etc/jitsi/videobridge/sip-communicator.properties` on `eb-jitsi` container
 
