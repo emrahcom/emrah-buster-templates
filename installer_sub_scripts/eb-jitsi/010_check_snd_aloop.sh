@@ -16,7 +16,9 @@ if ! modprobe -n snd_aloop; then
     cat <<EOF
 
 This kernel ($(uname -r)) does not support snd_aloop module.
-Please install the standard Linux kernel and reboot it.
+
+Please install the standard Linux kernel (probably it's
+linux-image-$(dpkg --print-architecture)) and reboot it.
 EOF
 
     false
