@@ -226,7 +226,7 @@ Open `eb-jitsi.conf` file with an editor and change the `JITSI_HOST` value.
 vim eb-jitsi.conf
 ```
 
-Use a resolvable host address.
+Write a resolvable host address for JITSI_HOST, save it and close the file.
 
 ```
 export JITSI_HOST=jitsi.mydomain.com
