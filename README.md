@@ -200,7 +200,7 @@ eb-jitsi
 
 Install a ready-to-use self-hosted Jitsi/Jibri service. Jibri needs `snd_aloop`
 kernel module, therefore it's not OK with the cloud kernel. Install the
-standard Linux kernel if this is the case.
+standard Linux kernel first if this is the case.
 
 Thanks to [Ave](https://ave.zone/) and [Fatih](https://www.fatihmalakci.com/)
 for their support.
