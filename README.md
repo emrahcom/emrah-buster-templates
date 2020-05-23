@@ -10,15 +10,16 @@ Table of contents
     - [eb-livestream](#eb-livestream)
         - [Main components of eb-livestream](#main-components-of-eb-livestream)
         - [To install eb-livestream](#to-install-eb-livestream)
-        - [After install eb-livestream](#after-install-eb-livestream)
+        - [After installing eb-livestream](#after-installing-eb-livestream)
         - [Related links to eb-livestream](#related-links-to-eb-livestream)
     - [eb-gitea](#eb-gitea)
         - [Main components of eb-gitea](#main-components-of-eb-gitea)
         - [To install eb-gitea](#to-install-eb-gitea)
-        - [After install eb-gitea](#after-install-eb-gitea)
+        - [After installing eb-gitea](#after-installing-eb-gitea)
         - [Customizing eb-gitea](#customizing-eb-gitea)
     - [eb-jitsi](#eb-jitsi)
         - [Main components of eb-jitsi](#main-components-of-eb-jitsi)
+        - [Before installing eb-jitsi](#before-installing-eb-jitsi)
         - [To install eb-jitsi](#to-install-eb-jitsi)
         - [Customizing eb-jitsi](#customizing-eb-jitsi)
         - [VideoBridge NAT config](#videobridge-nat-config)
@@ -100,7 +101,7 @@ wget https://raw.githubusercontent.com/emrahcom/emrah-buster-templates/master/in
 bash eb eb-livestream
 ```
 
-### After install eb-livestream
+### After installing eb-livestream
 
 - `rtmp://<IP_ADDRESS>/livestream/<CHANNEL_NAME>` to push
    an RTMP stream.
@@ -154,7 +155,7 @@ wget https://raw.githubusercontent.com/emrahcom/emrah-buster-templates/master/in
 bash eb eb-gitea
 ```
 
-### After install eb-gitea
+### After installing eb-gitea
 There is one more step to finish the installation. It's needed to fill
 the initial configuration form of Gitea. Only two fields will be changed:
 **SSH Server Domain** and **Gitea Base URL**.
@@ -198,9 +199,7 @@ details.
 eb-jitsi
 --------
 
-Install a ready-to-use self-hosted Jitsi/Jibri service. Jibri needs `snd_aloop`
-kernel module, therefore it's not OK with the cloud kernel. Install the
-standard Linux kernel first if this is the case.
+Install a ready-to-use self-hosted Jitsi/Jibri service.
 
 Thanks to [Ave](https://ave.zone/) and [Fatih](https://www.fatihmalakci.com/)
 for their support.
@@ -210,6 +209,15 @@ for their support.
 - [Jitsi](https://jitsi.org/)
 - [Jibri](https://github.com/jitsi/jibri)
 - [Nginx](http://nginx.org/)
+
+### Before installing eb-jitsi
+Jibri needs `snd_aloop` kernel module, therefore it's not OK with the cloud
+kernel. Install the standard Linux kernel first if this is the case.
+
+It's needed a resolvable host address for your server and this address has to
+point to your server. Therefore add the DNS A record first if you didn't add
+yet. This host address will be used as `JITSI_HOST` in the installer config
+file.
 
 ### To install eb-jitsi
 
@@ -227,8 +235,6 @@ vim eb-jitsi.conf
 ```
 
 Write the host address of your server as `JITSI_HOST`, save it and close the file.
-The host address must be resolvable and it points to your host. Therefore add
-the DNS A record first if you didn't add yet.
 
 ```
 export JITSI_HOST=jitsi.mydomain.com
