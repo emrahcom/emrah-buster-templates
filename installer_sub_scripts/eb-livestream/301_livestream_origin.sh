@@ -66,7 +66,7 @@ lxc-copy -n eb-buster -N $MACH -p /var/lib/lxc/
 
 # shared directories
 mkdir -p $SHARED/cache
-cp -arp ../eb-livestream-host/usr/local/eb/livestream $SHARED/
+mkdir -p $SHARED/livestream
 
 # container config
 rm -rf $ROOTFS/var/cache/apt/archives
@@ -155,7 +155,7 @@ lxc-attach -n $MACH -- \
      apt-get $APT_PROXY_OPTION -dy source nginx
      tar xf nginx_*.debian.tar.xz
 
-     mkdir -p /usr/local/eb/livestream/stat/
+     mkdir -p /usr/local/eb/livestream/stat
      cp /tmp/source/debian/modules/rtmp/stat.xsl \
          /usr/local/eb/livestream/stat/rtmp_stat.xsl
      chown www-data: /usr/local/eb/livestream/stat -R"
@@ -172,6 +172,16 @@ lxc-attach -n $MACH -- \
 # -----------------------------------------------------------------------------
 # SYSTEM CONFIGURATION
 # -----------------------------------------------------------------------------
+rm -rf $SHARED/livestream/hls
+rm -rf $SHARED/livestream/dash
+
+cp -ap $MACHINES/eb-livestream-host/usr/local/eb/livestream/index.html \
+    $SHARED/livestream/
+cp -arp  $MACHINES/eb-livestream-host/usr/local/eb/livestream/hls \
+    $SHARED/livestream/
+cp -arp  $MACHINES/eb-livestream-host/usr/local/eb/livestream/dash \
+    $SHARED/livestream/
+
 lxc-attach -n $MACH -- \
     zsh -c \
     "set -e

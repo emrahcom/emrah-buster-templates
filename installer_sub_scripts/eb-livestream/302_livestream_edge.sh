@@ -66,7 +66,7 @@ lxc-copy -n eb-buster -N $MACH -p /var/lib/lxc/
 
 # shared directories
 mkdir -p $SHARED/cache
-cp -arp ../eb-livestream-host/usr/local/eb/livestream $SHARED/
+mkdir -p $SHARED/livestream
 
 # container config
 rm -rf $ROOTFS/var/cache/apt/archives
@@ -163,6 +163,9 @@ lxc-attach -n $MACH -- systemctl daemon-reload
 # -----------------------------------------------------------------------------
 # VIDEO PLAYERS
 # -----------------------------------------------------------------------------
+rm -rf $SHARED/livestream/hlsplayer
+rm -rf $SHARED/livestream/dashplayer
+
 cp -arp usr/local/eb/livestream/hlsplayer $SHARED/livestream/
 cp -arp usr/local/eb/livestream/dashplayer $SHARED/livestream/
 lxc-attach -n $MACH -- \
