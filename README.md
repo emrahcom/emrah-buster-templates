@@ -32,7 +32,7 @@ About
 =====
 
 `emrah-buster` is an installer to create the containerized systems on Debian
-Buster (version 10) host. It built on top of LXC (Linux containers). This
+Buster (_version 10_) host. It built on top of LXC (Linux containers). This
 repository contains the `emrah-buster` templates.
 
 Usage
@@ -50,8 +50,8 @@ bash eb <TEMPLATE_NAME>
 Example
 =======
 
-To install a streaming media system, login a Debian Buster (version 10) host as
-`root` and
+To install a streaming media system, login a Debian Buster (_version 10_) host
+as `root` and
 
 ```bash
 wget https://raw.githubusercontent.com/emrahcom/emrah-buster-base/master/installer/eb
@@ -296,7 +296,7 @@ systemctl restart nginx.service
 Requirements
 ============
 
-`emrah-buster` requires a Debian Buster (version 10) host with a minimal
+`emrah-buster` requires a Debian Buster (_version 10_) host with a minimal
 install and the Internet access during the installation. It's not a good
 idea to use your desktop machine or an already in-use production server as
 a host machine. Please, use one of the followings as a host:
@@ -315,4 +315,4 @@ a host machine. Please, use one of the followings as a host:
   ```
 
 - a physical machine with a fresh installed
-  [Debian Buster (version 10)](https://www.debian.org/distrib/netinst)
+  [Debian Buster (_version 10_)](https://www.debian.org/distrib/netinst)
