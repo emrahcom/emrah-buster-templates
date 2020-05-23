@@ -93,6 +93,6 @@ server {
 # -----------------------------------------------------------------------------
 	# deny others
 	location / {
-		deny all;
+		try_files /index.html =403;
 	}
 }
