@@ -212,13 +212,13 @@ for their support.
 - [Nginx](http://nginx.org/)
 
 ### Before installing eb-jitsi
-Jibri needs `snd_aloop` kernel module, therefore it's not OK with the cloud
-kernel. Install the standard Linux kernel first if this is the case.
+- Jibri needs `snd_aloop` kernel module, therefore it's not OK with the cloud
+  kernel. Install the standard Linux kernel first if this is the case.
 
-It's needed a resolvable host address for your server and this address has to
-point to your server. Therefore add the DNS A record first if you didn't add
-yet. This host address will be used as `JITSI_HOST` in the installer config
-file.
+- It's needed a resolvable host address for your server and this address has to
+  point to your server. Therefore add the DNS A record first if you didn't add
+  yet. This host address will be used as `JITSI_HOST` in the installer config
+  file.
 
 ### To install eb-jitsi
 
