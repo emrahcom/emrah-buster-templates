@@ -255,8 +255,10 @@ You may want to change the following values in
 - startAudioMuted
 - resolution
 - startVideoMuted
+- channelLastN
 - requireDisplayName
 - defaultLanguage
+- disableAudioLevels
 
 ### VideoBridge NAT config
 You need to update the videobridge NAT config if your host IP changed.
