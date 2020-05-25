@@ -12,7 +12,9 @@ source $INSTALLER/000_source
 echo
 echo "----------------- SND_ALOOP SUPPORT CHECK -----------------"
 
-if ! modprobe -n snd_aloop; then
+modprobe -n snd_aloop || true
+
+if [ -z "$(lsmod | grep snd_aloop)" ]; then
     cat <<EOF
 
 This kernel ($(uname -r)) does not support snd_aloop module.
