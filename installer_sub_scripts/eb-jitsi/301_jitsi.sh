@@ -263,7 +263,7 @@ sed -i 's~//\s*requireDisplayName:.*~requireDisplayName: true,~' \
     $ROOTFS/etc/jitsi/meet/$JITSI_HOST-config.js
 
 # jitsi-meet interface config
-sed -i '/DISABLE_JOIN_LEAVE_NOTIFICATIONS/s/false/true/'
+sed -i '/DISABLE_JOIN_LEAVE_NOTIFICATIONS/s/false/true/' \
     $ROOTFS/usr/share/jitsi-meet/interface_config.js
 
 # NAT config for videobridge
