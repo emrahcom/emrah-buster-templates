@@ -12,7 +12,7 @@ source $INSTALLER/000_source
 echo
 echo "----------------- SND_ALOOP SUPPORT CHECK -----------------"
 
-modprobe -n snd_aloop || true
+modprobe -n snd_aloop 2>/dev/null || true
 
 if [ -z "$(lsmod | grep snd_aloop)" ]; then
     cat <<EOF
