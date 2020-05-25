@@ -248,6 +248,34 @@ cp ../common/lib/systemd/system/certbot.service $ROOTFS/lib/systemd/system/
 lxc-attach -n $MACH -- systemctl daemon-reload
 
 # -----------------------------------------------------------------------------
+# JITSI
+# -----------------------------------------------------------------------------
+# jitsi-meet config
+sed -i 's~//\s*disableAudioLevels:.*~disableAudioLevels: true,~' \
+    $ROOTFS/etc/jitsi/meet/$JITSI_HOST-config.js
+sed -i 's~//\s*startAudioMuted:.*~startAudioMuted: 10,~' \
+    $ROOTFS/etc/jitsi/meet/$JITSI_HOST-config.js
+sed -i 's~//\s*resolution:.*~resolution: 480,~' \
+    $ROOTFS/etc/jitsi/meet/$JITSI_HOST-config.js
+sed -i 's~//\s*startVideoMuted:.*~startVideoMuted: 10,~' \
+    $ROOTFS/etc/jitsi/meet/$JITSI_HOST-config.js
+sed -i 's~//\s*requireDisplayName:.*~requireDisplayName: true,~' \
+    $ROOTFS/etc/jitsi/meet/$JITSI_HOST-config.js
+
+# jitsi-meet interface config
+sed -i '/DISABLE_JOIN_LEAVE_NOTIFICATIONS/s/false/true/'
+    $ROOTFS/usr/share/jitsi-meet/interface_config.js
+
+# NAT config for videobridge
+PUBLIC=$(dig +short $JITSI_HOST)
+[ -z "$PUBLIC" ] && PUBLIC=$REMOTE_IP
+
+cat >>$ROOTFS/etc/jitsi/videobridge/sip-communicator.properties <<EOF
+org.ice4j.ice.harvest.NAT_HARVESTER_LOCAL_ADDRESS=$IP
+org.ice4j.ice.harvest.NAT_HARVESTER_PUBLIC_ADDRESS=$PUBLIC
+EOF
+
+# -----------------------------------------------------------------------------
 # CONTAINER SERVICES
 # -----------------------------------------------------------------------------
 lxc-stop -n $MACH

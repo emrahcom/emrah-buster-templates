@@ -140,14 +140,6 @@ org.jitsi.jicofo.jibri.PENDING_TIMEOUT=90
 EOF
 
 # jitsi-meet config
-sed -i 's~//\s*resolution:.*~resolution: 720,~' \
-    $ROOTFS/etc/jitsi/meet/$JITSI_HOST-config.js
-sed -i 's~//\s*startAudioMuted:.*~startAudioMuted: 10,~' \
-    $ROOTFS/etc/jitsi/meet/$JITSI_HOST-config.js
-sed -i 's~//\s*startVideoMuted:.*~startVideoMuted: 10,~' \
-    $ROOTFS/etc/jitsi/meet/$JITSI_HOST-config.js
-sed -i 's~//\s*requireDisplayName:.*~requireDisplayName: true,~' \
-    $ROOTFS/etc/jitsi/meet/$JITSI_HOST-config.js
 sed -i 's~//\s*fileRecordingsEnabled.*~fileRecordingsEnabled: true,~' \
     $ROOTFS/etc/jitsi/meet/$JITSI_HOST-config.js
 sed -i 's~//\s*fileRecordingsServiceSharingEnabled.*~fileRecordingsServiceSharingEnabled: true,~' \
@@ -166,15 +158,6 @@ sed -i "s/___PASSWD2___/$PASSWD2/" $ROOTFS/etc/jitsi/jibri/config.json
 # the finalize_recording script
 cp usr/local/bin/finalize_recording.sh $ROOTFS/usr/local/bin/
 chmod 755 $ROOTFS/usr/local/bin/finalize_recording.sh
-
-# NAT config for videobridge
-PUBLIC=$(dig +short $JITSI_HOST)
-[ -z "$PUBLIC" ] && PUBLIC=$REMOTE_IP
-
-cat >>$ROOTFS/etc/jitsi/videobridge/sip-communicator.properties <<EOF
-org.ice4j.ice.harvest.NAT_HARVESTER_LOCAL_ADDRESS=$JITSI
-org.ice4j.ice.harvest.NAT_HARVESTER_PUBLIC_ADDRESS=$PUBLIC
-EOF
 
 # jibri service
 lxc-attach -n $MACH -- \
