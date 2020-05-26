@@ -23,5 +23,11 @@ Please install the standard Linux kernel (probably it's linux-image-$(dpkg --pri
 and reboot it.
 EOF
 
+[ "$AM_I_IN_LXC" = true ] && cat <<EOF
+
+If this is a container, please load the snd_aloop module to the host
+permanently
+EOF
+
     false
 fi
