@@ -164,9 +164,10 @@ cp etc/apt/sources.list.d/jitsi-stable.list $ROOTFS/etc/apt/sources.list.d/
 lxc-attach -n $MACH -- \
     zsh -c \
     "set -e
-     apt-get --allow-insecure-repositories update
-     apt-get --allow-unauthenticated -y install jitsi-archive-keyring
-     apt-get update"
+     apt-get $APT_PROXY_OPTION --allow-insecure-repositories update
+     apt-get $APT_PROXY_OPTION --allow-unauthenticated -y install \
+         jitsi-archive-keyring
+     apt-get $APT_PROXY_OPTION update"
 
 lxc-attach -n $MACH -- \
     zsh -c \

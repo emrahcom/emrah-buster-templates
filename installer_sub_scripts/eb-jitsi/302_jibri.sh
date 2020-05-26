@@ -45,6 +45,16 @@ lxc-attach -n $MACH -- \
      export DEBIAN_FRONTEND=noninteractive
      apt-get $APT_PROXY_OPTION -dy reinstall hostname"
 
+# multimedia repo
+cp etc/apt/sources.list.d/multimedia.list $ROOTFS/etc/apt/sources.list.d/
+lxc-attach -n $MACH -- \
+    zsh -c \
+    "set -e
+     export DEBIAN_FRONTEND=noninteractive
+     apt-get $APT_PROXY_OPTION --allow-insecure-repositories update
+     apt-get $APT_PROXY_OPTION --allow-unauthenticated -y install \
+         deb-multimedia-keyring"
+
 # update
 lxc-attach -n $MACH -- \
     zsh -c \
@@ -60,6 +70,7 @@ lxc-attach -n $MACH -- \
      export DEBIAN_FRONTEND=noninteractive
      apt-get $APT_PROXY_OPTION -y install libnss3-tools
      apt-get $APT_PROXY_OPTION -y install va-driver-all vdpau-driver-all
+     apt-get $APT_PROXY_OPTION -y --install-recommends install ffmpeg
      apt-get $APT_PROXY_OPTION -y --install-recommends install chromium \
          chromium-driver
      apt-get $APT_PROXY_OPTION -y --install-recommends install \
