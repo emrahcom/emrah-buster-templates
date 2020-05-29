@@ -211,6 +211,7 @@ PASSWD2=$(echo -n $RANDOM$RANDOM$RANDOM | sha256sum | cut -c 1-20)
 lxc-attach -n eb-jitsi -- \
     zsh -c \
     "set -e
+     systemctl reload prosody.service
      prosodyctl unregister jibri auth.$JITSI_HOST || true
      prosodyctl register jibri auth.$JITSI_HOST $PASSWD1
      prosodyctl unregister recorder recorder.$JITSI_HOST || true
@@ -221,6 +222,11 @@ cat >> $JITSI_ROOTFS/etc/jitsi/jicofo/sip-communicator.properties <<EOF
 org.jitsi.jicofo.jibri.BREWERY=JibriBrewery@internal.auth.$JITSI_HOST
 org.jitsi.jicofo.jibri.PENDING_TIMEOUT=90
 EOF
+
+lxc-attach -n eb-jitsi -- \
+    zsh -c \
+    "set -e
+     systemctl restart jicofo.service"
 
 # jitsi-meet config
 sed -i 's~//\s*fileRecordingsEnabled.*~fileRecordingsEnabled: true,~' \
