@@ -32,7 +32,8 @@ set -e
 
 # remove the old container if exists
 set +e
-lxc-autostart -s -g eb-jibri
+lxc-autostart -s -g eb-jibri -t 60
+lxc-autostart -k -g eb-jibri
 
 lxc-stop -n $MACH
 lxc-wait -n $MACH -s STOPPED
@@ -314,9 +315,12 @@ lxc-wait -n $MACH -s STOPPED
 # -----------------------------------------------------------------------------
 # EPHEMERAL JIBRI CONTAINERS
 # -----------------------------------------------------------------------------
-cp $MACHINES/eb-jitsi-host/usr/local/sbin/jibri-ephemeral-container.sh \
+cp $MACHINES/eb-jitsi-host/usr/local/sbin/jibri-ephemeral-start.sh \
     /usr/local/sbin/
-chmod 744 /usr/local/sbin/jibri-ephemeral-container.sh
+cp $MACHINES/eb-jitsi-host/usr/local/sbin/jibri-ephemeral-stop.sh \
+    /usr/local/sbin/
+chmod 744 /usr/local/sbin/jibri-ephemeral-start.sh
+chmod 744 /usr/local/sbin/jibri-ephemeral-stop.sh
 
 cp $MACHINES/eb-jitsi-host/etc/systemd/system/jibri-ephemeral-container.service \
     /etc/systemd/system/
