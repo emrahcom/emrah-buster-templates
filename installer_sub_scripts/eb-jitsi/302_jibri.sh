@@ -150,8 +150,8 @@ lxc-attach -n $MACH -- \
     zsh -c \
     "set -e
      export DEBIAN_FRONTEND=noninteractive
-     apt-get purge upower
-     apt-get autoremove --purge"
+     apt-get -y purge upower
+     apt-get -y --purge autoremove"
 
 # -----------------------------------------------------------------------------
 # SYSTEM CONFIGURATION
