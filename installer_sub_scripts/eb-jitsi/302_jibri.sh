@@ -215,7 +215,7 @@ PASSWD2=$(echo -n $RANDOM$RANDOM$RANDOM | sha256sum | cut -c 1-20)
 lxc-attach -n eb-jitsi -- \
     zsh -c \
     "set -e
-     systemctl reload prosody.service"
+     systemctl restart prosody.service"
 
 lxc-attach -n eb-jitsi -- \
     zsh -c \
@@ -234,7 +234,7 @@ EOF
 lxc-attach -n eb-jitsi -- \
     zsh -c \
     "set -e
-     systemctl reload jicofo.service"
+     systemctl restart jicofo.service"
 
 # jitsi-meet config
 sed -i 's~//\s*fileRecordingsEnabled.*~fileRecordingsEnabled: true,~' \
