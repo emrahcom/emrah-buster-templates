@@ -89,6 +89,8 @@ mkdir -p $SHARED/recordings
 # container config
 rm -rf $ROOTFS/var/cache/apt/archives
 mkdir -p $ROOTFS/var/cache/apt/archives
+rm -rf $ROOTFS/usr/local/eb/recordings
+mkdir -p $ROOTFS/usr/local/eb/recordings
 sed -i '/^lxc\.net\./d' /var/lib/lxc/$MACH/config
 sed -i '/^# Network configuration/d' /var/lib/lxc/$MACH/config
 
