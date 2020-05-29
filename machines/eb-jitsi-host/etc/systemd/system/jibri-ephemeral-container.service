@@ -1,0 +1,12 @@
+[Unit]
+Description=Jibri Ephemeral Container
+After=lxc.service
+
+[Service]
+User=root
+Group=root
+ExecStart=/usr/local/sbin/jibri-ephemeral-container.sh
+ExecStop=lxc-autostart -s -g eb-jibri
+
+[Install]
+WantedBy=multi-user.target

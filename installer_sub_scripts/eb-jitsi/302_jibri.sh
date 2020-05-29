@@ -293,6 +293,7 @@ cp etc/systemd/system/jibri-ephemeral-config.service \
 lxc-attach -n $MACH -- \
     zsh -c \
     "set -e
+     systemctl daemon-reload
      systemctl enable jibri-ephemeral-config.service"
 
 # jibri service
@@ -305,6 +306,19 @@ lxc-attach -n $MACH -- \
 # -----------------------------------------------------------------------------
 # CONTAINER SERVICES
 # -----------------------------------------------------------------------------
+lxc-attach -n $MACH -- systemctl stop jibri.service
 lxc-stop -n $MACH
 lxc-wait -n $MACH -s STOPPED
-# systemctl restart jibri instances
+
+# -----------------------------------------------------------------------------
+# EPHEMERAL JIBRI CONTAINERS
+# -----------------------------------------------------------------------------
+cp $JITSI_ROOTFS/usr/local/sbin/jibri-ephemeral-container.sh /usr/local/sbin/
+chmod 744 /usr/local/sbin/jibri-ephemeral-container.sh
+
+cp $JITSI_ROOTFS/etc/systemd/system/jibri-ephemeral-container.service \
+    /etc/systemd/system/
+
+systemctl daemon-reload
+systemctl enable jibri-ephemeral-container.service
+systemctl start jibri-ephemeral-container.service
