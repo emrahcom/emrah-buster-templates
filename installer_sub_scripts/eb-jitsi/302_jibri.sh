@@ -67,8 +67,12 @@ lxc.net.0.link = $BRIDGE
 lxc.net.0.name = eth0
 lxc.net.0.flags = up
 
-# groups
+# Start options
+lxc.start.auto = 1
+lxc.start.order = 600
+lxc.start.delay = 2
 lxc.group = eb-group
+lxc.group = eb-jibri
 EOF
 
 # dhcp config
@@ -211,7 +215,7 @@ PASSWD2=$(echo -n $RANDOM$RANDOM$RANDOM | sha256sum | cut -c 1-20)
 lxc-attach -n eb-jitsi -- \
     zsh -c \
     "set -e
-     systemctl restart prosody.service"
+     systemctl reload prosody.service"
 
 lxc-attach -n eb-jitsi -- \
     zsh -c \
@@ -230,7 +234,7 @@ EOF
 lxc-attach -n eb-jitsi -- \
     zsh -c \
     "set -e
-     systemctl restart jicofo.service"
+     systemctl reload jicofo.service"
 
 # jitsi-meet config
 sed -i 's~//\s*fileRecordingsEnabled.*~fileRecordingsEnabled: true,~' \
