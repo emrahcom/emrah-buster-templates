@@ -32,6 +32,8 @@ set -e
 
 # remove the old container if exists
 set +e
+lxc-autostart -s -g eb-jibri
+
 lxc-stop -n $MACH
 lxc-wait -n $MACH -s STOPPED
 lxc-destroy -n $MACH
@@ -40,7 +42,6 @@ sleep 1
 set -e
 
 # create the new one
-lxc-autostart -s -g eb-jibri || true
 lxc-copy -n eb-buster -N $MACH -p /var/lib/lxc/
 
 # shared directories
