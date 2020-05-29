@@ -211,7 +211,11 @@ PASSWD2=$(echo -n $RANDOM$RANDOM$RANDOM | sha256sum | cut -c 1-20)
 lxc-attach -n eb-jitsi -- \
     zsh -c \
     "set -e
-     systemctl reload prosody.service
+     systemctl restart prosody.service"
+
+lxc-attach -n eb-jitsi -- \
+    zsh -c \
+    "set -e
      prosodyctl unregister jibri auth.$JITSI_HOST || true
      prosodyctl register jibri auth.$JITSI_HOST $PASSWD1
      prosodyctl unregister recorder recorder.$JITSI_HOST || true
