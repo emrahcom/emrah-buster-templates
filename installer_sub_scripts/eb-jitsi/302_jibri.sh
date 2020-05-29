@@ -40,6 +40,7 @@ sleep 1
 set -e
 
 # create the new one
+lxc-autostart -s -g eb-jibri || true
 lxc-copy -n eb-buster -N $MACH -p /var/lib/lxc/
 
 # shared directories
