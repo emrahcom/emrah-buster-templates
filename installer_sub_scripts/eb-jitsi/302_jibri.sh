@@ -314,10 +314,11 @@ lxc-wait -n $MACH -s STOPPED
 # -----------------------------------------------------------------------------
 # EPHEMERAL JIBRI CONTAINERS
 # -----------------------------------------------------------------------------
-cp $JITSI_ROOTFS/usr/local/sbin/jibri-ephemeral-container.sh /usr/local/sbin/
+cp $MACHINES/eb-jitsi-host/usr/local/sbin/jibri-ephemeral-container.sh \
+    /usr/local/sbin/
 chmod 744 /usr/local/sbin/jibri-ephemeral-container.sh
 
-cp $JITSI_ROOTFS/etc/systemd/system/jibri-ephemeral-container.service \
+cp $MACHINES/eb-jitsi-host/etc/systemd/system/jibri-ephemeral-container.service \
     /etc/systemd/system/
 
 systemctl daemon-reload
