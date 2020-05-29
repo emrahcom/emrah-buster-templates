@@ -284,6 +284,17 @@ sed -i "s/___PASSWD2___/$PASSWD2/" $ROOTFS/etc/jitsi/jibri/config.json
 cp usr/local/bin/finalize_recording.sh $ROOTFS/usr/local/bin/
 chmod 755 $ROOTFS/usr/local/bin/finalize_recording.sh
 
+# jibri ephemeral config service
+cp usr/local/sbin/jibri-ephemeral-config.sh $ROOTFS/usr/local/sbin/
+chmod 744 $ROOTFS/usr/local/sbin/jibri-ephemeral-config.sh
+cp etc/systemd/system/jibri-ephemeral-config.service \
+    $ROOTFS/etc/systemd/system/
+
+lxc-attach -n $MACH -- \
+    zsh -c \
+    "set -e
+     systemctl enable jibri-ephemeral-config.service"
+
 # jibri service
 lxc-attach -n $MACH -- \
     zsh -c \
@@ -296,4 +307,4 @@ lxc-attach -n $MACH -- \
 # -----------------------------------------------------------------------------
 lxc-stop -n $MACH
 lxc-wait -n $MACH -s STOPPED
-# systemctl restart jibri
+# systemctl restart jibri instances
