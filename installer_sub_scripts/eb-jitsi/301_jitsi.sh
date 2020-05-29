@@ -84,6 +84,7 @@ lxc-copy -n eb-buster -N $MACH -p /var/lib/lxc/
 
 # shared directories
 mkdir -p $SHARED/cache
+mkdir -p $SHARED/recordings
 
 # container config
 rm -rf $ROOTFS/var/cache/apt/archives
@@ -92,10 +93,7 @@ sed -i '/^lxc\.net\./d' /var/lib/lxc/$MACH/config
 sed -i '/^# Network configuration/d' /var/lib/lxc/$MACH/config
 
 cat >> /var/lib/lxc/$MACH/config <<EOF
-
-# Devices
-lxc.cgroup.devices.allow = c 116:* rwm
-lxc.mount.entry = /dev/snd dev/snd none bind,optional,create=dir
+lxc.mount.entry = $SHARED/recordings usr/local/eb/recordings none bind 0 0
 
 # Network configuration
 lxc.net.0.type = veth
