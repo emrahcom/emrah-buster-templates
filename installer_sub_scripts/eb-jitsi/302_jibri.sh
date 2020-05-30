@@ -84,7 +84,7 @@ cp etc/network/interfaces $ROOTFS/etc/network/
 # start container
 lxc-start -n $MACH -d
 lxc-wait -n $MACH -s RUNNING
-sleep 1
+lxc-attach -n $MACH -- ping -c1 deb.debian.org || sleep 3
 
 # -----------------------------------------------------------------------------
 # HOSTNAME
