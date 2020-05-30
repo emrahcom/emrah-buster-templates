@@ -19,8 +19,8 @@ if [ -z "$(grep snd_aloop /proc/modules)" ]; then
 
 This kernel ($(uname -r)) does not support snd_aloop module.
 
-Please install the standard Linux kernel (probably it's linux-image-$(dpkg --print-architecture))
-and reboot it.
+Please install the standard Linux kernel package and reboot it.
+Probably it's "linux-image-$(dpkg --print-architecture)" for your case.
 EOF
 
 [ "$AM_I_IN_LXC" = true ] && cat <<EOF
