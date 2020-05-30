@@ -21,10 +21,10 @@ This kernel ($(uname -r)) does not support snd_aloop module.
 
 Please install the standard Linux kernel package and reboot it.
 Probably it's "linux-image-$(dpkg --print-architecture)" for your case.
+
 EOF
 
-[ "$AM_I_IN_LXC" = true ] && cat <<EOF
-
+    [ "$AM_I_IN_LXC" = true ] && cat <<EOF
 If this is a container, please load the snd_aloop module to the host
 permanently
 
