@@ -107,6 +107,7 @@ EOF
 # start container
 lxc-start -n $MACH -d
 lxc-wait -n $MACH -s RUNNING
+sleep 1
 
 # -----------------------------------------------------------------------------
 # HOSTNAME
