@@ -16,5 +16,5 @@ ffmpeg -re \
     -c:v libx264 -preset ultrafast -profile:v main -tune zerolatency \
     -force_key_frames "expr:gte(t,n_forced*$KEY_FRAME_INTERVAL)" \
     -pix_fmt yuv420p \
-    -c:a libfdk_aac \
+    -c:a aac \
     -f flv rtmp://127.0.0.1/livestream/$CHANNEL
