@@ -133,7 +133,7 @@ lxc-attach -n $MACH -- \
     zsh -c \
     "set -e
      export DEBIAN_FRONTEND=noninteractive
-     apt-get $APT_PROXY_OPTION update
+     apt-get -y --allow-releaseinfo-change update
      apt-get $APT_PROXY_OPTION -y dist-upgrade"
 
 # packages

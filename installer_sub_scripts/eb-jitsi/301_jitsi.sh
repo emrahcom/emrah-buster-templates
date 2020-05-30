@@ -142,7 +142,7 @@ lxc-attach -n $MACH -- \
     zsh -c \
     "set -e
      export DEBIAN_FRONTEND=noninteractive
-     apt-get $APT_PROXY_OPTION update
+     apt-get -y --allow-releaseinfo-change update
      apt-get $APT_PROXY_OPTION -y dist-upgrade"
 
 # apt-transport-https, gnupg
@@ -164,10 +164,10 @@ cp etc/apt/sources.list.d/jitsi-stable.list $ROOTFS/etc/apt/sources.list.d/
 lxc-attach -n $MACH -- \
     zsh -c \
     "set -e
-     apt-get $APT_PROXY_OPTION --allow-insecure-repositories update
+     apt-get --allow-insecure-repositories update
      apt-get $APT_PROXY_OPTION --allow-unauthenticated -y install \
          jitsi-archive-keyring
-     apt-get $APT_PROXY_OPTION update"
+     apt-get update"
 
 lxc-attach -n $MACH -- \
     zsh -c \

@@ -125,7 +125,7 @@ lxc-attach -n $MACH -- \
     zsh -c \
     "set -e
      export DEBIAN_FRONTEND=noninteractive
-     apt-get $APT_PROXY_OPTION -oAcquire::AllowInsecureRepositories=true update
+     apt-get -y --allow-releaseinfo-change --allow-insecure-repositories update
      apt-get $APT_PROXY_OPTION --allow-unauthenticated -y install \
          deb-multimedia-keyring"
 # update
@@ -133,7 +133,7 @@ lxc-attach -n $MACH -- \
     zsh -c \
     "set -e
      export DEBIAN_FRONTEND=noninteractive
-     apt-get $APT_PROXY_OPTION update
+     apt-get update
      apt-get $APT_PROXY_OPTION -y dist-upgrade"
 
 # packages
