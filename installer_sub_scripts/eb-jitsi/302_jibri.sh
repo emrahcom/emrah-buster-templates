@@ -32,8 +32,7 @@ set -e
 
 # remove the old container if exists
 set +e
-lxc-autostart -s -g eb-jibri -t 60
-lxc-autostart -k -g eb-jibri
+systemctl stop jibri-ephemeral-container.service
 
 lxc-stop -n $MACH
 lxc-wait -n $MACH -s STOPPED
