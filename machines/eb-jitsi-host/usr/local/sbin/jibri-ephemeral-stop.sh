@@ -7,7 +7,7 @@
 # Stop the ephemeral Jibri containers.
 #
 # -----------------------------------------------------------------------------
-lxc-autostart -s -g eb-jibri -t 60
+lxc-autostart -s -g eb-jibri -t 30
 lxc-autostart -k -g eb-jibri
 
 true
