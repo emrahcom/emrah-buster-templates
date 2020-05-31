@@ -4,7 +4,7 @@
 # JIBRI-EPHEMERAL-STOP.SH
 # -----------------------------------------------------------------------------
 #
-# Stop the ephimeral Jibri containers.
+# Stop the ephemeral Jibri containers.
 #
 # -----------------------------------------------------------------------------
 lxc-autostart -s -g eb-jibri -t 60

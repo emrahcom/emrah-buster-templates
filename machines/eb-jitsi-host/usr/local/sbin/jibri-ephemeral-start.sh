@@ -4,7 +4,7 @@
 # JIBRI-EPHEMERAL-START.SH
 # -----------------------------------------------------------------------------
 #
-# Create and run the ephimeral Jibri containers. The number of containers
+# Create and run the ephemeral Jibri containers. The number of containers
 # depends on the CORES count (one Jibri instance per 2 cores) but it can not be
 # more than LIMIT.
 #
