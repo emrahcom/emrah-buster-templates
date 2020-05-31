@@ -163,6 +163,13 @@ lxc-attach -n $MACH -- \
 # -----------------------------------------------------------------------------
 # SYSTEM CONFIGURATION
 # -----------------------------------------------------------------------------
+# disable ssh service
+lxc-attach -n $MACH -- \
+    zsh -c \
+    "set -e
+     systemctl stop ssh.service
+     systemctl disable ssh.service"
+
 # jitsi host
 echo -e "$JITSI\t$JITSI_HOST" >> $ROOTFS/etc/hosts
 
