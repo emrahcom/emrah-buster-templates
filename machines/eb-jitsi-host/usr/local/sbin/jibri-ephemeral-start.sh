@@ -23,16 +23,19 @@ LIMIT=16
 # account to calculate the number of Jibri instances.
 RESERVED=2
 
+# The number of cores per each Jibri instance.
+CPI=2
+
 # The total cores
 CORES=$(nproc --all)
 
 # The available cores count
-(( N = LIMIT * 2 ))
+(( N = LIMIT * CPI ))
 (( M = CORES - RESERVED ))
 [[ $N -gt $M ]] && N=$M
 
-for c in $(seq 2 2 $N); do
-    (( ID = c / 2 ))
+for c in $(seq $CPI $CPI $N); do
+    (( ID = c / $CPI ))
 
     lxc-copy -n eb-jibri-template -N eb-jibri-$ID -e
 done
