@@ -143,14 +143,8 @@ lxc-attach -n $MACH -- \
      debconf-set-selections <<< \
          'jitsi-videobridge2 jitsi-videobridge/jvb-hostname string $JITSI_HOST'
 
-     apt-get $APT_PROXY_OPTION -y --install-recommends install
+     apt-get $APT_PROXY_OPTION -y --install-recommends install \
          jitsi-videobridge2"
-
-# -----------------------------------------------------------------------------
-# SSH DIRECTORY
-# -----------------------------------------------------------------------------
-mkdir -p /root/.ssh
-chmod 700 /root/.ssh
 
 # -----------------------------------------------------------------------------
 # JVB
