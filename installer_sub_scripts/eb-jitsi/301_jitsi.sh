@@ -292,8 +292,8 @@ cat >>$ROOTFS/etc/jitsi/videobridge/sip-communicator.properties <<EOF
 EOF
 
 # jitsi tools
-cp $MACHINES/eb-jitsi-host/usr/local/sbin/add-jvb-node $ROOTFS/usr/local/sbin/
-chmod 744 $ROOTFS/usr/local/sbin/add-jvb-node
+cp $MACHINES/eb-jitsi-host/usr/local/sbin/add-jvb-node /usr/local/sbin/
+chmod 744 /usr/local/sbin/add-jvb-node
 
 # -----------------------------------------------------------------------------
 # CONTAINER SERVICES
