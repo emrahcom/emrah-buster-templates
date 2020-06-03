@@ -173,6 +173,13 @@ lxc-attach -n $MACH -- \
 # jitsi host
 echo -e "$JITSI\t$JITSI_HOST" >> $ROOTFS/etc/hosts
 
+# certificates
+cp /root/eb_ssl/eb_CA.pem $ROOTFS/usr/local/share/ca-certificates/jitsi-CA.crt
+lxc-attach -n $MACH -- \
+    zsh -c \
+    "set -e
+     update-ca-certificates"
+
 # snd_aloop module
 [ -z "$(egrep '^snd_aloop' /etc/modules)" ] && echo snd_aloop >>/etc/modules
 cp $MACHINES/eb-jitsi-host/etc/modprobe.d/alsa-loopback.conf /etc/modprobe.d/
@@ -263,6 +270,18 @@ lxc-attach -n $MACH -- \
     zsh -c \
     "set -e
      chown jibri:jibri /usr/local/eb/recordings -R"
+
+# pki
+lxc-attach -n $MACH -- \
+    zsh -c \
+    "set -e
+     mkdir -p /home/jibri/.pki/nssdb
+     chmod 700 /home/jibri/.pki
+     chmod 700 /home/jibri/.pki/nssdb
+
+     certutil -A -n "jitsi" -i /usr/local/share/ca-certificates/jitsi-CA.crt \
+         -t "TCu,Cu,Tu" -d sql:/home/jibri/.pki/nssdb/
+     chown jibri:jibri /home/jibri/.pki -R"
 
 # jibri config
 cp etc/jitsi/jibri/config.json $ROOTFS/etc/jitsi/jibri/config.json
