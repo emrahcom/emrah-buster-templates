@@ -1,0 +1,92 @@
+#!/bin/bash
+set -e
+
+# -----------------------------------------------------------------------------
+# ADD-JVB-NODE
+# -----------------------------------------------------------------------------
+# Add an additional Jitsi videobridge2 node to the cluster.
+#
+# Usage:
+#     add-jvb-node <NODE-ADDRESS>
+# -----------------------------------------------------------------------------
+NODE=$1
+SSH_CONFIG=/root/.ssh/jms-config
+INSTALLER=https://raw.githubusercontent.com/emrahcom/emrah-buster-base/master/installer/eb
+INSTALLER_CONFIG=https://raw.githubusercontent.com/emrahcom/emrah-buster-templates/master/installer/eb-jvb.conf
+JITSI_ROOTFS=/var/lib/lxc/eb-jitsi/rootfs/
+JVB_ROOTFS=/var/lib/lxc/eb-jvb/rootfs/
+
+ssh_() {
+    ssh -F $SSH_CONFIG $NODE -- "$@"
+}
+
+scp_() {
+    scp -F $SSH_CONFIG $1 $NODE:$2
+}
+
+
+# -----------------------------------------------------------------------------
+# trap on exit
+# -----------------------------------------------------------------------------
+function on_exit {
+    if [[ "$COMPLETED" != true ]]; then
+        cat <<EOF
+
+Something went wrong. The installation couldn't be completed!
+EOF
+    else
+        cat <<EOF
+
+Completed successfully!
+EOF
+    fi
+}
+
+COMPLETED=false
+trap on_exit EXIT
+
+[[ -z "$NODE" ]] && cat <<EOF
+Usage:
+       add-jvb-node <NODE-ADDRESS>
+EOF
+
+
+# -----------------------------------------------------------------------------
+# cluster related parameters
+# -----------------------------------------------------------------------------
+JITSI_HOST=$(egrep '^JVB_HOSTNAME=' $JITSI_ROOTFS/etc/jitsi/videobridge/config | \
+             cut -d '=' -f2)
+JVB_SECRET=$(egrep '^JVB_SECRET=' $JITSI_ROOTFS/etc/jitsi/videobridge/config | \
+             cut -d '=' -f2)
+SHARD_PASSWD=$(egrep '^org.jitsi.videobridge.xmpp.user.shard.PASSWORD' \
+	     $JITSI_ROOTFS/etc/jitsi/videobridge/sip-communicator.properties | \
+             cut -d '=' -f2)
+
+# -----------------------------------------------------------------------------
+# installation
+# -----------------------------------------------------------------------------
+ssh_ apt-get -y --allow-releaseinfo-change update
+ssh_ apt-get -y install wget
+ssh_ wget $INSTALLER -O /tmp/eb
+ssh_ wget $INSTALLER_CONFIG -O /tmp/eb-jvb.conf
+
+ssh_ sed -i \"s/^export JITSI_HOST=.*/export JITSI_HOST=$JITSI_HOST/\" \
+    /tmp/eb-jvb.conf
+ssh_ "cd /tmp && bash eb eb-jvb"
+
+
+# -----------------------------------------------------------------------------
+# configuration
+# -----------------------------------------------------------------------------
+ssh_ sed -i \"s/^JVB_SECRET=.*/JVB_SECRET=$JVB_SECRET/\" \
+    $JVB_ROOTFS/etc/jitsi/videobridge/config
+ssh_ sed -i \"s/shard.PASSWORD=.*/shard.PASSWORD=$SHARD_PASSWD/\" \
+    $JVB_ROOTFS/etc/jitsi/videobridge/sip-communicator.properties
+
+ssh_ lxc-attach -n eb-jvb systemctl stop jitsi-videobridge2
+ssh_ lxc-attach -n eb-jvb systemctl start jitsi-videobridge2
+
+# -----------------------------------------------------------------------------
+# completed
+# -----------------------------------------------------------------------------
+COMPLETED=true

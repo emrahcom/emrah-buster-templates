@@ -291,6 +291,10 @@ cat >>$ROOTFS/etc/jitsi/videobridge/sip-communicator.properties <<EOF
 #org.ice4j.ice.harvest.NAT_HARVESTER_PUBLIC_ADDRESS=$REMOTE_IP
 EOF
 
+# jitsi tools
+cp usr/local/sbin/add-jvb-node $ROOTFS/usr/local/sbin/
+chmod 744 $ROOTFS/usr/local/sbin/add-jvb-node
+
 # -----------------------------------------------------------------------------
 # CONTAINER SERVICES
 # -----------------------------------------------------------------------------
