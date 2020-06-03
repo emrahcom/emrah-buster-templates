@@ -173,13 +173,6 @@ lxc-attach -n $MACH -- \
 # jitsi host
 echo -e "$JITSI\t$JITSI_HOST" >> $ROOTFS/etc/hosts
 
-# certificates
-cp /root/eb_ssl/eb_CA.pem $ROOTFS/usr/local/share/ca-certificates/jitsi-CA.crt
-lxc-attach -n $MACH -- \
-    zsh -c \
-    "set -e
-     update-ca-certificates"
-
 # snd_aloop module
 [ -z "$(egrep '^snd_aloop' /etc/modules)" ] && echo snd_aloop >>/etc/modules
 cp $MACHINES/eb-jitsi-host/etc/modprobe.d/alsa-loopback.conf /etc/modprobe.d/
