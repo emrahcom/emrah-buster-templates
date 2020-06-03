@@ -6,8 +6,8 @@ After=lxc.service
 [Service]
 User=root
 Group=root
-ExecStart=/usr/local/sbin/jibri-ephemeral-start.sh
-ExecStop=/usr/local/sbin/jibri-ephemeral-stop.sh
+ExecStart=/usr/local/sbin/jibri-ephemeral-start
+ExecStop=/usr/local/sbin/jibri-ephemeral-stop
 RemainAfterExit=yes
 
 [Install]

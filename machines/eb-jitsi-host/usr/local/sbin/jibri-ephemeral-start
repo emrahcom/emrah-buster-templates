@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # -----------------------------------------------------------------------------
-# JIBRI-EPHEMERAL-START.SH
+# JIBRI-EPHEMERAL-START
 # -----------------------------------------------------------------------------
 #
 # Create and run the ephemeral Jibri containers. The number of containers

@@ -294,8 +294,8 @@ cp usr/local/bin/finalize_recording.sh $ROOTFS/usr/local/bin/
 chmod 755 $ROOTFS/usr/local/bin/finalize_recording.sh
 
 # jibri ephemeral config service
-cp usr/local/sbin/jibri-ephemeral-config.sh $ROOTFS/usr/local/sbin/
-chmod 744 $ROOTFS/usr/local/sbin/jibri-ephemeral-config.sh
+cp usr/local/sbin/jibri-ephemeral-config $ROOTFS/usr/local/sbin/
+chmod 744 $ROOTFS/usr/local/sbin/jibri-ephemeral-config
 cp etc/systemd/system/jibri-ephemeral-config.service \
     $ROOTFS/etc/systemd/system/
 
@@ -322,12 +322,10 @@ lxc-wait -n $MACH -s STOPPED
 # -----------------------------------------------------------------------------
 # EPHEMERAL JIBRI CONTAINERS
 # -----------------------------------------------------------------------------
-cp $MACHINES/eb-jitsi-host/usr/local/sbin/jibri-ephemeral-start.sh \
-    /usr/local/sbin/
-cp $MACHINES/eb-jitsi-host/usr/local/sbin/jibri-ephemeral-stop.sh \
-    /usr/local/sbin/
-chmod 744 /usr/local/sbin/jibri-ephemeral-start.sh
-chmod 744 /usr/local/sbin/jibri-ephemeral-stop.sh
+cp $MACHINES/eb-jitsi-host/usr/local/sbin/jibri-ephemeral-start /usr/local/sbin/
+cp $MACHINES/eb-jitsi-host/usr/local/sbin/jibri-ephemeral-stop /usr/local/sbin/
+chmod 744 /usr/local/sbin/jibri-ephemeral-start
+chmod 744 /usr/local/sbin/jibri-ephemeral-stop
 
 cp $MACHINES/eb-jitsi-host/etc/systemd/system/jibri-ephemeral-container.service \
     /etc/systemd/system/
