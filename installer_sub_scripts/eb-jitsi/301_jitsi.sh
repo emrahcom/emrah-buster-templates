@@ -284,13 +284,10 @@ sed -i 's~//\s*requireDisplayName:.*~requireDisplayName: true,~' \
 sed -i '/DISABLE_JOIN_LEAVE_NOTIFICATIONS/s/false/true/' \
     $ROOTFS/usr/share/jitsi-meet/interface_config.js
 
-# NAT config for videobridge
-PUBLIC=$(dig +short $JITSI_HOST)
-[[ -z "$PUBLIC" ]] && PUBLIC=$REMOTE_IP
-
+# commented NAT lines. theese are needed if this is an in-house server.
 cat >>$ROOTFS/etc/jitsi/videobridge/sip-communicator.properties <<EOF
-org.ice4j.ice.harvest.NAT_HARVESTER_LOCAL_ADDRESS=$IP
-org.ice4j.ice.harvest.NAT_HARVESTER_PUBLIC_ADDRESS=$PUBLIC
+#org.ice4j.ice.harvest.NAT_HARVESTER_LOCAL_ADDRESS=$IP
+#org.ice4j.ice.harvest.NAT_HARVESTER_PUBLIC_ADDRESS=$REMOTE_IP
 EOF
 
 # -----------------------------------------------------------------------------
