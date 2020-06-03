@@ -187,11 +187,15 @@ lxc-attach -n $MACH -- \
 mkdir -p /root/.ssh
 chmod 700 /root/.ssh
 
-if [ ! -f /root/.ssh/jms ]
+# create ssh key if not exists
+if [[ ! -f /root/.ssh/jms ]] || [[ ! -f /root/.ssh/jms.pub ]]
 then
     rm -f /root/.ssh/jms.pub
     ssh-keygen -qP '' -t rsa -b 2048 -f /root/.ssh/jms
 fi
+
+# copy the public key to a downloadable place
+cp /root/.ssh/jms.pub $ROOTFS/usr/share/jitsi-meet/static/
 
 # -----------------------------------------------------------------------------
 # SELF-SIGNED CERTIFICATE
@@ -282,7 +286,7 @@ sed -i '/DISABLE_JOIN_LEAVE_NOTIFICATIONS/s/false/true/' \
 
 # NAT config for videobridge
 PUBLIC=$(dig +short $JITSI_HOST)
-[ -z "$PUBLIC" ] && PUBLIC=$REMOTE_IP
+[[ -z "$PUBLIC" ]] && PUBLIC=$REMOTE_IP
 
 cat >>$ROOTFS/etc/jitsi/videobridge/sip-communicator.properties <<EOF
 org.ice4j.ice.harvest.NAT_HARVESTER_LOCAL_ADDRESS=$IP
