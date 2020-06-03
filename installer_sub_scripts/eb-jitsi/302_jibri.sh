@@ -174,7 +174,7 @@ lxc-attach -n $MACH -- \
 echo -e "$JITSI\t$JITSI_HOST" >> $ROOTFS/etc/hosts
 
 # certificates
-cp /root/eb_ssl/eb_CA.pem $ROOTFS/usr/local/share/ca-certificates/jitsi-CA.crt
+cp /root/eb_ssl/eb_CA.pem $ROOTFS/usr/local/share/ca-certificates/jms-CA.crt
 lxc-attach -n $MACH -- \
     zsh -c \
     "set -e
@@ -279,7 +279,7 @@ lxc-attach -n $MACH -- \
      chmod 700 /home/jibri/.pki
      chmod 700 /home/jibri/.pki/nssdb
 
-     certutil -A -n "jitsi" -i /usr/local/share/ca-certificates/jitsi-CA.crt \
+     certutil -A -n "jitsi" -i /usr/local/share/ca-certificates/jms-CA.crt \
          -t "TCu,Cu,Tu" -d sql:/home/jibri/.pki/nssdb/
      chown jibri:jibri /home/jibri/.pki -R"
 

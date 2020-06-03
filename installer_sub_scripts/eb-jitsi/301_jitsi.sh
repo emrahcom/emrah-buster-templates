@@ -232,8 +232,8 @@ cd $MACHINES/$MACH
 # SYSTEM CONFIGURATION
 # -----------------------------------------------------------------------------
 # certificates
-cp /root/eb_ssl/eb_CA.pem $ROOTFS/usr/local/share/ca-certificates/jitsi-CA.crt
-cp /root/eb_ssl/eb_CA.pem $ROOTFS/usr/share/jitsi-meet/static/jitsi-CA.crt
+cp /root/eb_ssl/eb_CA.pem $ROOTFS/usr/local/share/ca-certificates/jms-CA.crt
+cp /root/eb_ssl/eb_CA.pem $ROOTFS/usr/share/jitsi-meet/static/jms-CA.crt
 cp /root/eb_ssl/ssl_eb_jitsi.key $ROOTFS/etc/ssl/private/ssl-eb.key
 cp /root/eb_ssl/ssl_eb_jitsi.pem $ROOTFS/etc/ssl/certs/ssl-eb.pem
 
