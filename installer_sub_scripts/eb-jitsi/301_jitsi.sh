@@ -182,6 +182,18 @@ lxc-attach -n $MACH -- \
      apt-get $APT_PROXY_OPTION -y --install-recommends install jitsi-meet"
 
 # -----------------------------------------------------------------------------
+# JMS SSH KEY
+# -----------------------------------------------------------------------------
+mkdir -p /root/.ssh
+chmod 700 /root/.ssh
+
+if [ ! -f /root/.ssh/jms ]
+then
+    rm -f /root/.ssh/jms.pub
+    ssh-keygen -qP '' -t rsa -b 2048 -f /root/.ssh/jms
+fi
+
+# -----------------------------------------------------------------------------
 # SELF-SIGNED CERTIFICATE
 # -----------------------------------------------------------------------------
 cd /root/eb_ssl
