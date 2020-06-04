@@ -257,6 +257,12 @@ lxc-attach -n $MACH -- \
      ln -s /etc/ssl/certs/ssl-eb.pem /etc/jitsi/meet/$JITSI_HOST.crt"
 
 # nginx
+# dirty hack: redirect turn traffic to nginx
+sed -i '/listen .::.:4444 ssl http2;/a\
+    listen 4445 ssl http2;\
+    listen [::]:4445 ssl http2;' \
+    $ROOTFS/etc/nginx/sites-available/$JITSI_HOST.conf
+
 lxc-attach -n $MACH -- \
     zsh -c \
     "set -e
