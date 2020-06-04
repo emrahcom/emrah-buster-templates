@@ -219,6 +219,9 @@ lxc-attach -n $MACH -- \
      chmod 700 /home/jibri/.pki/nssdb
      chown jibri:jibri /home/jibri/.pki -R"
 
+# jibri config
+cp etc/jitsi/jibri/config.json $ROOTFS/etc/jitsi/jibri/config.json
+
 # the finalize_recording script
 cp usr/local/bin/finalize_recording.sh $ROOTFS/usr/local/bin/
 chmod 755 $ROOTFS/usr/local/bin/finalize_recording.sh
@@ -239,11 +242,13 @@ lxc-attach -n $MACH -- \
 lxc-attach -n $MACH -- \
     zsh -c \
     "set -e
-     systemctl enable jibri.service"
+     systemctl enable jibri.service
+     systemctl start jibri.service"
 
 # -----------------------------------------------------------------------------
 # CONTAINER SERVICES
 # -----------------------------------------------------------------------------
+lxc-attach -n $MACH -- systemctl stop jibri.service
 lxc-stop -n $MACH
 lxc-wait -n $MACH -s STOPPED
 
