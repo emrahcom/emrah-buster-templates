@@ -15,6 +15,11 @@ INSTALLER=https://raw.githubusercontent.com/emrahcom/emrah-buster-base/master/in
 INSTALLER_CONFIG=https://raw.githubusercontent.com/emrahcom/emrah-buster-templates/master/installer/eb-jvb.conf
 JITSI_ROOTFS=/var/lib/lxc/eb-jitsi/rootfs/
 JVB_ROOTFS=/var/lib/lxc/eb-jvb/rootfs/
+DEFAULT_ROUTE=$(ip route | egrep '^default ' | head -n1)
+PUBLIC_INTERFACE=${DEFAULT_ROUTE##*dev }
+PUBLIC_INTERFACE=${PUBLIC_INTERFACE/% */}
+REMOTE_IP=$(ip addr show $PUBLIC_INTERFACE | ack "$PUBLIC_INTERFACE$" | \
+            xargs | cut -d " " -f 2 | cut -d "/" -f1)
 
 ssh_() {
     ssh -F $SSH_CONFIG $NODE -- "$@"
@@ -78,10 +83,15 @@ ssh_ "cd /tmp && bash eb eb-jvb"
 # -----------------------------------------------------------------------------
 # configuration
 # -----------------------------------------------------------------------------
-ssh_ sed -i \"s/^JVB_SECRET=.*/JVB_SECRET=$JVB_SECRET/\" \
-    $JVB_ROOTFS/etc/jitsi/videobridge/config
+ssh_ sed -i \"s/shard.HOSTNAME=.*/shard.HOSTNAME=$JITSI_HOST/\" \
+    $JVB_ROOTFS/etc/jitsi/videobridge/sip-communicator.properties
 ssh_ sed -i \"s/shard.PASSWORD=.*/shard.PASSWORD=$SHARD_PASSWD/\" \
     $JVB_ROOTFS/etc/jitsi/videobridge/sip-communicator.properties
+ssh_ sed -i \"s/^JVB_SECRET=.*/JVB_SECRET=$JVB_SECRET/\" \
+    $JVB_ROOTFS/etc/jitsi/videobridge/config
+
+[[ -n "ssh_ dig +short $JITSI_HOST" ]] || \
+    ssh_ "echo \"$REMOTE_IP\t$JITSI_HOST\" >> $JVB_ROOTFS/etc/hosts"
 
 ssh_ lxc-attach -n eb-jvb systemctl stop jitsi-videobridge2
 ssh_ lxc-attach -n eb-jvb systemctl start jitsi-videobridge2

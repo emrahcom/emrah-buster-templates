@@ -34,6 +34,11 @@ nft delete element eb-nat tcp2ip { 443 } 2>/dev/null || true
 nft add element eb-nat tcp2ip { 443 : $IP }
 nft delete element eb-nat tcp2port { 443 } 2>/dev/null || true
 nft add element eb-nat tcp2port { 443 : 443 }
+# tcp/5222
+nft delete element eb-nat tcp2ip { 5222 } 2>/dev/null || true
+nft add element eb-nat tcp2ip { 5222 : $IP }
+nft delete element eb-nat tcp2port { 5222 } 2>/dev/null || true
+nft add element eb-nat tcp2port { 5222 : 5222 }
 # udp/10000
 nft delete element eb-nat udp2ip { 10000 } 2>/dev/null || true
 nft add element eb-nat udp2ip { 10000 : $IP }
@@ -285,7 +290,7 @@ sed -i 's~//\s*requireDisplayName:.*~requireDisplayName: true,~' \
 sed -i '/DISABLE_JOIN_LEAVE_NOTIFICATIONS/s/false/true/' \
     $ROOTFS/usr/share/jitsi-meet/interface_config.js
 
-# commented NAT lines. theese are needed if this is an in-house server.
+# commented NAT lines. theese will be needed if this is an in-house server.
 cat >>$ROOTFS/etc/jitsi/videobridge/sip-communicator.properties <<EOF
 #org.ice4j.ice.harvest.NAT_HARVESTER_LOCAL_ADDRESS=$IP
 #org.ice4j.ice.harvest.NAT_HARVESTER_PUBLIC_ADDRESS=$REMOTE_IP
