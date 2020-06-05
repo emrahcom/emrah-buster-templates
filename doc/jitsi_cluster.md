@@ -2,19 +2,31 @@
 
 Easy way to create Jitsi cluster based on Debian Buster
 =======================================================
+- [1. About](#1-about)
+- [2. Jitsi Meet Server (JMS)](#2-jitsi-meet-server-jms)
+  - [2.1 Before installing JMS](#21-before-installing-jms)
+  - [2.2 Installing JMS](#22-installing-jms)
+    - [2.2.1 Download the installer](#221-download-the-installer)
+    - [2.2.2 Set the host address](#222-set-the-host-address)
+    - [2.2.3 Run the installer](#223-run-the-installer)
+    - [2.2.4 Let's Encrypt certificate](#224-lets-encrypt-certificate)
+
+---
+
+## 1. About
 This tutorial provides step by step instructions on how to create Jitsi cluster
-based on Debian Buster (Debian 10). Create or install a Debian Buster machine
+based on Debian Buster (Debian 10). Create or install a Debian Buster server
 for each node in this tutorial. Please, don't install a desktop environment,
 only the standard packages...
 
-## Jitsi Meet Server (JMS)
+## 2. Jitsi Meet Server (JMS)
 JMS is a standalone server with conferance room, video recording and streaming
 features. If the load level is low and simultaneous recording will not be made,
-JMS can operate without an additional JVB or Jibri nodes.
+JMS can operate without an additional JVB or Jibri node.
 
 Additional JVB and Jibri nodes can be added in the future if needed.
 
-### Before Installing JMS
+#### 2.1  Before installing JMS
 - A resolvable host address is required for the JMS server and this address
   should point to this server. Therefore, create the DNS A record before
   starting the installation.
@@ -28,4 +40,35 @@ an output, it means that the kernel doesn't support it.
 
 ```bash
 modprobe snd_aloop
+```
+
+#### 2.2 Installing JMS
+Installation will be done with
+[emrah-buster](https://github.com/emrahcom/emrah-buster-templates).
+
+##### 2.2.1 Download the installer
+
+```bash
+wget https://raw.githubusercontent.com/emrahcom/emrah-buster-base/master/installer/eb
+wget https://raw.githubusercontent.com/emrahcom/emrah-buster-templates/master/installer/eb-jitsi.conf
+```
+
+##### 2.2.2 Set the host address
+Set the host address on the install config file `eb-jitsi.conf`. This must be
+an FQDN, not IP address. Let's say the host address is `meet.mydomain.com`
+
+```bash
+echo export JITSI_HOST=meet.mydomain.com >> eb-jitsi.conf
+```
+
+##### 2.2.3 Run the installer
+
+```bash
+bash eb eb-jitsi
+```
+
+##### 2.2.4 Let's Encrypt certificate
+
+```bash
+some commands
 ```
