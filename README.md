@@ -279,7 +279,7 @@ To use Let's Encrypt certificate, connect to the related container as root and
 ```bash
 FQDN="your.host.fqdn"
 
-certbot certonly --webroot -w /var/www/html -d $FQDN
+certbot certonly --agree-tos --webroot -w /var/www/html -d $FQDN
 
 chmod 750 /etc/letsencrypt/{archive,live}
 chown root:ssl-cert /etc/letsencrypt/{archive,live}
