@@ -6,10 +6,13 @@ Easy way to create Jitsi cluster based on Debian Buster
 - [2. Jitsi Meet Server (JMS)](#2-jitsi-meet-server-jms)
   - [2.1 Before installing JMS](#21-before-installing-jms)
   - [2.2 Installing JMS](#22-installing-jms)
-    - [2.2.1 Download the installer](#221-download-the-installer)
-    - [2.2.2 Set the host address](#222-set-the-host-address)
-    - [2.2.3 Run the installer](#223-run-the-installer)
+    - [2.2.1 Downloading the installer](#221-downloading-the-installer)
+    - [2.2.2 Setting the host address](#222-setting-the-host-address)
+    - [2.2.3 Running the installer](#223-running-the-installer)
     - [2.2.4 Let's Encrypt certificate](#224-lets-encrypt-certificate)
+- [3. Jitsi Videobridge (JVB)](#3-jitsi-videobridge-jvb)
+  - [3.1 Adding the JMS public key](#3.1-adding-the-jms-public-key)
+  - [3.2 Adding the JVB node to the pool](3.2-adding-the-jvb-node-to-the-pool)
 
 ---
 
@@ -26,7 +29,7 @@ JMS can operate without an additional JVB or Jibri node.
 
 Additional JVB and Jibri nodes can be added in the future if needed.
 
-#### 2.1  Before installing JMS
+#### 2.1 Before installing JMS
 - A resolvable host address is required for the JMS server and this address
   should point to this server. Therefore, create the DNS A record before
   starting the installation.
@@ -46,22 +49,22 @@ modprobe snd_aloop
 Installation will be done with
 [emrah-buster](https://github.com/emrahcom/emrah-buster-templates).
 
-##### 2.2.1 Download the installer
+##### 2.2.1 Downloading the installer
 
 ```bash
 wget https://raw.githubusercontent.com/emrahcom/emrah-buster-base/master/installer/eb
 wget https://raw.githubusercontent.com/emrahcom/emrah-buster-templates/master/installer/eb-jitsi.conf
 ```
 
-##### 2.2.2 Set the host address
-Set the host address on the install config file `eb-jitsi.conf`. This must be
-an FQDN, not IP address. Let's say the host address is `meet.mydomain.com`
+##### 2.2.2 Setting the host address
+Set the host address on the installer config file `eb-jitsi.conf`. This must be
+an FQDN, not IP address... Let's say the host address is `meet.mydomain.com`
 
 ```bash
 echo export JITSI_HOST=meet.mydomain.com >> eb-jitsi.conf
 ```
 
-##### 2.2.3 Run the installer
+##### 2.2.3 Running the installer
 
 ```bash
 bash eb eb-jitsi
@@ -71,4 +74,27 @@ bash eb eb-jitsi
 
 ```bash
 some commands
+```
+
+## 3. Jitsi Videobridge (JVB)
+A standalone JMS installation is good for a limited size of concurrent
+conferences but the first limiting factor is the JVB component, that handles
+the actual video and audio traffic. It is easy to scale the JVB pool
+horizontally by adding as many as JVB node when needed. I
+
+#### 3.1 Adding the JMS public key
+Add the JMS public key to the JVB node. On the JVB node:
+
+```bash
+mkdir -p /root/.ssh
+chmod 700 /root/.ssh
+wget -O - https://meet.mydomain.com/static/jms.pub >> /root/.ssh/authorized_keys
+```
+
+#### 3.2 Adding the JVB node to the pool
+Let's say the IP address of the JVB node is `200.1.2.3`
+On the JMS server:
+
+```bash
+add-jvb-node 200.1.2.3
 ```
