@@ -4,7 +4,9 @@ Easy way to create Jitsi cluster based on Debian Buster
 =======================================================
 - [1. About](#1-about)
 - [2. Jitsi Meet Server (JMS)](#2-jitsi-meet-server-jms)
-  - [2.1 Before installing JMS](#21-before-installing-jms)
+  - [2.1 Requirements](#21-requirements)
+    - [2.1.1 DNS A record](#211-dns-a-record)
+    - [2.1.2 The snd_aloop module](#212-the-snd_aloop-module)
   - [2.2 Installing JMS](#22-installing-jms)
     - [2.2.1 Downloading the installer](#221-downloading-the-installer)
     - [2.2.2 Setting the host address](#222-setting-the-host-address)
@@ -32,14 +34,18 @@ JMS can operate without an additional JVB or Jibri node.
 
 Additional JVB and Jibri nodes can be added in the future if needed.
 
-#### 2.1 Before installing JMS
-- A resolvable host address is required for the JMS server and this address
-  should point to this server. Therefore, create the DNS A record before
-  starting the installation.
+#### 2.1 Requirements
+Complete the following steps before starting the installation.
 
-- JMS also needs the `snd_aloop` kernel module but some cloud computers have a
-  kernel that doesn't support it. In this case, first install the standart
-  kernel and start the machine with this kernel.
+##### 2.1.1 DNS A record
+A resolvable host address is required for the JMS server and this address
+should point to this server. Therefore, create the DNS A record before starting
+the installation.
+
+##### 2.1.2 The snd_aloop module
+JMS needs the `snd_aloop` kernel module but some cloud computers have a kernel
+that doesn't support it. In this case, first install the standart kernel and
+start the machine with this kernel.
 
 Run the following command to check the `snd_aloop` support. If the command has
 an output, it means that the kernel doesn't support it.
