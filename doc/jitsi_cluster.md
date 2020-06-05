@@ -41,13 +41,13 @@ Complete the following steps before starting the installation.
 
 ##### 2.1.1 DNS A record
 A resolvable host address is required for the JMS server and this address
-should point to this server. Therefore, create the DNS A record before starting
-the installation.
+should point to this server. Therefore, create the DNS `A record` before
+starting the installation.
 
 ##### 2.1.2 The snd_aloop module
 JMS needs the `snd_aloop` kernel module but some cloud computers have a kernel
-that doesn't support it. In this case, first install the standart kernel and
-start the machine with this kernel.
+that doesn't support it. In this case, first install the standart Linux kernel
+and reboot the node with this kernel.
 
 Run the following command to check the `snd_aloop` support. If the command has
 an output, it means that the kernel doesn't support it.
