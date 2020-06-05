@@ -320,8 +320,13 @@ lxc-stop -n $MACH
 lxc-wait -n $MACH -s STOPPED
 
 # -----------------------------------------------------------------------------
-# EPHEMERAL JIBRI CONTAINERS
+# HOST CUSTOMIZATION FOR JIBRI
 # -----------------------------------------------------------------------------
+# jitsi tools
+cp $MACHINES/eb-jitsi-host/usr/local/sbin/add-jibri-node /usr/local/sbin/
+chmod 744 /usr/local/sbin/add-jibri-node
+
+# jibri-ephemeral-container service
 cp $MACHINES/eb-jitsi-host/usr/local/sbin/jibri-ephemeral-start /usr/local/sbin/
 cp $MACHINES/eb-jitsi-host/usr/local/sbin/jibri-ephemeral-stop /usr/local/sbin/
 chmod 744 /usr/local/sbin/jibri-ephemeral-start

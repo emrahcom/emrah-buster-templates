@@ -302,10 +302,6 @@ cat >>$ROOTFS/etc/jitsi/videobridge/sip-communicator.properties <<EOF
 #org.ice4j.ice.harvest.NAT_HARVESTER_PUBLIC_ADDRESS=$REMOTE_IP
 EOF
 
-# jitsi tools
-cp $MACHINES/eb-jitsi-host/usr/local/sbin/add-jvb-node /usr/local/sbin/
-chmod 744 /usr/local/sbin/add-jvb-node
-
 # -----------------------------------------------------------------------------
 # CONTAINER SERVICES
 # -----------------------------------------------------------------------------
@@ -313,3 +309,10 @@ lxc-stop -n $MACH
 lxc-wait -n $MACH -s STOPPED
 lxc-start -n $MACH -d
 lxc-wait -n $MACH -s RUNNING
+
+# -----------------------------------------------------------------------------
+# HOST CUSTOMIZATION FOR JITSI
+# -----------------------------------------------------------------------------
+# jitsi tools
+cp $MACHINES/eb-jitsi-host/usr/local/sbin/add-jvb-node /usr/local/sbin/
+chmod 744 /usr/local/sbin/add-jvb-node
