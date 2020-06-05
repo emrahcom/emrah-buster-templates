@@ -11,8 +11,8 @@ Easy way to create Jitsi cluster based on Debian Buster
     - [2.2.3 Running the installer](#223-running-the-installer)
     - [2.2.4 Let's Encrypt certificate](#224-lets-encrypt-certificate)
 - [3. Jitsi Videobridge (JVB)](#3-jitsi-videobridge-jvb)
-  - [3.1 Adding the JMS public key](#3.1-adding-the-jms-public-key)
-  - [3.2 Adding the JVB node to the pool](#3.2-adding-the-jvb-node-to-the-pool)
+  - [3.1 Adding the JMS public key](#31-adding-the-jms-public-key)
+  - [3.2 Adding the JVB node to the pool](#32-adding-the-jvb-node-to-the-pool)
 
 ---
 
