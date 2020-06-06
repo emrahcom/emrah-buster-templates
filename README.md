@@ -22,7 +22,6 @@ Table of contents
         - [Before installing eb-jitsi](#before-installing-eb-jitsi)
         - [To install eb-jitsi](#to-install-eb-jitsi)
         - [Customizing eb-jitsi](#customizing-eb-jitsi)
-        - [VideoBridge NAT config](#videobridge-nat-config)
         - [Jitsi cluster](#jitsi-cluster)
 - [Let's Encrypt support](#lets-encrypt-support)
 - [Requirements](#requirements)
@@ -260,15 +259,6 @@ You may want to change the following values in
 - requireDisplayName
 - defaultLanguage
 - disableAudioLevels
-
-### VideoBridge NAT config
-You need to update the videobridge NAT config if your host IP changed.
-
-`/etc/jitsi/videobridge/sip-communicator.properties` on `eb-jitsi` container
-
-```
-org.ice4j.ice.harvest.NAT_HARVESTER_PUBLIC_ADDRESS=<PUBLIC_IP_ADDRESS>
-```
 
 ### Jitsi cluster
 See [Jitsi cluster document](doc/jitsi_cluster.md)
