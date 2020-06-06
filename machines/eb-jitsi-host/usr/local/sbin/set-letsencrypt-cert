@@ -17,4 +17,30 @@ Usage:
     set-letsencrypt-cert <FQDN>
 EOF
 
+
+# -----------------------------------------------------------------------------
+# trap on exit
+# -----------------------------------------------------------------------------
+function on_exit {
+    if [[ "$COMPLETED" != true ]]; then
+        cat <<EOF
+
+Something went wrong. The installation couldn't be completed!
+EOF
+    else
+        cat <<EOF
+
+Completed successfully!
+EOF
+    fi
+}
+
+COMPLETED=false
+trap on_exit EXIT
+
+
+# -----------------------------------------------------------------------------
+# set certificate
+# -----------------------------------------------------------------------------
 lxc-attach -n eb-jitsi -- /usr/local/sbin/set-letsencrypt-cert $FQDN
+COMPLETED=true
