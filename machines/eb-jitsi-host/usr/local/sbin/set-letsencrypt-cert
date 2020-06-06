@@ -27,11 +27,13 @@ function on_exit {
 
 Something went wrong. The installation couldn't be completed!
 EOF
+        exit 1
     else
         cat <<EOF
 
 Completed successfully!
 EOF
+        exit 0
     fi
 }
 
