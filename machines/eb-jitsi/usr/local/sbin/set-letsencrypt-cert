@@ -1,0 +1,30 @@
+#!/bin/bash
+set -e
+
+# -----------------------------------------------------------------------------
+# SET-LETSENCRYPT-CERT
+# -----------------------------------------------------------------------------
+# Get and set the Let's Encrypt certificate.
+#
+# Usage:
+#     set-letsencrypt-cert <FQDN>
+# -----------------------------------------------------------------------------
+FQDN=$1
+#DRYRUN=--dry-run
+
+[[ -z "$FQDN" ]] && cat <<EOF
+
+Usage:
+    set-letsencrypt-cert <FQDN>
+EOF
+
+certbot certonly $DRYRUN --agree-tos --webroot -w /var/www/html -d $FQDN
+
+chmod 750 /etc/letsencrypt/{archive,live}
+chown root:ssl-cert /etc/letsencrypt/{archive,live}
+rm -f /etc/ssl/certs/ssl-eb.pem
+rm -f /etc/ssl/private/ssl-eb.key
+ln -s /etc/letsencrypt/live/$FQDN/fullchain.pem /etc/ssl/certs/ssl-eb.pem
+ln -s /etc/letsencrypt/live/$FQDN/privkey.pem /etc/ssl/private/ssl-eb.key
+
+systemctl reload nginx.service

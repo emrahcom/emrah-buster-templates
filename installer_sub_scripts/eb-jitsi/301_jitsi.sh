@@ -256,6 +256,10 @@ lxc-attach -n $MACH -- \
      ln -s /etc/ssl/private/ssl-eb.key /etc/jitsi/meet/$JITSI_HOST.key
      ln -s /etc/ssl/certs/ssl-eb.pem /etc/jitsi/meet/$JITSI_HOST.crt"
 
+# set-letsencrypt-cert
+cp usr/local/sbin/set-letsencrypt-cert $ROOTFS/usr/local/sbin/
+chmod 744 $ROOTFS/usr/local/sbin/set-letsencrypt-cert
+
 # nginx
 # dirty hack: redirect turn traffic to nginx
 sed -i '/listen .::.:4444 ssl http2;/a\
@@ -274,7 +278,8 @@ lxc-attach -n $MACH -- systemctl stop nginx.service
 lxc-attach -n $MACH -- systemctl start nginx.service
 
 # certbot service
-cp ../common/lib/systemd/system/certbot.service $ROOTFS/lib/systemd/system/
+cp $MACHINE/common/lib/systemd/system/certbot.service \
+    $ROOTFS/lib/systemd/system/
 lxc-attach -n $MACH -- systemctl daemon-reload
 
 # -----------------------------------------------------------------------------
