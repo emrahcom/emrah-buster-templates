@@ -23,6 +23,7 @@ Table of contents
         - [To install eb-jitsi](#to-install-eb-jitsi)
         - [Customizing eb-jitsi](#customizing-eb-jitsi)
         - [VideoBridge NAT config](#videobridge-nat-config)
+        - [Jitsi cluster](#jitsi-cluster)
 - [Let's Encrypt support](#lets-encrypt-support)
 - [Requirements](#requirements)
 
@@ -268,6 +269,9 @@ You need to update the videobridge NAT config if your host IP changed.
 ```
 org.ice4j.ice.harvest.NAT_HARVESTER_PUBLIC_ADDRESS=<PUBLIC_IP_ADDRESS>
 ```
+
+### Jitsi cluster
+See [Jitsi cluster document](doc/jitsi_cluster.md)
 
 ---
 
