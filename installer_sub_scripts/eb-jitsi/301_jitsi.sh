@@ -257,7 +257,7 @@ lxc-attach -n $MACH -- \
      ln -s /etc/ssl/certs/ssl-eb.pem /etc/jitsi/meet/$JITSI_HOST.crt"
 
 # set-letsencrypt-cert
-cp usr/local/sbin/set-letsencrypt-cert $ROOTFS/usr/local/sbin/
+cp $MACHINES/common/usr/local/sbin/set-letsencrypt-cert $ROOTFS/usr/local/sbin/
 chmod 744 $ROOTFS/usr/local/sbin/set-letsencrypt-cert
 
 # nginx
