@@ -7,10 +7,13 @@
 # Customize the Jibri config for the current instance
 #
 # -----------------------------------------------------------------------------
+INSTANCE=$(hostname)
+[[ "$INSTANCE" = "eb-jibri-template" ]] && exit 0
 
 (( INSTANCE_ID = $(hostname | egrep -o '[0-9]+$') + 0 ))
-INSTANCE=$(hostname)
-LOOPBACK=$(aplay -l | grep "card $INSTANCE_ID:" | cut -d ' ' -f3 | uniq)
+LOOPBACK=$(aplay -l | grep "card $INSTANCE_ID:" | grep -i loopback | \
+           cut -d ' ' -f3 | uniq)
+
 
 [ -n "$INSTANCE" ] && \
     sed -i "s/\(.*\"nickname\":\).*/\1 \"$INSTANCE-$RANDOM\"/" \
