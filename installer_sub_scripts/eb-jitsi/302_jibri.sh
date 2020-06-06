@@ -101,7 +101,7 @@ lxc-attach -n $MACH -- \
 zsh -c \
     "set -e
      export DEBIAN_FRONTEND=noninteractive
-     apt-get $APT_PROXY_OPTION -y install kmod"
+     apt-get $APT_PROXY_OPTION -y install kmod alsa-utils"
 
 # -----------------------------------------------------------------------------
 # PACKAGES
