@@ -278,7 +278,7 @@ lxc-attach -n $MACH -- systemctl stop nginx.service
 lxc-attach -n $MACH -- systemctl start nginx.service
 
 # certbot service
-cp $MACHINE/common/lib/systemd/system/certbot.service \
+cp $MACHINES/common/lib/systemd/system/certbot.service \
     $ROOTFS/lib/systemd/system/
 lxc-attach -n $MACH -- systemctl daemon-reload
 
