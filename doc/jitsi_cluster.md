@@ -82,9 +82,11 @@ bash eb eb-jitsi
 ```
 
 ##### 2.2.4 Let's Encrypt certificate
+Let's say the host address is `meet.mydomain.com`
+To set the Let's Encrypt certificate:
 
 ```bash
-some commands
+set-letsencrypt-cert meet.mydomain.com
 ```
 
 ## 3. Additional Jitsi Videobridge (JVB) node
