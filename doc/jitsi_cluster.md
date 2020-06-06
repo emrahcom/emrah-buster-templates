@@ -1,7 +1,7 @@
 ![Jitsi Cluster](images/jitsi_cluster.png)
 
-Easy way to create Jitsi cluster based on Debian Buster
-=======================================================
+Easy way to create a Jitsi cluster based on Debian Buster
+=========================================================
 - [1. About](#1-about)
 - [2. Jitsi Meet Server (JMS)](#2-jitsi-meet-server-jms)
   - [2.1 Requirements](#21-requirements)
@@ -22,8 +22,8 @@ Easy way to create Jitsi cluster based on Debian Buster
 ---
 
 ## 1. About
-This tutorial provides step by step instructions on how to create Jitsi cluster
-based on Debian Buster (Debian 10).
+This tutorial provides step by step instructions on how to create a Jitsi
+cluster based on Debian Buster (Debian 10).
 
 Create or install a Debian Buster server for each node in this tutorial.
 Please, don't install a desktop environment, only the standard packages...
