@@ -96,7 +96,14 @@ the actual video and audio traffic. It is easy to scale the JVB pool
 horizontally by adding as many as JVB node when needed.
 
 #### 3.1 Adding the JMS public key
-Add the JMS public key to the JVB node. On the JVB node:
+If `openssh-server` is not installed on the JVB node, install it first!
+
+```bash
+apt-get --allow-releaseinfo-change update
+apt-get install openssh-server
+```
+
+Add the JMS public key to the JVB node.
 
 ```bash
 mkdir -p /root/.ssh
@@ -122,7 +129,14 @@ The Jibri node needs the `snd_aloop` module too. Therefore check the kernel
 first.
 
 #### 4.1 Adding the JMS public key
-Add the JMS public key to the Jibri node. On the Jibri node:
+If `openssh-server` is not installed on the Jibri node, install it first!
+
+```bash
+apt-get --allow-releaseinfo-change update
+apt-get install openssh-server
+```
+
+Add the JMS public key to the Jibri node.
 
 ```bash
 mkdir -p /root/.ssh
