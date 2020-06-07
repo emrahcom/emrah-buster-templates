@@ -99,7 +99,7 @@ horizontally by adding as many as JVB node when needed.
 If `openssh-server` is not installed on the JVB node, install it first!
 
 ```bash
-apt-get --allow-releaseinfo-change update
+apt-get -y --allow-releaseinfo-change update
 apt-get install openssh-server
 ```
 
@@ -132,7 +132,7 @@ first.
 If `openssh-server` is not installed on the Jibri node, install it first!
 
 ```bash
-apt-get --allow-releaseinfo-change update
+apt-get -y --allow-releaseinfo-change update
 apt-get install openssh-server
 ```
 
