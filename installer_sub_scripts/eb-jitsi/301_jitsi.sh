@@ -301,10 +301,10 @@ sed -i 's~//\s*requireDisplayName:.*~requireDisplayName: true,~' \
 sed -i '/DISABLE_JOIN_LEAVE_NOTIFICATIONS/s/false/true/' \
     $ROOTFS/usr/share/jitsi-meet/interface_config.js
 
-# commented NAT lines. theese will be needed if this is an in-house server.
+# NAT harvester. these will be needed if this is an in-house server.
 cat >>$ROOTFS/etc/jitsi/videobridge/sip-communicator.properties <<EOF
-#org.ice4j.ice.harvest.NAT_HARVESTER_LOCAL_ADDRESS=$IP
-#org.ice4j.ice.harvest.NAT_HARVESTER_PUBLIC_ADDRESS=$REMOTE_IP
+org.ice4j.ice.harvest.NAT_HARVESTER_LOCAL_ADDRESS=$IP
+org.ice4j.ice.harvest.NAT_HARVESTER_PUBLIC_ADDRESS=$REMOTE_IP
 EOF
 
 # -----------------------------------------------------------------------------

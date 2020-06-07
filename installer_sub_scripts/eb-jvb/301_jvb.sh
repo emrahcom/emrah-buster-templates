@@ -154,10 +154,10 @@ cat >>$ROOTFS/etc/jitsi/videobridge/sip-communicator.properties <<EOF
 org.jitsi.videobridge.xmpp.user.shard.DISABLE_CERTIFICATE_VERIFICATION=true
 EOF
 
-# commented NAT lines. theese will be needed if this is an in-house server.
+# NAT harvester. theese will be needed if this is an in-house server.
 cat >>$ROOTFS/etc/jitsi/videobridge/sip-communicator.properties <<EOF
-#org.ice4j.ice.harvest.NAT_HARVESTER_LOCAL_ADDRESS=$IP
-#org.ice4j.ice.harvest.NAT_HARVESTER_PUBLIC_ADDRESS=$REMOTE_IP
+org.ice4j.ice.harvest.NAT_HARVESTER_LOCAL_ADDRESS=$IP
+org.ice4j.ice.harvest.NAT_HARVESTER_PUBLIC_ADDRESS=$REMOTE_IP
 EOF
 
 # -----------------------------------------------------------------------------
