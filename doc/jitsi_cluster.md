@@ -117,7 +117,7 @@ Complete the following steps before starting the JVB installation.
 ##### 3.1.1 Public ports
 If the JVB server is behind a firewall, open the following ports:
 
-* TCP/22 (at least to JMS server)
+* TCP/22 (at least for JMS server)
 * UDP/10000
 
 #### 3.2 Installing JVB
@@ -161,7 +161,7 @@ first.
 ##### 4.1.2 Public ports
 If the Jibri server is behind a firewall, open the following ports:
 
-* TCP/22 (at least to JMS server)
+* TCP/22 (at least for JMS server)
 
 #### 4.2 Installing Jibri
 ##### 4.2.1 Adding the JMS public key
