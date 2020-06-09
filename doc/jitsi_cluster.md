@@ -37,6 +37,8 @@ Create or install a Debian Buster server for each node in this tutorial.
 Please, don't install a desktop environment, only the standard packages...
 Reserve at least 4 cores and 8 GB RAM for each node.
 
+Run each command on this tutorial as `root`.
+
 ## 2. Jitsi Meet Server (JMS)
 JMS is a standalone server with conference room, video recording and streaming
 features. If the load level is low and simultaneous recording will not be made,
