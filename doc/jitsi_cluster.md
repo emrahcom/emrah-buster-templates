@@ -64,7 +64,7 @@ an output, it means that the kernel doesn't support it.
 modprobe snd_aloop
 ```
 
-##### 2.2.3 Public ports
+##### 2.1.3 Public ports
 If the JMS server is behind a firewall, open the following ports:
 
 * TCP/80
@@ -117,7 +117,7 @@ Complete the following steps before starting the JVB installation.
 ##### 3.1.1 Public ports
 If the JVB server is behind a firewall, open the following ports:
 
-* TCP/22 (only to JMS server)
+* TCP/22 (at least to JMS server)
 * UDP/10000
 
 #### 3.2 Installing JVB
@@ -161,7 +161,7 @@ first.
 ##### 4.1.2 Public ports
 If the Jibri server is behind a firewall, open the following ports:
 
-* TCP/22 (only to JMS server)
+* TCP/22 (at least to JMS server)
 
 #### 4.2 Installing Jibri
 ##### 4.2.1 Adding the JMS public key
