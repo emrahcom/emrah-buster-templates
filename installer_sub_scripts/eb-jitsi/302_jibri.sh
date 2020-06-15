@@ -184,7 +184,8 @@ lxc-attach -n $MACH -- \
 [ -z "$(egrep '^snd_aloop' /etc/modules)" ] && echo snd_aloop >>/etc/modules
 cp $MACHINES/eb-jitsi-host/etc/modprobe.d/alsa-loopback.conf /etc/modprobe.d/
 rmmod -f snd_aloop || true
-[ -z "$(lsmod | ack snd_aloop)" ] && modprobe snd_aloop
+modprobe snd_aloop || true
+[[ "$DONT_CHECK_SND_ALOOP" = true ]] || [[ -n "$(lsmod | ack snd_aloop)" ]]
 
 # chromium managed policies
 mkdir -p $ROOTFS/etc/chromium/policies/managed

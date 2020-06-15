@@ -8,6 +8,7 @@ source $INSTALLER/000_source
 # INIT
 # -----------------------------------------------------------------------------
 [ "$DONT_RUN_JIBRI" = true ] && exit
+[ "$DONT_CHECK_SND_ALOOP" = true ] && exit
 
 echo
 echo "----------------- SND_ALOOP SUPPORT CHECK -----------------"
