@@ -12,7 +12,7 @@ Easy way to install a live streaming media system
   - [4.1 RTMP push](#41-rtmp-push)
   - [4.2 RTMP status](#42-rtmp-status)
   - [4.3 Player](#43-players)
-  - [4.4 HLS/DASH pull](#44-hls-dash-pull)
+  - [4.4 HLS/DASH pull](#44-hlsdash-pull)
   - [4.5 The stream cloner](#45-the-stream-cloner)
 
 ---
