@@ -268,21 +268,11 @@ See [Jitsi cluster document](doc/jitsi_cluster.md)
 Let's Encrypt support
 =====================
 
-To use Let's Encrypt certificate, connect to the related container as root and
+To set the Let's Encrypt certificate, run the following commands on the host:
 
 ```bash
 FQDN="your.host.fqdn"
-
-certbot certonly --agree-tos --webroot -w /var/www/html -d $FQDN
-
-chmod 750 /etc/letsencrypt/{archive,live}
-chown root:ssl-cert /etc/letsencrypt/{archive,live}
-rm -f /etc/ssl/certs/ssl-eb.pem
-rm -f /etc/ssl/private/ssl-eb.key
-ln -s /etc/letsencrypt/live/$FQDN/fullchain.pem /etc/ssl/certs/ssl-eb.pem
-ln -s /etc/letsencrypt/live/$FQDN/privkey.pem /etc/ssl/private/ssl-eb.key
-
-systemctl restart nginx.service
+set-letsencrypt-cert $FQDN
 ```
 
 ---
