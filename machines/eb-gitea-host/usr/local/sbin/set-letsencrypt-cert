@@ -1,0 +1,48 @@
+#!/bin/bash
+set -e
+
+# -----------------------------------------------------------------------------
+# SET-LETSENCRYPT-CERT
+# -----------------------------------------------------------------------------
+# Get and set the Let's Encrypt certificate for the eb-gitea container
+#
+# Usage:
+#     set-letsencrypt-cert <FQDN>
+# -----------------------------------------------------------------------------
+FQDN=$1
+
+[[ -z "$FQDN" ]] && cat <<EOF
+
+Usage:
+    set-letsencrypt-cert <FQDN>
+EOF
+
+
+# -----------------------------------------------------------------------------
+# trap on exit
+# -----------------------------------------------------------------------------
+function on_exit {
+    if [[ "$COMPLETED" != true ]]; then
+        cat <<EOF
+
+Something went wrong. The installation couldn't be completed!
+EOF
+        exit 1
+    else
+        cat <<EOF
+
+Completed successfully!
+EOF
+        exit 0
+    fi
+}
+
+COMPLETED=false
+trap on_exit EXIT
+
+
+# -----------------------------------------------------------------------------
+# set certificate
+# -----------------------------------------------------------------------------
+lxc-attach -n eb-gitea -- /usr/local/sbin/set-letsencrypt-cert $FQDN
+COMPLETED=true

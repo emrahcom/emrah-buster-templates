@@ -171,6 +171,10 @@ lxc-attach -n $MACH -- \
      ln -s ssl-cert-snakeoil.pem /etc/ssl/certs/ssl-eb.pem
      ln -s ssl-cert-snakeoil.key /etc/ssl/private/ssl-eb.key"
 
+# set-letsencrypt-cert
+cp $MACHINES/common/usr/local/sbin/set-letsencrypt-cert $ROOTFS/usr/local/sbin/
+chmod 744 $ROOTFS/usr/local/sbin/set-letsencrypt-cert
+
 # nginx
 cp etc/nginx/conf.d/custom.conf $ROOTFS/etc/nginx/conf.d/
 cp etc/nginx/snippets/eb_ssl.conf $ROOTFS/etc/nginx/snippets/
@@ -288,3 +292,9 @@ lxc-stop -n $MACH
 lxc-wait -n $MACH -s STOPPED
 lxc-start -n $MACH -d
 lxc-wait -n $MACH -s RUNNING
+
+# -----------------------------------------------------------------------------
+# HOST CUSTOMIZATION FOR GITEA
+# -----------------------------------------------------------------------------
+cp $MACHINES/eb-gitea-host/usr/local/sbin/set-letsencrypt-cert /usr/local/sbin/
+chmod 744 /usr/local/sbin/set-letsencrypt-cert
