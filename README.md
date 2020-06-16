@@ -81,7 +81,7 @@ eb-livestream
 -------------
 
 Install a ready-to-use live streaming media system. See the
-[livestream](doc/livestrem.md) page for details.
+[livestream](doc/livestream.md) page for details.
 
 ### Main components of eb-livestream
 
