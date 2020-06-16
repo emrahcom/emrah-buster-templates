@@ -200,7 +200,6 @@ lxc-attach -n $MACH -- systemctl start uwsgi.service
 cp etc/nginx/access_list_http.conf $ROOTFS/etc/nginx/
 cp etc/nginx/access_list_rtmp_play.conf $ROOTFS/etc/nginx/
 cp etc/nginx/access_list_rtmp_publish.conf $ROOTFS/etc/nginx/
-cp etc/nginx/conf.d/custom.conf $ROOTFS/etc/nginx/conf.d/
 cp etc/nginx/modules-available/90-eb-rtmp.conf \
     $ROOTFS/etc/nginx/modules-available/
 ln -s ../modules-available/90-eb-rtmp.conf $ROOTFS/etc/nginx/modules-enabled/
