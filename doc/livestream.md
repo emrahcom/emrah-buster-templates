@@ -11,7 +11,7 @@ Easy way to install a live streaming media system
 - [4. Usage](#4-usage)
   - [4.1 RTMP push](#41-rtmp-push)
   - [4.2 RTMP status](#42-rtmp-status)
-  - [4.3 Player](#43-players)
+  - [4.3 Players](#43-players)
   - [4.4 HLS/DASH pull](#44-hlsdash-pull)
   - [4.5 The stream cloner](#45-the-stream-cloner)
 
@@ -91,30 +91,30 @@ http://<HOST_ADDRESS>:8000/livestream/status
 ```
 
 #### 4.3 Players
-Use the following link formats for the player pages.
+Use the following link formats for the player pages:
 
-**HLS player**
+##### HLS player
 
 ```
 http://<HOST_ADDRESS>/livestream/hlsplayer/<CHANNEL_NAME>
 ```
 
-**DASH player**
+##### DASH player
 
 ```
 http://<HOST_ADDRESS>/livestream/dashplayer/<CHANNEL_NAME>
 ```
 
 #### 4.4 HLS/DASH pull
-Use the following link formats to pull a stream.
+Use the following link formats to pull a stream:
 
-**HLS stream**
+##### HLS stream
 
 ```
 http://<HOST_ADDRESS>/livestream/hls/<CHANNEL_NAME>/index.m3u8
 ```
 
-**DASH stream**
+##### DASH stream
 
 ```
 http://<HOST_ADDRESS>/livestream/dash/<CHANNEL_NAME>/index.mpd
@@ -124,7 +124,7 @@ http://<HOST_ADDRESS>/livestream/dash/<CHANNEL_NAME>/index.mpd
 The stream cloner publishes a stream to the multiple locations (Youtube,
 Facebook etc.) simultaneously.
 
-The stream cloner link is
+The stream cloner link is:
 
 ```
 http://<HOST_ADDRESS>:8000/livestream/cloner
