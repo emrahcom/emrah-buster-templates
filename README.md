@@ -80,7 +80,8 @@ bash eb eb-base
 eb-livestream
 -------------
 
-Install a ready-to-use live streaming media system.
+Install a ready-to-use live streaming media system. See
+[livestream](doc/livestrem.md) page for details.
 
 ### Main components of eb-livestream
 
