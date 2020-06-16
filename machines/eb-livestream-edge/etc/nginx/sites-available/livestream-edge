@@ -12,6 +12,7 @@ server {
 	server_name _;
 	root /usr/local/eb;
 	index index.html index.htm;
+	autoindex off;
 
 # -----------------------------------------------------------------------------
 # HLS

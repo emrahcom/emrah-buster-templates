@@ -147,7 +147,6 @@ lxc-attach -n $MACH -- \
      ln -s ssl-cert-snakeoil.key /etc/ssl/private/ssl-eb.key"
 
 # nginx
-cp etc/nginx/conf.d/custom.conf $ROOTFS/etc/nginx/conf.d/
 cp etc/nginx/snippets/eb_ssl.conf $ROOTFS/etc/nginx/snippets/
 cp etc/nginx/sites-available/livestream-edge \
     $ROOTFS/etc/nginx/sites-available/
