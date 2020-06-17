@@ -196,10 +196,25 @@ add-jibri-node 200.7.8.9
 
 
 ## 5. FAQ
-#### # I’ve setup the initial JMS node successfully, but getting a 'recording unavailable' error when trying to record.
+#### I’ve setup the initial JMS node successfully, but getting a 'recording unavailable' error when trying to record.
 
 At least 4 cores are required to start a `Jibri` instance. The first two cores
 are reserved for the base processes. After these two cores, one Jibri instance
 is started for each additional 2 cores.
 
 Just shutdown the machine, increase the number of cores and reboot.
+
+#### How can I make a change/addition permanent in Jibri?
+
+All running Jibri instances are ephemeral and changes made will disappear after
+shutdown. Apply to the `eb-jibri-template` container to make a change permanent
+and restart the Jibri instances.
+
+#### How can I restart all running Jibri instances?
+
+Use the related `systemd` service.
+
+```bash
+systemctl stop jibri-ephemeral-container.service
+systemctl start jibri-ephemeral-container.service
+```
