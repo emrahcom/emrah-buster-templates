@@ -71,7 +71,7 @@ The streaming media system has two containers:
 * Edge
 
 The `origin` container listens the RTMP port for the coming stream and converts
-it to the `HLS` and `DASH` formats. `H.264` and `AAC` supported.
+it to the `HLS` and `DASH` fragments. `H.264` and `AAC` supported.
 
 The `edge` container publishes the `HLS` and `DASH` fragments over `http` and
 `https`.
