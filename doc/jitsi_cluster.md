@@ -26,6 +26,7 @@ Easy way to create a Jitsi cluster based on Debian Buster
   - [4.2 Installing Jibri](#42-installing-jibri)
     - [4.2.1 Adding the JMS public key](#421-adding-the-jms-public-key)
     - [4.2.2 Adding the Jibri node to the pool](#422-adding-the-jibri-node-to-the-pool)
+- [5- FAQ](#5-faq)
 
 ---
 
@@ -38,6 +39,7 @@ Please, don't install a desktop environment, only the standard packages...
 Reserve at least 4 cores and 8 GB RAM for each node.
 
 Run each command on this tutorial as `root`.
+
 
 ## 2. Jitsi Meet Server (JMS)
 JMS is a standalone server with conference room, video recording and streaming
@@ -107,6 +109,7 @@ To set the Let's Encrypt certificate:
 set-letsencrypt-cert meet.mydomain.com
 ```
 
+
 ## 3. Additional Jitsi Videobridge (JVB) node
 A standalone JMS installation is good for a limited size of concurrent
 conferences but the first limiting factor is the JVB component, that handles
@@ -146,6 +149,7 @@ On the JMS server:
 ```bash
 add-jvb-node 100.1.2.3
 ```
+
 
 ## 4. Additional Jibri node
 A standalone JMS installation can only record a limited number of concurrent
@@ -189,3 +193,16 @@ On the JMS server:
 ```bash
 add-jibri-node 200.7.8.9
 ```
+
+
+## 5. FAQ
+Frequently asked questions
+
+- *I’ve setup the initial JMS node successfully, but getting a 'recording
+  unavailable' error when trying to record.*
+
+At least 4 cores are required to start a `Jibri` instance. The first two cores
+are reserved for the base processes. After these two cores, one Jibri instance
+is started for each additional 2 cores.
+
+Just shutdown the machine, increase the number of cores and reboot.
