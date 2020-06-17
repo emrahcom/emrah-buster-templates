@@ -196,7 +196,7 @@ add-jibri-node 200.7.8.9
 
 
 ## 5. FAQ
-##### I’ve setup the initial JMS node successfully, but getting a 'recording unavailable' error when trying to record.
+#### # I’ve setup the initial JMS node successfully, but getting a 'recording unavailable' error when trying to record.
 
 At least 4 cores are required to start a `Jibri` instance. The first two cores
 are reserved for the base processes. After these two cores, one Jibri instance
