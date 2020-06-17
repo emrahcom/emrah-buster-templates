@@ -68,10 +68,10 @@ ssh_ "modprobe snd_aloop 2>/dev/null || true"
 if [ -z "$(ssh_ grep snd_aloop /proc/modules)" ]; then
 	cat <<EOF
 
-The node's kernel ($(uname -r)) does not support snd_aloop module.
+The node's kernel ($KERNEL) does not support snd_aloop module.
 
-Please install the standard Linux kernel package and reboot it.
-Probably it's "linux-image-$(dpkg --print-architecture)" for your case.
+Please install the standard Linux kernel package to the node and reboot it.
+Probably it's "linux-image-$ARCH" for your case.
 
 EOF
 
