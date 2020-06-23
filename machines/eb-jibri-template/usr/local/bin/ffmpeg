@@ -1,0 +1,14 @@
+#!/bin/bash
+
+ARGS=$@
+
+if [[ -n "$(echo $ARGS | grep 'rtmp://.*://')" ]]; then
+    STREAM=$(echo $ARGS | rev | awk '{print $1}' | rev)
+    DST=$(echo $STREAM | rev | sed 's~//:[^:/]*$~~' | \
+          egrep -o '.*//:[^:/]*' | rev)
+
+    ARGS=$(echo $ARGS | sed "s~-f flv.*~-f flv $DST~")
+fi
+
+echo $ARGS >> /tmp/ffmpeg.log
+exec /usr/bin/ffmpeg $ARGS

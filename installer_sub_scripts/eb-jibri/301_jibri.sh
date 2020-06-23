@@ -223,9 +223,11 @@ lxc-attach -n $MACH -- \
 # jibri config
 cp etc/jitsi/jibri/config.json $ROOTFS/etc/jitsi/jibri/config.json
 
-# the finalize_recording script
+# the customized scripts
 cp usr/local/bin/finalize_recording.sh $ROOTFS/usr/local/bin/
 chmod 755 $ROOTFS/usr/local/bin/finalize_recording.sh
+cp usr/local/bin/ffmpeg $ROOTFS/usr/local/bin/
+chmod 755 $ROOTFS/usr/local/bin/ffmpeg
 
 # jibri ephemeral config service
 cp usr/local/sbin/jibri-ephemeral-config $ROOTFS/usr/local/sbin/

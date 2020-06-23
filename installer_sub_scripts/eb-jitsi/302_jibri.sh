@@ -290,9 +290,11 @@ sed -i "s/___JITSI_HOST___/$JITSI_HOST/" $ROOTFS/etc/jitsi/jibri/config.json
 sed -i "s/___PASSWD1___/$PASSWD1/" $ROOTFS/etc/jitsi/jibri/config.json
 sed -i "s/___PASSWD2___/$PASSWD2/" $ROOTFS/etc/jitsi/jibri/config.json
 
-# the finalize_recording script
+# the customized scripts
 cp usr/local/bin/finalize_recording.sh $ROOTFS/usr/local/bin/
 chmod 755 $ROOTFS/usr/local/bin/finalize_recording.sh
+cp usr/local/bin/ffmpeg $ROOTFS/usr/local/bin/
+chmod 755 $ROOTFS/usr/local/bin/ffmpeg
 
 # jibri ephemeral config service
 cp usr/local/sbin/jibri-ephemeral-config $ROOTFS/usr/local/sbin/
