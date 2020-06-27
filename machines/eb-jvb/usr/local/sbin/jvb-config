@@ -1,5 +1,4 @@
 #!/bin/bash
 
 sed -i "/^org.jitsi.videobridge.xmpp.user.shard.MUC_NICKNAME=/ \
-     s/\(=.\{8,36\}\).*/\1-$(date +%s%3N)-$(echo $RANDOM)/" \
-     /etc/jitsi/videobridge/sip-communicator.properties
+     s/=.*/=$(uuidgen)/" /etc/jitsi/videobridge/sip-communicator.properties
