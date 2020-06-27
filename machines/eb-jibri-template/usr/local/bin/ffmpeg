@@ -5,6 +5,7 @@ ARGS=$@
 if [[ -n "$(echo $ARGS | grep 'rtmp://.*://')" ]]; then
     DST_RAW=$(echo $ARGS | rev | awk '{print $1}' | rev)
     DST=$(echo $DST_RAW | sed 's~^[^:/]*://~~' | egrep -o '[^:/]*://.*')
+    DST=$(echo $DST | sed 's~rtmps://live-api-s.facebook.com:443/~rtmp://127.0.0.1:1936/~')
 
     ARGS=$(echo $ARGS | sed "s~rtmp://.*~~")
     ARGS="$ARGS $DST"
