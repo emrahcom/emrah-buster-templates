@@ -16,7 +16,7 @@ LOOPBACK=$(aplay -l | grep "card $INSTANCE_ID:" | grep -i loopback | \
 
 
 [ -n "$INSTANCE" ] && \
-    sed -i "s/\(.*\"nickname\":\).*/\1 \"$INSTANCE-$RANDOM\"/" \
+    sed -i "s/\(.*\"nickname\":\).*/\1 \"$INSTANCE-$(date +%s%3N)-$RANDOM\"/" \
         /etc/jitsi/jibri/config.json
 [ -n "$LOOPBACK" ] && \
     sed -i "s/Loopback,/$LOOPBACK,/" /home/jibri/.asoundrc
