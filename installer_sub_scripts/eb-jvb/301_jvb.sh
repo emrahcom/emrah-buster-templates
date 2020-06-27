@@ -160,6 +160,17 @@ org.ice4j.ice.harvest.NAT_HARVESTER_LOCAL_ADDRESS=$IP
 org.ice4j.ice.harvest.NAT_HARVESTER_PUBLIC_ADDRESS=$REMOTE_IP
 EOF
 
+# jvb-config
+cp usr/local/sbin/jvb-config $ROOTFS/usr/local/sbin/
+chmod 744 $ROOTFS/usr/local/sbin/jvb-config
+cp etc/systemd/system/jvb-config.service $ROOTFS/etc/systemd/system/
+
+lxc-attach -n $MACH -- \
+    zsh -c \
+    "set -e
+     systemctl daemon-reload
+     systemctl enable jvb-config.service"
+
 # -----------------------------------------------------------------------------
 # CONTAINER SERVICES
 # -----------------------------------------------------------------------------

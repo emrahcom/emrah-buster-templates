@@ -1,0 +1,11 @@
+[Unit]
+Description=JVB Config
+After=network.target
+Before=jitsi-videobridge2.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/sbin/jvb-config
+
+[Install]
+WantedBy=multi-user.target
