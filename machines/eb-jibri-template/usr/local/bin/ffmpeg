@@ -3,11 +3,11 @@
 ARGS=$@
 
 if [[ -n "$(echo $ARGS | grep 'rtmp://.*://')" ]]; then
-    STREAM=$(echo $ARGS | rev | awk '{print $1}' | rev)
-    DST=$(echo $STREAM | rev | sed 's~//:[^:/]*$~~' | \
-          egrep -o '.*//:[^:/]*' | rev)
+    DST_RAW=$(echo $ARGS | rev | awk '{print $1}' | rev)
+    DST=$(echo $DST_RAW | sed 's~^[^:/]*://~~' | egrep -o '[^:/]*://.*')
 
-    ARGS=$(echo $ARGS | sed "s~-f flv.*~-f flv $DST~")
+    ARGS=$(echo $ARGS | sed "s~rtmp://.*~~")
+    ARGS="$ARGS $DST"
 fi
 
 echo $ARGS >> /tmp/ffmpeg.log
