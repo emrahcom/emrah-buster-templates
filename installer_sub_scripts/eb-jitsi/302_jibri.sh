@@ -134,7 +134,8 @@ lxc-attach -n $MACH -- \
      apt-get $APT_PROXY_OPTION -y --install-recommends install chromium \
          chromium-driver
      apt-get $APT_PROXY_OPTION -y --install-recommends install \
-         nvidia-openjdk-8-jre"
+         nvidia-openjdk-8-jre
+     apt-get $APT_PROXY_OPTION -y install stunnel"
 
 # jibri
 cp etc/apt/sources.list.d/jitsi-stable.list $ROOTFS/etc/apt/sources.list.d/
@@ -205,6 +206,13 @@ lxc-attach -n $MACH -- \
          /usr/lib/jvm/nvidia-java-8-openjdk-amd64/bin/java 50
      update-alternatives --set java \
          /usr/lib/jvm/nvidia-java-8-openjdk-amd64/bin/java"
+
+# stunnel
+cp etc/stunnel/facebook.conf $ROOTFS/etc/stunnel/
+lxc-attach -n $MACH -- \
+    zsh -c \
+    "set -e
+     systemctl start stunnel4.service"
 
 # -----------------------------------------------------------------------------
 # JITSI CUSTOMIZATION FOR JIBRI
