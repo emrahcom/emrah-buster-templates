@@ -186,6 +186,7 @@ lxc-attach -n $MACH -- systemctl stop nginx.service
 lxc-attach -n $MACH -- systemctl start nginx.service
 
 # certbot service
+mkdir -p $ROOTFS/etc/systemd/system/certbot.service.d
 cp ../common/etc/systemd/system/certbot.service.d/override.conf \
     $ROOTFS/etc/systemd/system/certbot.service.d/
 lxc-attach -n $MACH -- systemctl daemon-reload
