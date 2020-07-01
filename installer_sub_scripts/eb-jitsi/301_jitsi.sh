@@ -261,12 +261,6 @@ cp $MACHINES/common/usr/local/sbin/set-letsencrypt-cert $ROOTFS/usr/local/sbin/
 chmod 744 $ROOTFS/usr/local/sbin/set-letsencrypt-cert
 
 # nginx
-# dirty hack: redirect turn traffic to nginx
-sed -i '/listen .::.:4444 ssl http2;/a\
-    listen 4445 ssl http2;\
-    listen [::]:4445 ssl http2;' \
-    $ROOTFS/etc/nginx/sites-available/$JITSI_HOST.conf
-
 lxc-attach -n $MACH -- \
     zsh -c \
     "set -e
@@ -278,9 +272,16 @@ lxc-attach -n $MACH -- systemctl stop nginx.service
 lxc-attach -n $MACH -- systemctl start nginx.service
 
 # certbot service
-cp $MACHINES/common/lib/systemd/system/certbot.service \
-    $ROOTFS/lib/systemd/system/
+cp $MACHINES/common/etc/systemd/system/certbot.service.d/override.conf \
+    $ROOTFS/etc/systemd/system/certbot.service.d/
 lxc-attach -n $MACH -- systemctl daemon-reload
+
+# coturn
+lxc-attach -n $MACH -- \
+    zsh -c \
+    "set -e
+     adduser turnserver ssl-cert
+     systemctl restart coturn.service"
 
 # -----------------------------------------------------------------------------
 # JITSI
