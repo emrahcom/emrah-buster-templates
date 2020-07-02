@@ -305,6 +305,7 @@ sed -i '/DISABLE_JOIN_LEAVE_NOTIFICATIONS/s/false/true/' \
 
 # NAT harvester. these will be needed if this is an in-house server.
 cat >>$ROOTFS/etc/jitsi/videobridge/sip-communicator.properties <<EOF
+org.jitsi.videobridge.SINGLE_PORT_HARVESTER_PORT=10000
 org.ice4j.ice.harvest.NAT_HARVESTER_LOCAL_ADDRESS=$IP
 org.ice4j.ice.harvest.NAT_HARVESTER_PUBLIC_ADDRESS=$REMOTE_IP
 EOF
