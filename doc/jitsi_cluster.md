@@ -196,6 +196,75 @@ add-jibri-node 200.7.8.9
 
 
 ## 5. FAQ
+#### My kernel has no support for the snd_aloop module. How can I install the standard Linux kernel?
+
+The cloud kernel used in most cloud machines has no support for the `snd_aloop`
+module. It's easy to install the standart Linux kernel. Execute the following
+commands as `root`
+
+```
+apt-get update
+apt-get install linux-image-amd64
+```
+
+But activating this kernel can be a bit complicated in some situation. `GRUB`
+decides which kernel will be active at the next boot. If the standart Linux
+kernel is not on the top order, you need to force `GRUB` to choice the right
+kernel.
+
+First, check the `GRUB` config using the following command
+
+```
+egrep '(^\s*initrd|submenu)' /boot/grub/grub.cfg | cut -c1-80
+```
+
+If the standart kernel is on the top, there is no problem. If the standard
+kernel is under the `submenu` line, you need to force `GRUB` to choice it.
+
+Edit the `GRUB_DEFAULT` value in `/etc/default/grub`. Lets say the standart
+kernel is the third `menuentry` after the `submenu` line, the value will be
+
+```
+GRUB_DEFAULT='1>2'
+```
+
+'*1*' means the `submenu` and '*2*' means the third menuentry (start counting
+from *0*)
+
+Save the file, update the `GRUB` config and reboot
+
+```
+update-grub
+reboot
+```
+
+Check the active kernel after reboot
+
+```
+uname -a
+```
+
+But it's not completed yet. An `upgrade` can easily break the boot order. It's
+time to delete the cloud kernel package completely.
+
+```
+apt-get purge 'linux-image-*cloud*'
+```
+
+Now, we can set the default value for `GRUB_DEFAULT` again.
+In `/etc/default/grub`
+
+```
+GRUB_DEFAULT=0
+```
+
+Save the file, update the `GRUB` config and reboot again.
+
+```
+update-grub
+reboot
+```
+
 #### I’ve setup the initial JMS node successfully, but getting a 'recording unavailable' error when trying to record.
 
 At least 4 cores are required to start a `Jibri` instance. The first two cores
