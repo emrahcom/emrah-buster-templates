@@ -9,14 +9,21 @@
 # -----------------------------------------------------------------------------
 INSTANCE=$(hostname)
 [[ "$INSTANCE" = "eb-jibri-template" ]] && exit 0
+[[ -z "$INSTANCE" ]] && exit 0
 
+# the random generated nickname for the Jibri client
+sed -i "s/\(.*\"nickname\":\).*/\1 \"$INSTANCE-$(date +%s%3N)-$RANDOM\"/" \
+    /etc/jitsi/jibri/config.json
+
+# find the suitable Loopback device for this instance
 (( INSTANCE_ID = $(hostname | egrep -o '[0-9]+$') + 0 ))
-LOOPBACK=$(aplay -l | grep "card $INSTANCE_ID:" | grep -i loopback | \
-           cut -d ' ' -f3 | uniq)
+HEX_ID=$(printf '%X' $INSTANCE_ID)
+LOOPBACK=$(ls /proc/asound | egrep "^Loopback_$HEX_ID$")
+[ -z "$LOOPBACK" ] && exit 0
 
+# exit if already changed
+[[ -n "$(egrep 'Loopback_.*_1' /home/jibri/.asoundrc || true)" ]] && exit 0
 
-[ -n "$INSTANCE" ] && \
-    sed -i "s/\(.*\"nickname\":\).*/\1 \"$INSTANCE-$(date +%s%3N)-$RANDOM\"/" \
-        /etc/jitsi/jibri/config.json
-[ -n "$LOOPBACK" ] && \
-    sed -i "s/Loopback,/$LOOPBACK,/" /home/jibri/.asoundrc
+# set the loopback device
+sed -i "s/Loopback_1,/${LOOPBACK}_1,/" /home/jibri/.asoundrc
+sed -i "s/Loopback,/$LOOPBACK,/" /home/jibri/.asoundrc
