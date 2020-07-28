@@ -306,3 +306,9 @@ files are in the subfolders of this folder.
 ```bash
 ls -alh /usr/local/eb/recordings/*
 ```
+
+#### Is it possible to broadcast to a stream server other than Youtube?
+
+Jibri can only stream to Youtube but there is a little customization on
+`eb-jitsi`. So It is possible to stream to any RTMP server from `eb-jitsi`.
+Just use the full RTMP address as the stream key.
