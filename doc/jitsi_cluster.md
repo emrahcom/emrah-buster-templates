@@ -131,7 +131,7 @@ If `openssh-server` is not installed on the JVB node, install it first!
 
 ```bash
 apt-get -y --allow-releaseinfo-change update
-apt-get install openssh-server
+apt-get install openssh-server curl
 ```
 
 Add the JMS public key to the JVB node.
@@ -139,7 +139,7 @@ Add the JMS public key to the JVB node.
 ```bash
 mkdir -p /root/.ssh
 chmod 700 /root/.ssh
-wget -O - https://meet.mydomain.com/static/jms.pub >> /root/.ssh/authorized_keys
+curl https://meet.mydomain.com/static/jms.pub >> /root/.ssh/authorized_keys
 ```
 
 ##### 3.2.2 Adding the JVB node to the pool
@@ -175,7 +175,7 @@ If `openssh-server` is not installed on the Jibri node, install it first!
 
 ```bash
 apt-get -y --allow-releaseinfo-change update
-apt-get install openssh-server
+apt-get install openssh-server curl
 ```
 
 Add the JMS public key to the Jibri node.
@@ -183,7 +183,7 @@ Add the JMS public key to the Jibri node.
 ```bash
 mkdir -p /root/.ssh
 chmod 700 /root/.ssh
-wget -O - https://meet.mydomain.com/static/jms.pub >> /root/.ssh/authorized_keys
+curl https://meet.mydomain.com/static/jms.pub >> /root/.ssh/authorized_keys
 ```
 
 ##### 4.2.2 Adding the Jibri node to the pool
