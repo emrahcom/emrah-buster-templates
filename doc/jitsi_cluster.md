@@ -265,6 +265,15 @@ update-grub
 reboot
 ```
 
+#### How can I change the Jitsi config?
+First, connect to the Jitsi container `eb-jitsi` then edit the config files.
+
+```bash
+lxc-attach -n eb-jitsi
+cd /etc/jitsi
+ls
+```
+
 #### I’ve setup the initial JMS node successfully, but getting a 'recording unavailable' error when trying to record.
 
 At least 4 cores are required to start a `Jibri` instance. The first two cores
@@ -286,4 +295,14 @@ Use the related `systemd` service.
 ```bash
 systemctl stop jibri-ephemeral-container.service
 systemctl start jibri-ephemeral-container.service
+```
+
+#### Where are the recorded files?
+
+Jibri creates a randomly named folder for each recording and puts the MP4
+file in it. The recording folder is `/usr/local/eb/recordings` and the MP4
+files are in the subfolders of this folder.
+
+```bash
+ls -alh /usr/local/eb/recordings/*
 ```
