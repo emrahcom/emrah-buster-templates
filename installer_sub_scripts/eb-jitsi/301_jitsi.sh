@@ -262,17 +262,6 @@ lxc-attach -n $MACH -- \
 cp $MACHINES/common/usr/local/sbin/set-letsencrypt-cert $ROOTFS/usr/local/sbin/
 chmod 744 $ROOTFS/usr/local/sbin/set-letsencrypt-cert
 
-# nginx
-lxc-attach -n $MACH -- \
-    zsh -c \
-    "set -e
-     rm /etc/nginx/sites-enabled/default
-     rm -rf /var/www/html
-     ln -s /usr/share/jitsi-meet /var/www/html"
-
-lxc-attach -n $MACH -- systemctl stop nginx.service
-lxc-attach -n $MACH -- systemctl start nginx.service
-
 # certbot service
 mkdir -p $ROOTFS/etc/systemd/system/certbot.service.d
 cp $MACHINES/common/etc/systemd/system/certbot.service.d/override.conf \
@@ -282,7 +271,7 @@ echo 'ExecStartPost=systemctl restart coturn.service' >> \
 lxc-attach -n $MACH -- systemctl daemon-reload
 
 # coturn
-sed "s~^\(external-ip=[0-9.]*\)~\1/$IP~" $ROOTFS/etc/turnserver.conf
+sed -i "s~^\(external-ip=[0-9.]*\)~\1/$IP~" $ROOTFS/etc/turnserver.conf
 cat >>$ROOTFS/etc/turnserver.conf <<EOF
 # the following lines added by eb-jitsi
 listening-ip=127.0.0.1
@@ -295,6 +284,25 @@ lxc-attach -n $MACH -- \
     "set -e
      adduser turnserver ssl-cert
      systemctl restart coturn.service"
+
+# nginx
+mkdir -p $ROOTFS/usr/local/share/nginx/modules-available
+cp usr/local/share/nginx/modules-available/jitsi-meet.conf \
+    $ROOTFS/usr/local/share/nginx/modules-available/
+sed -i '/server_name\s\+/ s/;/ turn.mydomain.com;/' \
+    $ROOTFS/etc/nginx/sites-available/$JITSI_HOST.conf
+lxc-attach -n $MACH -- \
+    zsh -c \
+    "set -e
+     rm /etc/nginx/modules-enabled/60-jitsi-meet.conf
+     ln -s /usr/local/share/nginx/modules-available/jitsi-meet.conf \
+         /etc/nginx/modules-enabled/60-jitsi-meet-custom.conf
+     rm /etc/nginx/sites-enabled/default
+     rm -rf /var/www/html
+     ln -s /usr/share/jitsi-meet /var/www/html"
+
+lxc-attach -n $MACH -- systemctl stop nginx.service
+lxc-attach -n $MACH -- systemctl start nginx.service
 
 # -----------------------------------------------------------------------------
 # JITSI
