@@ -273,6 +273,7 @@ lxc-attach -n $MACH -- systemctl daemon-reload
 # coturn
 sed -i "s~^\(external-ip=[0-9.]*\)~\1/$IP~" $ROOTFS/etc/turnserver.conf
 cat >>$ROOTFS/etc/turnserver.conf <<EOF
+
 # the following lines added by eb-jitsi
 listening-ip=127.0.0.1
 allowed-peer-ip=$IP
@@ -286,7 +287,7 @@ lxc-attach -n $MACH -- \
      systemctl restart coturn.service"
 
 # prosody
-sed -i "/turns.*443.*tcp/ s/host\s*=[^,]*/host = \"$JITSI_HOST\"/" \
+sed -i "/turns.*443.*tcp/ s/host\s*=[^,]*/host = \"turn.mydomain.com\"/" \
     $ROOTFS/etc/prosody/conf.avail/$JITSI_HOST.cfg.lua
 lxc-attach -n $MACH -- systemctl reload prosody.service
 
