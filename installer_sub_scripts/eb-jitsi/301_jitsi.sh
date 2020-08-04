@@ -282,6 +282,14 @@ echo 'ExecStartPost=systemctl restart coturn.service' >> \
 lxc-attach -n $MACH -- systemctl daemon-reload
 
 # coturn
+sed "s~^\(external-ip=[0-9.]*\)~\1/$IP~" $ROOTFS/etc/turnserver.conf
+cat >>$ROOTFS/etc//etc/turnserver.conf <<EOF
+# the following lines added by eb-jitsi
+listening-ip=127.0.0.1
+allowed-peer-ip=$IP
+no-udp
+EOF
+
 lxc-attach -n $MACH -- \
     zsh -c \
     "set -e
