@@ -285,6 +285,11 @@ lxc-attach -n $MACH -- \
      adduser turnserver ssl-cert
      systemctl restart coturn.service"
 
+# prosody
+sed -i "/turns.*443.*tcp/ s/host\s*=[^,]*/host = \"$JITSI_HOST\"/" \
+    $ROOTFS/etc/prosody/conf.avail/$JITSI_HOST.cfg.lua
+lxc-attach -n $MACH -- systemctl reload prosody.service
+
 # nginx
 mkdir -p $ROOTFS/usr/local/share/nginx/modules-available
 cp usr/local/share/nginx/modules-available/jitsi-meet.conf \
