@@ -277,6 +277,8 @@ lxc-attach -n $MACH -- systemctl start nginx.service
 mkdir -p $ROOTFS/etc/systemd/system/certbot.service.d
 cp $MACHINES/common/etc/systemd/system/certbot.service.d/override.conf \
     $ROOTFS/etc/systemd/system/certbot.service.d/
+echo 'ExecStartPost=systemctl restart coturn.service' >> \
+    $ROOTFS/etc/systemd/system/certbot.service.d/override.conf
 lxc-attach -n $MACH -- systemctl daemon-reload
 
 # coturn
