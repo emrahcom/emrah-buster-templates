@@ -223,6 +223,7 @@ subjectAltName = @alt_names
 EOF
 
 echo "DNS.1 = $JITSI_HOST" >>ssl_eb_jitsi.ext
+echo "DNS.2 = $TURN_HOST" >>ssl_eb_jitsi.ext
 echo "IP.1 = $REMOTE_IP" >>ssl_eb_jitsi.ext
 echo "IP.2 = $IP" >>ssl_eb_jitsi.ext
 
@@ -287,7 +288,7 @@ lxc-attach -n $MACH -- \
      systemctl restart coturn.service"
 
 # prosody
-sed -i "/turns.*443.*tcp/ s/host\s*=[^,]*/host = \"turn.mydomain.com\"/" \
+sed -i "/turns.*443.*tcp/ s/host\s*=[^,]*/host = \"$TURN_HOST\"/" \
     $ROOTFS/etc/prosody/conf.avail/$JITSI_HOST.cfg.lua
 lxc-attach -n $MACH -- systemctl reload prosody.service
 
@@ -295,7 +296,9 @@ lxc-attach -n $MACH -- systemctl reload prosody.service
 mkdir -p $ROOTFS/usr/local/share/nginx/modules-available
 cp usr/local/share/nginx/modules-available/jitsi-meet.conf \
     $ROOTFS/usr/local/share/nginx/modules-available/
-sed -i '/server_name\s\+/ s/;/ turn.mydomain.com;/' \
+sed -i "s/___TURN_HOST___/$TURN_HOST/" \
+    $ROOTFS/usr/local/share/nginx/modules-available/jitsi-meet.conf
+sed -i "/server_name\s\+/ s/;/ $TURN_HOST;/" \
     $ROOTFS/etc/nginx/sites-available/$JITSI_HOST.conf
 lxc-attach -n $MACH -- \
     zsh -c \
