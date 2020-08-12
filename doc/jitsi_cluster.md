@@ -5,12 +5,13 @@ Easy way to create a Jitsi cluster based on Debian Buster
 - [1. About](#1-about)
 - [2. Jitsi Meet Server (JMS)](#2-jitsi-meet-server-jms)
   - [2.1 Prerequisites](#21-prerequisites)
-    - [2.1.1 DNS A record](#211-dns-a-record)
-    - [2.1.2 The snd_aloop module](#212-the-snd_aloop-module)
-    - [2.1.3 Public ports](#213-public-ports)
+    - [2.1.1 DNS record for JMS](#211-dns-record-for-jms)
+    - [2.1.2 DNS record for TURN](#212-dns-record-for-turn)
+    - [2.1.3 The snd_aloop module](#213-the-snd_aloop-module)
+    - [2.1.4 Public ports](#214-public-ports)
   - [2.2 Installing JMS](#22-installing-jms)
     - [2.2.1 Downloading the installer](#221-downloading-the-installer)
-    - [2.2.2 Setting the host address](#222-setting-the-host-address)
+    - [2.2.2 Setting the host addresses](#222-setting-the-host-addresses)
     - [2.2.3 Running the installer](#223-running-the-installer)
     - [2.2.4 Let's Encrypt certificate](#224-lets-encrypt-certificate)
 - [3. Additional Jitsi Videobridge (JVB) node](#3-additional-jitsi-videobridge-jvb-node)
@@ -51,12 +52,37 @@ Additional JVB and Jibri nodes can be added in the future if needed.
 #### 2.1 Prerequisites
 Complete the following steps before starting the JMS installation.
 
-##### 2.1.1 DNS A record
-A resolvable host address is required for the JMS server and this address
-should point to this server. Therefore, create the DNS `A record` before
-starting the installation.
+##### 2.1.1 DNS record for JMS
+A resolvable host address is required for JMS and this address should point to
+this server. Therefore, create the DNS `A record` for JMS before starting the
+installation.
 
-##### 2.1.2 The snd_aloop module
+Let's say the host address of JMS is `meet.mydomain.com` then the following
+command should resolv the server IP address:
+
+```bash
+host meet.mydomain.com
+
+>>> meet.mydomain.com has address 1.2.3.4
+```
+
+##### 2.1.2 DNS record for TURN
+A resolvable host address is required for TURN and this address should point to
+this server. Therefore, create the DNS `CNAME record` for TURN before starting
+the installation. The `CNAME record` should be an alias for JMS which is
+`meet.mydomain.com` in our example.
+
+Let's say the host address of TURN is `turn.mydomain.com` then the following
+command should resolv the server IP address:
+
+```bash
+host turn.mydomain.com
+
+>>> turn.mydomain.com is an alias for meet.mydomain.com.
+>>> meet.mydomain.com has address 1.2.3.4
+```
+
+##### 2.1.3 The snd_aloop module
 JMS needs the `snd_aloop` kernel module but some cloud computers have a kernel
 that doesn't support it. In this case, first install the standart Linux kernel
 and reboot the node with this kernel.
@@ -68,7 +94,7 @@ an output, it means that the kernel doesn't support it.
 modprobe snd_aloop
 ```
 
-##### 2.1.3 Public ports
+##### 2.1.4 Public ports
 If the JMS server is behind a firewall, open the following ports:
 
 * TCP/80
@@ -87,11 +113,13 @@ wget https://raw.githubusercontent.com/emrahcom/emrah-buster-base/master/install
 wget https://raw.githubusercontent.com/emrahcom/emrah-buster-templates/master/installer/eb-jitsi.conf
 ```
 
-##### 2.2.2 Setting the host address
-Set the host address on the installer config file `eb-jitsi.conf`. This must be
-an FQDN, not IP address... Let's say the host address is `meet.mydomain.com`
+##### 2.2.2 Setting the host addresses
+Set the host addresses on the installer config file `eb-jitsi.conf`. The host
+addresses must be FQDN, not IP address... Let's say the host address of JMS is
+`meet.mydomain.com` and the host address of TURN is `turn.mydomain.com`
 
 ```bash
+echo export TURN_HOST=turn.mydomain.com >> eb-jitsi.conf
 echo export JITSI_HOST=meet.mydomain.com >> eb-jitsi.conf
 ```
 
@@ -102,11 +130,11 @@ bash eb eb-jitsi
 ```
 
 ##### 2.2.4 Let's Encrypt certificate
-Let's say the host address is `meet.mydomain.com`
-To set the Let's Encrypt certificate:
+Let's say the host address of JMS is `meet.mydomain.com` and the host address
+of TURN is `turn.mydomain.com`. To set the Let's Encrypt certificate:
 
 ```bash
-set-letsencrypt-cert meet.mydomain.com
+set-letsencrypt-cert meet.mydomain.com,turn.mydomain.com
 ```
 
 
@@ -265,12 +293,21 @@ update-grub
 reboot
 ```
 
-#### How can I change the Jitsi config?
+#### How can I change the Jitsi config on JMS?
 First, connect to the Jitsi container `eb-jitsi` then edit the config files.
 
 ```bash
 lxc-attach -n eb-jitsi
 cd /etc/jitsi
+ls
+```
+
+#### How can I change the videobridge config on the additional JVB?
+First, connect to the JVB container `eb-jvb` then edit the config files.
+
+```bash
+lxc-attach -n eb-jvb
+cd /etc/jitsi/videobridge
 ls
 ```
 
