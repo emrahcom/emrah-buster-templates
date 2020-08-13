@@ -14,6 +14,7 @@ Easy way to create a Jitsi cluster based on Debian Buster
     - [2.2.2 Setting the host addresses](#222-setting-the-host-addresses)
     - [2.2.3 Running the installer](#223-running-the-installer)
     - [2.2.4 Let's Encrypt certificate](#224-lets-encrypt-certificate)
+    - [2.2.5 Reboot](#225-reboot)
 - [3. Additional Jitsi Videobridge (JVB) node](#3-additional-jitsi-videobridge-jvb-node)
   - [3.1 Prerequisites](#31-prerequisites)
     - [3.1.1 Public ports](#311-public-ports)
@@ -135,6 +136,13 @@ of TURN is `turn.mydomain.com`. To set the Let's Encrypt certificate:
 
 ```bash
 set-letsencrypt-cert meet.mydomain.com,turn.mydomain.com
+```
+
+##### 2.2.5 Reboot
+Reboot the server
+
+```bash
+reboot
 ```
 
 
