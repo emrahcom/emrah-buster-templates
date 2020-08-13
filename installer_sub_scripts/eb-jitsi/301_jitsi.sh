@@ -276,7 +276,7 @@ sed -i "s~^\(external-ip=[0-9.]*\)~\1/$IP~" $ROOTFS/etc/turnserver.conf
 cat >>$ROOTFS/etc/turnserver.conf <<EOF
 
 # the following lines added by eb-jitsi
-listening-ip=127.0.0.1
+listening-ip=$IP
 allowed-peer-ip=$IP
 no-udp
 EOF
@@ -296,6 +296,8 @@ lxc-attach -n $MACH -- systemctl reload prosody.service
 mkdir -p $ROOTFS/usr/local/share/nginx/modules-available
 cp usr/local/share/nginx/modules-available/jitsi-meet.conf \
     $ROOTFS/usr/local/share/nginx/modules-available/
+sed -i "s/___LOCAL_IP___/$IP/" \
+    $ROOTFS/usr/local/share/nginx/modules-available/jitsi-meet.conf
 sed -i "s/___TURN_HOST___/$TURN_HOST/" \
     $ROOTFS/usr/local/share/nginx/modules-available/jitsi-meet.conf
 sed -i "/server_name\s\+/ s/;/ $TURN_HOST;/" \
