@@ -272,7 +272,7 @@ echo 'ExecStartPost=systemctl restart coturn.service' >> \
 lxc-attach -n $MACH -- systemctl daemon-reload
 
 # coturn
-sed -i "s~^\(external-ip=[0-9.]*\)~\1/$IP~" $ROOTFS/etc/turnserver.conf
+sed -i "s/^external-ip=/#external-ip=/" $ROOTFS/etc/turnserver.conf
 cat >>$ROOTFS/etc/turnserver.conf <<EOF
 
 # the following lines added by eb-jitsi
