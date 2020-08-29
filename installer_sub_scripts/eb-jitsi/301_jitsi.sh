@@ -191,8 +191,7 @@ lxc-attach -n $MACH -- \
 # -----------------------------------------------------------------------------
 # EXTERNAL IP
 # -----------------------------------------------------------------------------
-EXTERNAL_IP=$(egrep -o "^external-ip=[0-9.]*" $ROOTFS/etc/turnserver.conf | \
-               cut -d = -f2 | head -n1)
+EXTERNAL_IP=$(dig -4 +short myip.opendns.com a @resolver1.opendns.com) || true
 echo EXTERNAL_IP="$EXTERNAL_IP" >> $INSTALLER/000_source
 
 # -----------------------------------------------------------------------------
