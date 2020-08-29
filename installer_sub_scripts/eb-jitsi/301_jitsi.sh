@@ -189,6 +189,13 @@ lxc-attach -n $MACH -- \
      apt-get $APT_PROXY_OPTION -y --install-recommends install jitsi-meet"
 
 # -----------------------------------------------------------------------------
+# EXTERNAL IP
+# -----------------------------------------------------------------------------
+EXTERNAL_IP=$(egrep -o "^external-ip=[0-9.]*" /etc/turnserver.conf | \
+               cut -d = -f2 | head -n1)
+echo EXTERNAL_IP="$EXTERNAL_IP" >> $INSTALLER/000_source
+
+# -----------------------------------------------------------------------------
 # JMS SSH KEY
 # -----------------------------------------------------------------------------
 mkdir -p /root/.ssh
@@ -224,8 +231,9 @@ EOF
 
 echo "DNS.1 = $JITSI_HOST" >>ssl_eb_jitsi.ext
 echo "DNS.2 = $TURN_HOST" >>ssl_eb_jitsi.ext
-echo "IP.1 = $REMOTE_IP" >>ssl_eb_jitsi.ext
-echo "IP.2 = $IP" >>ssl_eb_jitsi.ext
+echo "IP.1 = $EXTERNAL_IP" >>ssl_eb_jitsi.ext
+echo "IP.2 = $REMOTE_IP" >>ssl_eb_jitsi.ext
+echo "IP.3 = $IP" >>ssl_eb_jitsi.ext
 
 # the domain key and the domain certificate
 openssl req -nodes -newkey rsa:2048 \
@@ -335,10 +343,14 @@ sed -i '/DISABLE_JOIN_LEAVE_NOTIFICATIONS/s/false/true/' \
     $ROOTFS/usr/share/jitsi-meet/interface_config.js
 
 # NAT harvester. these will be needed if this is an in-house server.
+[[ -n "$EXTERNAL_IP" ]] && \
+    PUBLIC_IP=$EXTERNAL_IP || \
+    PUBLIC_IP=$REMOTE_IP
+
 cat >>$ROOTFS/etc/jitsi/videobridge/sip-communicator.properties <<EOF
 org.jitsi.videobridge.SINGLE_PORT_HARVESTER_PORT=10000
-#org.ice4j.ice.harvest.NAT_HARVESTER_LOCAL_ADDRESS=$IP
-#org.ice4j.ice.harvest.NAT_HARVESTER_PUBLIC_ADDRESS=$REMOTE_IP
+org.ice4j.ice.harvest.NAT_HARVESTER_LOCAL_ADDRESS=$IP
+org.ice4j.ice.harvest.NAT_HARVESTER_PUBLIC_ADDRESS=$PUBLIC_IP
 EOF
 
 # -----------------------------------------------------------------------------
