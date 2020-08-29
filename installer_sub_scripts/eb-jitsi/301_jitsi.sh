@@ -230,9 +230,11 @@ EOF
 
 echo "DNS.1 = $JITSI_HOST" >>ssl_eb_jitsi.ext
 echo "DNS.2 = $TURN_HOST" >>ssl_eb_jitsi.ext
-echo "IP.1 = $EXTERNAL_IP" >>ssl_eb_jitsi.ext
+echo "IP.1 = $IP" >>ssl_eb_jitsi.ext
 echo "IP.2 = $REMOTE_IP" >>ssl_eb_jitsi.ext
-echo "IP.3 = $IP" >>ssl_eb_jitsi.ext
+[[ -n "$EXTERNAL_IP" ]] && [[ "$EXTERNAL_IP" != "$REMOTE_IP" ]] && \
+    echo "IP.3 = $EXTERNAL_IP" >>ssl_eb_jitsi.ext || \
+    true
 
 # the domain key and the domain certificate
 openssl req -nodes -newkey rsa:2048 \
