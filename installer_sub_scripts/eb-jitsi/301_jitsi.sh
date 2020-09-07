@@ -343,6 +343,10 @@ sed -i 's~//\s*requireDisplayName:.*~requireDisplayName: true,~' \
 sed -i '/DISABLE_JOIN_LEAVE_NOTIFICATIONS/s/false/true/' \
     $ROOTFS/usr/share/jitsi-meet/interface_config.js
 
+# colibri
+sed -i '/^JVB_OPTS/ s/--apis=/--apis=rest/' \
+    $ROOTFS/etc/jitsi/videobridge/config
+
 # NAT harvester. these will be needed if this is an in-house server.
 [[ -n "$EXTERNAL_IP" ]] && \
     PUBLIC_IP=$EXTERNAL_IP || \

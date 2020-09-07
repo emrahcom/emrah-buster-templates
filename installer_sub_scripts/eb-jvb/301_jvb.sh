@@ -156,6 +156,10 @@ cat >>$ROOTFS/etc/jitsi/videobridge/sip-communicator.properties <<EOF
 org.jitsi.videobridge.xmpp.user.shard.DISABLE_CERTIFICATE_VERIFICATION=true
 EOF
 
+# colibri
+sed -i '/^JVB_OPTS/ s/--apis=/--apis=rest/' \
+    $ROOTFS/etc/jitsi/videobridge/config
+
 # NAT harvester. theese will be needed if this is an in-house server.
 cat >>$ROOTFS/etc/jitsi/videobridge/sip-communicator.properties <<EOF
 org.jitsi.videobridge.SINGLE_PORT_HARVESTER_PORT=10000
