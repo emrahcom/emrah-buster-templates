@@ -195,7 +195,7 @@ lxc-attach -n $MACH -- \
     "set -e
      export DEBIAN_FRONTEND=noninteractive
      apt-get -y --allow-releaseinfo-change update
-     apt-get $APT_PROXY_OPTION -y libssl1.0-dev
+     apt-get $APT_PROXY_OPTION -y install libssl1.0-dev
      apt-get $APT_PROXY_OPTION -y install luarocks liblua5.2-dev
      apt-get $APT_PROXY_OPTION -y install gcc git"
 
