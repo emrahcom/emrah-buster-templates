@@ -374,6 +374,11 @@ sed -i '/DISABLE_JOIN_LEAVE_NOTIFICATIONS/s/false/true/' \
 sed -i '/^JVB_OPTS/ s/--apis=/--apis=rest/' \
     $ROOTFS/etc/jitsi/videobridge/config
 
+cat >>$ROOTFS/etc/jitsi/videobridge/sip-communicator.properties <<EOF
+org.jitsi.videobridge.rest.private.jetty.port=8080
+org.jitsi.videobridge.rest.private.jetty.host=0.0.0.0
+EOF
+
 # NAT harvester. these will be needed if this is an in-house server.
 [[ -n "$EXTERNAL_IP" ]] && \
     PUBLIC_IP=$EXTERNAL_IP || \

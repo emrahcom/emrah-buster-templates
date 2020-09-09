@@ -160,6 +160,11 @@ EOF
 sed -i '/^JVB_OPTS/ s/--apis=/--apis=rest/' \
     $ROOTFS/etc/jitsi/videobridge/config
 
+cat >>$ROOTFS/etc/jitsi/videobridge/sip-communicator.properties <<EOF
+org.jitsi.videobridge.rest.private.jetty.port=8080
+org.jitsi.videobridge.rest.private.jetty.host=0.0.0.0
+EOF
+
 # NAT harvester. theese will be needed if this is an in-house server.
 cat >>$ROOTFS/etc/jitsi/videobridge/sip-communicator.properties <<EOF
 org.jitsi.videobridge.SINGLE_PORT_HARVESTER_PORT=10000
