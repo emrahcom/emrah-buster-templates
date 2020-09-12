@@ -361,7 +361,7 @@ Just use the full RTMP address as the stream key.
 #### What does 'sed error' mean while adding an additional Jibri node?
 
 The `jibri` config file was changed a while ago and the installer started to
-use the new `jibri' config file for the new installation. But if your `JMS` was
+use the new `jibri` config file for the new installation. But if your `JMS` was
 installed before this change, you will get the following error message while
 adding an additional `Jibri` node:
 
