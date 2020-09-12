@@ -110,8 +110,7 @@ ssh_ apt-get -y install wget
 ssh_ wget $INSTALLER -O /tmp/eb
 ssh_ wget $INSTALLER_CONFIG -O /tmp/eb-jibri.conf
 
-ssh_ sed -i \"s/^export JITSI_HOST=.*/export JITSI_HOST=$JITSI_HOST/\" \
-    /tmp/eb-jibri.conf
+ssh_ "echo export JITSI_HOST=$JITSI_HOST >>/tmp/eb-jibri.conf"
 ssh_ "cd /tmp && bash eb eb-jibri"
 
 

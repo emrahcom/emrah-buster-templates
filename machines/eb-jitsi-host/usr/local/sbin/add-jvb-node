@@ -69,6 +69,7 @@ SHARD_PASSWD=$(egrep '^org.jitsi.videobridge.xmpp.user.shard.PASSWORD' \
 	     $JITSI_ROOTFS/etc/jitsi/videobridge/sip-communicator.properties | \
              cut -d '=' -f2)
 
+
 # -----------------------------------------------------------------------------
 # installation
 # -----------------------------------------------------------------------------
@@ -77,8 +78,7 @@ ssh_ apt-get -y install wget
 ssh_ wget $INSTALLER -O /tmp/eb
 ssh_ wget $INSTALLER_CONFIG -O /tmp/eb-jvb.conf
 
-ssh_ sed -i \"s/^export JITSI_HOST=.*/export JITSI_HOST=$JITSI_HOST/\" \
-    /tmp/eb-jvb.conf
+ssh_ "echo export JITSI_HOST=$JITSI_HOST >>/tmp/eb-jvb.conf"
 ssh_ "cd /tmp && bash eb eb-jvb"
 
 
@@ -97,6 +97,7 @@ ssh_ sed -i \"s/^JVB_SECRET=.*/JVB_SECRET=$JVB_SECRET/\" \
 
 ssh_ lxc-attach -n eb-jvb systemctl stop jitsi-videobridge2.service
 ssh_ lxc-attach -n eb-jvb systemctl start jitsi-videobridge2.service
+
 
 # -----------------------------------------------------------------------------
 # completed
