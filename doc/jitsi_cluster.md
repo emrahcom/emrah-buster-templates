@@ -232,7 +232,7 @@ add-jibri-node 200.7.8.9
 
 
 ## 5. FAQ
-#### * My kernel has no support for the snd_aloop module. How can I install the standard Linux kernel?
+#### # My kernel has no support for the snd_aloop module. How can I install the standard Linux kernel?
 
 The cloud kernel used in most cloud machines has no support for the `snd_aloop`
 module. It's easy to install the standart Linux kernel on a Debian system.
