@@ -89,7 +89,7 @@ if [[ -f $JIBRI_ROOTFS/etc/jitsi/jibri/jibri.conf ]]; then
     PASSWD1=$(sed -n '/\s*control-login\s*{/,/}/p' \
                      $JIBRI_ROOTFS/etc/jitsi/jibri/jibri.conf | \
               egrep '\s*password\s*=' | cut -d'"' -f2 | xargs)
-    PASSWD1=$(sed -n '/\s*call-login\s*{/,/}/p' \
+    PASSWD2=$(sed -n '/\s*call-login\s*{/,/}/p' \
                      $JIBRI_ROOTFS/etc/jitsi/jibri/jibri.conf | \
               egrep '\s*password\s*=' | cut -d'"' -f2 | xargs)
 else
