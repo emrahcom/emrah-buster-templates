@@ -82,7 +82,7 @@ fi
 # -----------------------------------------------------------------------------
 # cluster related parameters
 # -----------------------------------------------------------------------------
-if [ -f /etc/jitsi/jibri/jibri.conf ]; then
+if [[ -f /etc/jitsi/jibri/jibri.conf ]]; then
     JITSI_HOST=$(egrep '\s*xmpp-domain\s*=' \
                      $JIBRI_ROOTFS/etc/jitsi/jibri/jibri.conf | \
                  cut -d'"' -f2 | xargs)
