@@ -293,10 +293,10 @@ lxc-attach -n $MACH -- \
      chown jibri:jibri /home/jibri/.pki -R"
 
 # jibri config
-cp etc/jitsi/jibri/config.json $ROOTFS/etc/jitsi/jibri/config.json
-sed -i "s/___JITSI_HOST___/$JITSI_HOST/" $ROOTFS/etc/jitsi/jibri/config.json
-sed -i "s/___PASSWD1___/$PASSWD1/" $ROOTFS/etc/jitsi/jibri/config.json
-sed -i "s/___PASSWD2___/$PASSWD2/" $ROOTFS/etc/jitsi/jibri/config.json
+cp etc/jitsi/jibri/jibri.conf $ROOTFS/etc/jitsi/jibri/
+sed -i "s/___JITSI_HOST___/$JITSI_HOST/" $ROOTFS/etc/jitsi/jibri/jibri.conf
+sed -i "s/___PASSWD1___/$PASSWD1/" $ROOTFS/etc/jitsi/jibri/jibri.conf
+sed -i "s/___PASSWD2___/$PASSWD2/" $ROOTFS/etc/jitsi/jibri/jibri.conf
 
 # the customized scripts
 cp usr/local/bin/finalize_recording.sh $ROOTFS/usr/local/bin/

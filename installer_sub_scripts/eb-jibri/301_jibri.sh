@@ -230,7 +230,7 @@ lxc-attach -n $MACH -- \
      chown jibri:jibri /home/jibri/.pki -R"
 
 # jibri config
-cp etc/jitsi/jibri/config.json $ROOTFS/etc/jitsi/jibri/config.json
+cp etc/jitsi/jibri/jibri.conf $ROOTFS/etc/jitsi/jibri/
 
 # the customized scripts
 cp usr/local/bin/finalize_recording.sh $ROOTFS/usr/local/bin/

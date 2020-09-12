@@ -82,12 +82,24 @@ fi
 # -----------------------------------------------------------------------------
 # cluster related parameters
 # -----------------------------------------------------------------------------
-JITSI_HOST=$(egrep -v '//.*' $JIBRI_ROOTFS/etc/jitsi/jibri/config.json | \
-          jq '.xmpp_environments[0].xmpp_domain' | xargs)
-PASSWD1=$(egrep -v '//.*' $JIBRI_ROOTFS/etc/jitsi/jibri/config.json | \
-          jq '.xmpp_environments[0].control_login.password' | xargs)
-PASSWD2=$(egrep -v '//.*' $JIBRI_ROOTFS/etc/jitsi/jibri/config.json | \
-          jq '.xmpp_environments[0].call_login.password' | xargs)
+if [ -f /etc/jitsi/jibri/jibri.conf ]; then
+    JITSI_HOST=$(egrep '\s*xmpp-domain\s*=' \
+                     $JIBRI_ROOTFS/etc/jitsi/jibri/jibri.conf | \
+                 cut -d'"' -f2 | xargs)
+    PASSWD1=$(sed -n '/\s*control-login\s*{/,/}/p' \
+                     $JIBRI_ROOTFS/etc/jitsi/jibri/jibri.conf | \
+              egrep '\s*password\s*=' | cut -d'"' -f2 | xargs)
+    PASSWD1=$(sed -n '/\s*call-login\s*{/,/}/p' \
+                     $JIBRI_ROOTFS/etc/jitsi/jibri/jibri.conf | \
+              egrep '\s*password\s*=' | cut -d'"' -f2 | xargs)
+else
+    JITSI_HOST=$(egrep -v '//.*' $JIBRI_ROOTFS/etc/jitsi/jibri/config.json | \
+              jq '.xmpp_environments[0].xmpp_domain' | xargs)
+    PASSWD1=$(egrep -v '//.*' $JIBRI_ROOTFS/etc/jitsi/jibri/config.json | \
+              jq '.xmpp_environments[0].control_login.password' | xargs)
+    PASSWD2=$(egrep -v '//.*' $JIBRI_ROOTFS/etc/jitsi/jibri/config.json | \
+              jq '.xmpp_environments[0].call_login.password' | xargs)
+fi
 
 
 # -----------------------------------------------------------------------------
@@ -112,11 +124,11 @@ ssh_ "cd /tmp && bash eb eb-jibri"
 scp_ $JITSI_ROOTFS/usr/local/share/ca-certificates/jms-CA.crt \
     $JIBRI_ROOTFS/usr/local/share/ca-certificates/
 ssh_ sed -i \"s/___JITSI_HOST___/$JITSI_HOST/\" \
-    $JIBRI_ROOTFS/etc/jitsi/jibri/config.json
+    $JIBRI_ROOTFS/etc/jitsi/jibri/jibri.conf
 ssh_ sed -i \"s/___PASSWD1___/$PASSWD1/\" \
-    $JIBRI_ROOTFS/etc/jitsi/jibri/config.json
+    $JIBRI_ROOTFS/etc/jitsi/jibri/jibri.conf
 ssh_ sed -i \"s/___PASSWD2___/$PASSWD2/\" \
-    $JIBRI_ROOTFS/etc/jitsi/jibri/config.json
+    $JIBRI_ROOTFS/etc/jitsi/jibri/jibri.conf
 
 ssh_ lxc-start -n eb-jibri-template
 ssh_ lxc-wait -n eb-jibri-template -s RUNNING
