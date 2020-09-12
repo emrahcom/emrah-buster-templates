@@ -357,3 +357,23 @@ ls -alh /usr/local/eb/recordings/*
 Jibri can only stream to Youtube but there is a little customization on
 `eb-jitsi`. So It is possible to stream to any RTMP server from `eb-jitsi`.
 Just use the full RTMP address as the stream key.
+
+#### What does 'sed error' mean while adding an additional Jibri node?
+
+The `jibri` config file was changed a while ago and the installer started to
+use the new `jibri' config file for the new installation. But if your `JMS` was
+installed before this change, you will get the following error message while
+adding an additional `Jibri` node:
+
+```bash
+sed: can't read /var/lib/lxc/eb-jibri-template/rootfs//etc/jitsi/jibri/config.json: No such file or directory
+
+Something went wrong. The installation couldn't be completed!
+```
+
+Update `add-jibri-node` script to fix this issue. Run the following command on
+the `JMS` host:
+
+```bash
+wget -O /usr/local/sbin/add-jibri-node https://raw.githubusercontent.com/emrahcom/emrah-buster-templates/master/machines/eb-jitsi-host/usr/local/sbin/add-jibri-node
+```
