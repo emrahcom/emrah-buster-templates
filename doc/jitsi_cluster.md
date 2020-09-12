@@ -232,7 +232,7 @@ add-jibri-node 200.7.8.9
 
 
 ## 5. FAQ
-#### # My kernel has no support for the snd_aloop module. How can I install the standard Linux kernel?
+#### 5.1 My kernel has no support for the snd_aloop module. How can I install the standard Linux kernel?
 
 The cloud kernel used in most cloud machines has no support for the `snd_aloop`
 module. It's easy to install the standart Linux kernel on a Debian system.
@@ -301,7 +301,7 @@ update-grub
 reboot
 ```
 
-#### How can I change the Jitsi config on JMS?
+#### 5.2 How can I change the Jitsi config on JMS?
 First, connect to the Jitsi container `eb-jitsi` then edit the config files.
 
 ```bash
@@ -310,7 +310,7 @@ cd /etc/jitsi
 ls
 ```
 
-#### How can I change the videobridge config on the additional JVB?
+#### 5.3 How can I change the videobridge config on the additional JVB?
 First, connect to the JVB container `eb-jvb` then edit the config files.
 
 ```bash
@@ -319,7 +319,7 @@ cd /etc/jitsi/videobridge
 ls
 ```
 
-#### I’ve setup the initial JMS node successfully, but getting a 'recording unavailable' error when trying to record.
+#### 5.4 I’ve setup the initial JMS node successfully, but getting a 'recording unavailable' error when trying to record.
 
 At least 4 cores are required to start a `Jibri` instance. The first two cores
 are reserved for the base processes. After these two cores, one Jibri instance
@@ -327,13 +327,13 @@ is started for each additional 2 cores.
 
 Just shutdown the machine, increase the number of cores and reboot.
 
-#### How can I make a change/addition permanent in Jibri?
+#### 5.5 How can I make a change/addition permanent in Jibri?
 
 All running Jibri instances are ephemeral and changes made will disappear after
 shutdown. Apply to the `eb-jibri-template` container to make a change permanent
 and restart the Jibri instances.
 
-#### How can I restart all running Jibri instances?
+#### 5.6 How can I restart all running Jibri instances?
 
 Use the related `systemd` service.
 
@@ -342,7 +342,7 @@ systemctl stop jibri-ephemeral-container.service
 systemctl start jibri-ephemeral-container.service
 ```
 
-#### Where are the recorded files?
+#### 5.7 Where are the recorded files?
 
 Jibri creates a randomly named folder for each recording and puts the MP4
 file in it. The recording folder is `/usr/local/eb/recordings` and the MP4
@@ -352,13 +352,13 @@ files are in the subfolders of this folder.
 ls -alh /usr/local/eb/recordings/*
 ```
 
-#### Is it possible to broadcast to a stream server other than Youtube?
+#### 5.8 Is it possible to broadcast to a stream server other than Youtube?
 
 Jibri can only stream to Youtube but there is a little customization on
 `eb-jitsi`. So It is possible to stream to any RTMP server from `eb-jitsi`.
 Just use the full RTMP address as the stream key.
 
-#### What does 'sed error' mean while adding an additional Jibri node?
+#### 5.9 What does 'sed error' mean while adding an additional Jibri node?
 
 The `jibri` config file was changed a while ago and the installer started to
 use the new `jibri` config file for the new installation. But if your `JMS` was
