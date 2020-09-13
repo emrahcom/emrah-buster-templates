@@ -218,7 +218,7 @@ lxc-attach -n $MACH -- \
 # JITSI CUSTOMIZATION FOR JIBRI
 # -----------------------------------------------------------------------------
 # prosody config
-sed -i '/^VirtualHost.*"recorder.$JITSI_HOST"/, /authentication/d' \
+sed -i '/^VirtualHost.*"recorder\..*"/, /authentication/d' \
     $JITSI_ROOTFS/etc/prosody/conf.avail/$JITSI_HOST.cfg.lua
 cat >> $JITSI_ROOTFS/etc/prosody/conf.avail/$JITSI_HOST.cfg.lua <<EOF
 VirtualHost "recorder.$JITSI_HOST"
