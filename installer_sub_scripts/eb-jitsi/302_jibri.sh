@@ -218,8 +218,9 @@ lxc-attach -n $MACH -- \
 # JITSI CUSTOMIZATION FOR JIBRI
 # -----------------------------------------------------------------------------
 # prosody config
+sed -i '/^VirtualHost.*"recorder.$JITSI_HOST"/, /authentication/d' \
+    $JITSI_ROOTFS/etc/prosody/conf.avail/$JITSI_HOST.cfg.lua
 cat >> $JITSI_ROOTFS/etc/prosody/conf.avail/$JITSI_HOST.cfg.lua <<EOF
-
 VirtualHost "recorder.$JITSI_HOST"
     modules_enabled = {
       "ping";
@@ -228,8 +229,14 @@ VirtualHost "recorder.$JITSI_HOST"
 EOF
 
 # prosody register
-PASSWD1=$(echo -n $RANDOM$RANDOM | sha256sum | cut -c 1-20)
-PASSWD2=$(echo -n $RANDOM$RANDOM$RANDOM | sha256sum | cut -c 1-20)
+JIBRI_DAT=$(find $JITSI_ROOTFS/var/lib/prosody -name 'jibri.dat')
+[[ -z "$JIBRI_DAT" ]] && \
+    PASSWD1=$(echo -n $RANDOM$RANDOM | sha256sum | cut -c 1-20) || \
+    PASSWD1=$(grep password $JIBRI_DAT | cut -d '"' -f4)
+RECORDER_DAT=$(find $JITSI_ROOTFS/var/lib/prosody -name 'recorder.dat')
+[[ -z "$RECORDER_DAT" ]] && \
+    PASSWD2=$(echo -n $RANDOM$RANDOM | sha256sum | cut -c 1-20) || \
+    PASSWD2=$(grep password $RECORDER_DAT | cut -d '"' -f4)
 
 lxc-attach -n eb-jitsi -- \
     zsh -c \
