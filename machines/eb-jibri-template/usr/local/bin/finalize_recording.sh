@@ -3,12 +3,15 @@ set -e
 
 FOLDER=$1
 KEY=$(basename $FOLDER)
-VIDEO_PATH=$(find $FOLDER -name '*.mp4' | head -1)
-VIDEO_NAME=$(basename $VIDEO_PATH)
-VIDEO_NAME_KEY=$(echo $VIDEO_NAME | sed "s/.mp4/_$KEY.mp4/")
 
-[[ ! -f "$VIDEO_PATH" ]] && exit 1
+for VIDEO_PATH in $(find $FOLDER -name '*.mp4')
+do
+    VIDEO_NAME=$(basename $VIDEO_PATH)
+    VIDEO_NAME_KEY=$(echo $VIDEO_NAME | sed "s/.mp4/_$KEY.mp4/")
 
-# write your codes here. for example:
+    # write your codes here.
+    # for example:
+    # cp $VIDEO_PATH /tmp/$VIDEO_NAME_KEY
+done
 
 exit 0
