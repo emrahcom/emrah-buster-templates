@@ -1,6 +1,8 @@
 #!/bin/bash
 set -e
 
+[[ "$(whoami)" != "jibri" ]] && exit 1
+
 FOLDER=$1
 KEY=$(basename $FOLDER)
 

@@ -2,6 +2,8 @@
 
 ARGS=$@
 
+[[ "$(whoami)" != "jibri" ]] && exec /usr/bin/ffmpeg $ARGS
+
 if [[ -n "$(echo $ARGS | grep 'rtmp://.*://')" ]]; then
     DST_RAW=$(echo $ARGS | rev | awk '{print $1}' | rev)
     DST=$(echo $DST_RAW | sed 's~^[^:/]*://~~' | egrep -o '[^:/]*://.*')
