@@ -390,6 +390,10 @@ org.ice4j.ice.harvest.NAT_HARVESTER_LOCAL_ADDRESS=$IP
 org.ice4j.ice.harvest.NAT_HARVESTER_PUBLIC_ADDRESS=$PUBLIC_IP
 EOF
 
+# jicofo-log-analyzer
+cp usr/local/bin/jicofo-log-analyzer $ROOTFS/usr/local/bin/
+chmod 755 $ROOTFS/usr/local/bin/jicofo-log-analyzer
+
 # -----------------------------------------------------------------------------
 # CONTAINER SERVICES
 # -----------------------------------------------------------------------------
