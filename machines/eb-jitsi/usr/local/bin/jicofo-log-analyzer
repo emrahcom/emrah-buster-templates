@@ -5,11 +5,15 @@ set -e
 # jicofo-log-analyzer
 # -----------------------------------------------------------------------------
 # Analyzes the Jicofo log and generates a report.
+# Copy to the /usr/local/bin folder and give the execute permission.
+#
+#    cp jicofo-log-analyzer /usr/local/bin/
+#    chmod 755 /usr/local/bin/jicofo-log-analyzer
 #
 # usage:
-#    bash jicofo-log-analyzer /var/log/jitsi/jicofo.log > myreport.md
-#    zcat /var/log/jitsi/jicofo.log.2.gz  | bash jicofo-log-analyzer
-#    tail -f /var/log/jitsi/jicofo.log | bash jicofo-log-analyzer
+#    jicofo-log-analyzer /var/log/jitsi/jicofo.log > myreport.txt
+#    zcat /var/log/jitsi/jicofo.log.2.gz  | jicofo-log-analyzer
+#    tail -f /var/log/jitsi/jicofo.log | jicofo-log-analyzer
 # -----------------------------------------------------------------------------
 LIST_MEMBERS=true
 LIST_ACTIONS=true
