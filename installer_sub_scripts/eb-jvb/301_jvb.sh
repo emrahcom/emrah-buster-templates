@@ -156,6 +156,14 @@ cat >>$ROOTFS/etc/jitsi/videobridge/sip-communicator.properties <<EOF
 org.jitsi.videobridge.xmpp.user.shard.DISABLE_CERTIFICATE_VERIFICATION=true
 EOF
 
+# default memory limit for JVB
+sed -i '/^JVB_SECRET=/a \
+\
+# set the maximum memory for the JVB daemon\
+VIDEOBRIDGE_MAX_MEMORY=3072m' \
+    $ROOTFS/etc/jitsi/videobridge/config
+lxc-attach -n $MACH -- systemctl restart jitsi-videobridge2.service
+
 # colibri
 sed -i '/^JVB_OPTS/ s/--apis=/--apis=rest/' \
     $ROOTFS/etc/jitsi/videobridge/config

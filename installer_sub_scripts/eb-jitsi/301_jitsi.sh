@@ -328,6 +328,14 @@ sed -i "/turns.*443.*tcp/ s/host\s*=[^,]*/host = \"$TURN_HOST\"/" \
     $ROOTFS/etc/prosody/conf.avail/$JITSI_HOST.cfg.lua
 lxc-attach -n $MACH -- systemctl reload prosody.service
 
+# jicofo
+sed -i '/^JICOFO_AUTH_PASSWORD=/a \
+\
+# set the maximum memory for the jicofo daemon\
+JICOFO_MAX_MEMORY=3072m' \
+    $ROOTFS/etc/jitsi/jicofo/config
+lxc-attach -n $MACH -- systemctl restart jicofo.service
+
 # nginx
 mkdir -p $ROOTFS/usr/local/share/nginx/modules-available
 cp usr/local/share/nginx/modules-available/jitsi-meet.conf \
@@ -369,6 +377,14 @@ sed -i 's~//\s*requireDisplayName:.*~requireDisplayName: true,~' \
 # jitsi-meet interface config
 sed -i '/DISABLE_JOIN_LEAVE_NOTIFICATIONS/s/false/true/' \
     $ROOTFS/usr/share/jitsi-meet/interface_config.js
+
+# default memory limit for JVB
+sed -i '/^JVB_SECRET=/a \
+\
+# set the maximum memory for the JVB daemon\
+VIDEOBRIDGE_MAX_MEMORY=3072m' \
+    $ROOTFS/etc/jitsi/videobridge/config
+lxc-attach -n $MACH -- systemctl restart jitsi-videobridge2.service
 
 # colibri
 sed -i '/^JVB_OPTS/ s/--apis=/--apis=rest/' \
