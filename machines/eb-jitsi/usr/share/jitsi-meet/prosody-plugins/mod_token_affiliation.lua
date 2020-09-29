@@ -1,6 +1,10 @@
 -- ----------------------------------------------------------------------------
 -- Token Affiliation
+--
+-- https://github.com/emrahcom/
 -- ----------------------------------------------------------------------------
+-- This plugin set the occupant's affiliation according to the token content.
+--
 -- 1) Copy this script to the Prosody plugins folder. It's the following folder
 --    on Debian
 --
@@ -20,7 +24,12 @@
 --
 --    org.jitsi.jicofo.DISABLE_AUTO_OWNER=true
 --
--- 4) Set the affiliation on token. The value may be "owner" or "member".
+-- 4) Restart the services
+--
+--    systemctl restart prosody.service
+--    systemctl restart jicofo.service
+--
+-- 5) Set the affiliation on token. The value may be "owner" or "member".
 --
 --    A sample token body:
 --    {
@@ -39,10 +48,11 @@
 --      }
 --    }
 -- ----------------------------------------------------------------------------
+local LOGLEVEL = "debug"
 
 local is_admin = require "core.usermanager".is_admin
 local is_healthcheck_room = module:require "util".is_healthcheck_room
-local LOGLEVEL = "debug"
+module:log(LOGLEVEL, "loaded")
 
 local function _is_admin(jid)
     return is_admin(jid, module.host)

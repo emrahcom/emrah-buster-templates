@@ -326,9 +326,14 @@ lxc-attach -n $MACH -- \
 # prosody
 sed -i "/turns.*443.*tcp/ s/host\s*=[^,]*/host = \"$TURN_HOST\"/" \
     $ROOTFS/etc/prosody/conf.avail/$JITSI_HOST.cfg.lua
+cp usr/share/jitsi-meet/prosody-plugins/*.lua \
+    $ROOTFS/usr/share/jitsi-meet/prosody-plugins/
 lxc-attach -n $MACH -- systemctl reload prosody.service
 
 # jicofo
+cat >> $ROOTFS/etc/jitsi/jicofo/sip-communicator.properties <<EOF
+#org.jitsi.jicofo.DISABLE_AUTO_OWNER=true
+EOF
 sed -i '/^JICOFO_AUTH_PASSWORD=/a \
 \
 # set the maximum memory for the jicofo daemon\
