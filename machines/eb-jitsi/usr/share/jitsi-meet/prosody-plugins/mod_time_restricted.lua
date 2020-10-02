@@ -52,12 +52,16 @@ module:hook("muc-room-created", function (event)
     room:broadcast_message(
          st.message({ type="groupchat", from=room.jid })
          :tag("body")
-	 :text("The conference will be terminated in "..MIN.." min"))
+         :text("The conference will be terminated in "..MIN.." min"))
 
     module:log(LOGLEVEL, "set timeout for conference, %s secs, %s",
                          TIMEOUT, room.jid)
 
     timer.add_task(TIMEOUT, function()
+        if is_healthcheck_room(room.jid) then
+            return
+        end
+
         -- kick all participants
         for _, p in room:each_occupant() do
             if not _is_admin(p.jid) then

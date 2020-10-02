@@ -90,8 +90,9 @@ module:hook("muc-occupant-left", function (event)
     end
 
     -- the owner is gone, start to check the room condition
-    room:broadcast_message(st.message({ type="groupchat", from=occupant.nick })
-                           :tag("body"):text("The owner is gone"))
+    room:broadcast_message(
+        st.message({ type="groupchat", from=occupant.nick })
+        :tag("body"):text("The owner is gone"))
     module:log(LOGLEVEL, "an owner leaved, %s", occupant.jid)
 
     -- check if there is any other owner here
@@ -106,8 +107,12 @@ module:hook("muc-occupant-left", function (event)
 
     -- since there is no other owner, kick all participants after TIMEOUT secs
     timer.add_task(TIMEOUT, function()
+        if is_healthcheck_room(room.jid) then
+            return
+        end
+
         -- last check before kicking all participants
-	-- if the owner is returned, cancel
+        -- if the owner is returned, cancel
         for _, o in room:each_occupant() do
             if not _is_admin(o.jid) then
                 if room:get_affiliation(o.jid) == "owner" then
