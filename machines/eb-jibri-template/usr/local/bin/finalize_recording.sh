@@ -1,9 +1,11 @@
 #!/bin/bash
 set -e
 
-[[ "$(whoami)" != "jibri" ]] && exit 1
-
 FOLDER=$1
+
+[[ "$(whoami)" != "jibri" ]] && exit 1
+[[ -z "$FOLDER" ]] && exit 2
+
 KEY=$(basename $FOLDER)
 
 for VIDEO_PATH in $(find $FOLDER -name '*.mp4')
