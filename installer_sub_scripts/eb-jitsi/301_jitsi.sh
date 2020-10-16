@@ -349,12 +349,13 @@ sed -i "s/___LOCAL_IP___/$IP/" \
     $ROOTFS/usr/local/share/nginx/modules-available/jitsi-meet.conf
 sed -i "s/___TURN_HOST___/$TURN_HOST/" \
     $ROOTFS/usr/local/share/nginx/modules-available/jitsi-meet.conf
+sed -i "/listen\s\+/ s/443 ssl/4444 ssl/" \
+    $ROOTFS/etc/nginx/sites-available/$JITSI_HOST.conf
 sed -i "/server_name\s\+/ s/;/ $TURN_HOST;/" \
     $ROOTFS/etc/nginx/sites-available/$JITSI_HOST.conf
 lxc-attach -n $MACH -- \
     zsh -c \
     "set -e
-     rm /etc/nginx/modules-enabled/60-jitsi-meet.conf
      ln -s /usr/local/share/nginx/modules-available/jitsi-meet.conf \
          /etc/nginx/modules-enabled/60-jitsi-meet-custom.conf
      rm /etc/nginx/sites-enabled/default
