@@ -326,7 +326,9 @@ lxc-attach -n $MACH -- \
 # prosody
 sed -i "s/^-- \(https_ports = { };\)/\1/" \
     $ROOTFS/etc/prosody/conf.avail/$JITSI_HOST.cfg.lua
-sed -i "/turns.*443.*tcp/ s/host\s*=[^,]*/host = \"$TURN_HOST\"/" \
+sed -i "/turns.*tcp/ s/host\s*=[^,]*/host = \"$TURN_HOST\"/" \
+    $ROOTFS/etc/prosody/conf.avail/$JITSI_HOST.cfg.lua
+sed -i "/turns.*tcp/ s/5349/443/" \
     $ROOTFS/etc/prosody/conf.avail/$JITSI_HOST.cfg.lua
 cp usr/share/jitsi-meet/prosody-plugins/*.lua \
     $ROOTFS/usr/share/jitsi-meet/prosody-plugins/
