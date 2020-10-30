@@ -48,7 +48,7 @@ sed -i "s~'videobackgroundblur', *~~" $INTERFACE
 # -----------------------------------------------------------------------------
 sed -i "/^\s*p2pTestMode:/ s~false$~false,~" $CONFIG
 sed -i '/^\s*capScreenshareBitrate:/d' $CONFIG
-sed -i '/\/\/ capScreenshareBitrate/a \        capScreenshareBitrate: 1,' \
+sed -i '/\/\/ capScreenshareBitrate/a \        capScreenshareBitrate: 1' \
     $CONFIG
 
 sed -i "/disableAudioLevels:/ s~//\s*~~" $CONFIG
