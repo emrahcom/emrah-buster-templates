@@ -308,7 +308,6 @@ echo 'ExecStartPost=systemctl restart coturn.service' >> \
 lxc-attach -n $MACH -- systemctl daemon-reload
 
 # coturn
-sed -i "s/^external-ip=/#external-ip=/" $ROOTFS/etc/turnserver.conf
 cat >>$ROOTFS/etc/turnserver.conf <<EOF
 
 # the following lines added by eb-jitsi
@@ -370,31 +369,14 @@ lxc-attach -n $MACH -- systemctl stop nginx.service
 lxc-attach -n $MACH -- systemctl start nginx.service
 
 # -----------------------------------------------------------------------------
-# JITSI
+# JVB
 # -----------------------------------------------------------------------------
-# jitsi-meet config
-sed -i 's~//\s*disableAudioLevels:.*~disableAudioLevels: true,~' \
-    $ROOTFS/etc/jitsi/meet/$JITSI_HOST-config.js
-sed -i 's~//\s*startAudioMuted:.*~startAudioMuted: 10,~' \
-    $ROOTFS/etc/jitsi/meet/$JITSI_HOST-config.js
-sed -i 's~//\s*resolution:.*~resolution: 480,~' \
-    $ROOTFS/etc/jitsi/meet/$JITSI_HOST-config.js
-sed -i 's~//\s*startVideoMuted:.*~startVideoMuted: 10,~' \
-    $ROOTFS/etc/jitsi/meet/$JITSI_HOST-config.js
-sed -i 's~//\s*requireDisplayName:.*~requireDisplayName: true,~' \
-    $ROOTFS/etc/jitsi/meet/$JITSI_HOST-config.js
-
-# jitsi-meet interface config
-sed -i '/DISABLE_JOIN_LEAVE_NOTIFICATIONS/s/false/true/' \
-    $ROOTFS/usr/share/jitsi-meet/interface_config.js
-
-# default memory limit for JVB
+# default memory limit
 sed -i '/^JVB_SECRET=/a \
 \
 # set the maximum memory for the JVB daemon\
 VIDEOBRIDGE_MAX_MEMORY=3072m' \
     $ROOTFS/etc/jitsi/videobridge/config
-lxc-attach -n $MACH -- systemctl restart jitsi-videobridge2.service
 
 # colibri
 sed -i '/^JVB_OPTS/ s/--apis=/--apis=rest/' \
@@ -416,6 +398,12 @@ org.ice4j.ice.harvest.NAT_HARVESTER_LOCAL_ADDRESS=$IP
 org.ice4j.ice.harvest.NAT_HARVESTER_PUBLIC_ADDRESS=$PUBLIC_IP
 EOF
 
+# restart
+lxc-attach -n $MACH -- systemctl restart jitsi-videobridge2.service
+
+# -----------------------------------------------------------------------------
+# TOOLS & SCRIPTS
+# -----------------------------------------------------------------------------
 # jicofo-log-analyzer
 cp usr/local/bin/jicofo-log-analyzer $ROOTFS/usr/local/bin/
 chmod 755 $ROOTFS/usr/local/bin/jicofo-log-analyzer
