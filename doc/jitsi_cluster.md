@@ -56,7 +56,7 @@ Additional JVB and Jibri nodes can be added in the future if needed.
 Complete the following steps before starting the JMS installation.
 
 ##### 2.1.1 Machine features
-At least 4 cores and 8 GB RAM (no recording/streaming)
+At least 4 cores and 8 GB RAM (no recording/streaming)   
 At least 8 cores and 8 GB RAM (with recording/streaming)
 
 ##### 2.1.2 DNS record for JMS
