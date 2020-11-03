@@ -5,13 +5,13 @@
 # -----------------------------------------------------------------------------
 #
 # Create and run the ephemeral Jibri containers. The number of containers
-# depends on the CORES count (one Jibri instance per 2 cores) but it can not be
+# depends on the CORES count (one Jibri instance per 4 cores) but it can not be
 # more than LIMIT. The cores count is token into account if it's greater than
 # RESERVED.
 #
-# For example, if there are 8 cores and 2 of them are reserved, the remaining 6
-# cores are used for the Jibri instances. So there will be 3 active Jibri
-# instances ( 6/2 = 3 )
+# For example, if there are 12 cores and 4 of them are reserved, the remaining
+# 8 cores are used for the Jibri instances. So there will be 2 active Jibri
+# instances ( 8/4 = 2 )
 #
 # -----------------------------------------------------------------------------
 
@@ -21,10 +21,10 @@ LIMIT=16
 
 # The reserved cores count. The number of the cores which is not token into
 # account to calculate the number of Jibri instances.
-RESERVED=2
+RESERVED=4
 
 # The number of cores per each Jibri instance.
-CPI=2
+CPI=4
 
 # The total cores
 CORES=$(nproc --all)

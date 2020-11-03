@@ -5,10 +5,11 @@ Easy way to create a Jitsi cluster based on Debian Buster
 - [1. About](#1-about)
 - [2. Jitsi Meet Server (JMS)](#2-jitsi-meet-server-jms)
   - [2.1 Prerequisites](#21-prerequisites)
-    - [2.1.1 DNS record for JMS](#211-dns-record-for-jms)
-    - [2.1.2 DNS record for TURN](#212-dns-record-for-turn)
-    - [2.1.3 The snd_aloop module](#213-the-snd_aloop-module)
-    - [2.1.4 Public ports](#214-public-ports)
+    - [2.1.1 Machine features](#211-machine-features)
+    - [2.1.2 DNS record for JMS](#212-dns-record-for-jms)
+    - [2.1.3 DNS record for TURN](#213-dns-record-for-turn)
+    - [2.1.4 The snd_aloop module](#214-the-snd_aloop-module)
+    - [2.1.5 Public ports](#215-public-ports)
   - [2.2 Installing JMS](#22-installing-jms)
     - [2.2.1 Downloading the installer](#221-downloading-the-installer)
     - [2.2.2 Setting the host addresses](#222-setting-the-host-addresses)
@@ -17,14 +18,16 @@ Easy way to create a Jitsi cluster based on Debian Buster
     - [2.2.5 Reboot](#225-reboot)
 - [3. Additional Jitsi Videobridge (JVB) node](#3-additional-jitsi-videobridge-jvb-node)
   - [3.1 Prerequisites](#31-prerequisites)
-    - [3.1.1 Public ports](#311-public-ports)
+    - [3.1.1 Machine features](#311-machine-features)
+    - [3.1.2 Public ports](#312-public-ports)
   - [3.2 Installing JVB](#32-installing-jvb)
     - [3.2.1 Adding the JMS public key](#321-adding-the-jms-public-key)
     - [3.2.2 Adding the JVB node to the pool](#322-adding-the-jvb-node-to-the-pool)
 - [4. Additional Jibri node](#4-additional-jibri-node)
   - [4.1 Prerequisites](#41-prerequisites)
-    - [4.1.1 The snd_aloop module](#411-the-snd_aloop-module)
-    - [4.1.2 Public ports](#412-public-ports)
+    - [4.1.1 Machine features](#411-machine-features)
+    - [4.1.2 The snd_aloop module](#412-the-snd_aloop-module)
+    - [4.1.3 Public ports](#413-public-ports)
   - [4.2 Installing Jibri](#42-installing-jibri)
     - [4.2.1 Adding the JMS public key](#421-adding-the-jms-public-key)
     - [4.2.2 Adding the Jibri node to the pool](#422-adding-the-jibri-node-to-the-pool)
@@ -38,7 +41,6 @@ cluster based on Debian Buster (Debian 10).
 
 Create or install a Debian Buster server for each node in this tutorial.
 Please, don't install a desktop environment, only the standard packages...
-Reserve at least 4 cores and 8 GB RAM for each node.
 
 Run each command on this tutorial as `root`.
 
@@ -53,7 +55,11 @@ Additional JVB and Jibri nodes can be added in the future if needed.
 #### 2.1 Prerequisites
 Complete the following steps before starting the JMS installation.
 
-##### 2.1.1 DNS record for JMS
+##### 2.1.1 Machine features
+At least 4 cores and 8 GB RAM (no recording/streaming)
+At least 8 cores and 8 GB RAM (with recording/streaming)
+
+##### 2.1.2 DNS record for JMS
 A resolvable host address is required for JMS and this address should point to
 this server. Therefore, create the DNS `A record` for JMS before starting the
 installation.
@@ -67,7 +73,7 @@ host meet.mydomain.com
 >>> meet.mydomain.com has address 1.2.3.4
 ```
 
-##### 2.1.2 DNS record for TURN
+##### 2.1.3 DNS record for TURN
 A resolvable host address is required for TURN and this address should point to
 this server. Therefore, create the DNS `CNAME record` for TURN before starting
 the installation. The `CNAME record` should be an alias for JMS which is
@@ -83,7 +89,7 @@ host turn.mydomain.com
 >>> meet.mydomain.com has address 1.2.3.4
 ```
 
-##### 2.1.3 The snd_aloop module
+##### 2.1.4 The snd_aloop module
 JMS needs the `snd_aloop` kernel module but some cloud computers have a kernel
 that doesn't support it. In this case, first install the standart Linux kernel
 and reboot the node with this kernel.
@@ -95,7 +101,7 @@ an output, it means that the kernel doesn't support it.
 modprobe snd_aloop
 ```
 
-##### 2.1.4 Public ports
+##### 2.1.5 Public ports
 If the JMS server is behind a firewall, open the following ports:
 
 * TCP/80
@@ -155,7 +161,10 @@ horizontally by adding as many as JVB node when needed.
 #### 3.1 Prerequisites
 Complete the following steps before starting the JVB installation.
 
-##### 3.1.1 Public ports
+##### 3.1.1 Machine features
+At least 4 cores and 8 GB RAM
+
+##### 3.1.2 Public ports
 If the JVB server is behind a firewall, open the following ports:
 
 * TCP/22 (at least for JMS server)
@@ -196,11 +205,14 @@ as many as Jibri node when needed.
 #### 4.1 Prerequisites
 Complete the following steps before starting the Jibri installation.
 
-##### 4.1.1 The snd_aloop module
+##### 4.1.1 Machine features
+At least 8 cores and 8 GB RAM
+
+##### 4.1.2 The snd_aloop module
 The Jibri node needs the `snd_aloop` module too. Therefore check the kernel
 first.
 
-##### 4.1.2 Public ports
+##### 4.1.3 Public ports
 If the Jibri server is behind a firewall, open the following ports:
 
 * TCP/22 (at least for JMS server)
@@ -321,9 +333,9 @@ ls
 
 #### 5.4 I’ve setup the initial JMS node successfully, but getting a 'recording unavailable' error when trying to record.
 
-At least 4 cores are required to start a `Jibri` instance. The first two cores
-are reserved for the base processes. After these two cores, one Jibri instance
-is started for each additional 2 cores.
+At least 8 cores are required to start a `Jibri` instance. The first 4 cores
+are reserved for the base processes. After these 4 cores, one Jibri instance
+is started for each additional 4 cores.
 
 Just shutdown the machine, increase the number of cores and reboot.
 
