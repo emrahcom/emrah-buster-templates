@@ -90,9 +90,10 @@ host turn.mydomain.com
 ```
 
 ##### 2.1.4 The snd_aloop module
-JMS needs the `snd_aloop` kernel module but some cloud computers have a kernel
-that doesn't support it. In this case, first install the standart Linux kernel
-and reboot the node with this kernel.
+JMS needs the `snd_aloop` kernel module to be able to record/stream a
+conference but some cloud computers have a kernel that doesn't support it. In
+this case, first install the standart Linux kernel and reboot the node with
+this kernel. If you don't know how to do this, check [FAQ](#5-faq).
 
 Run the following command to check the `snd_aloop` support. If the command has
 an output, it means that the kernel doesn't support it.
