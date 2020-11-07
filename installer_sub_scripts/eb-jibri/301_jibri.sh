@@ -217,7 +217,7 @@ lxc-attach -n $MACH -- \
 # jibri ssh
 mkdir -p $ROOTFS/home/jibri/.ssh
 chmod 700 $ROOTFS/home/jibri/.ssh
-cp home/jibri/.ssh/jibri-config $ROOTFS/root/.ssh/
+cp home/jibri/.ssh/jibri-config $ROOTFS/home/jibri/.ssh/
 [[ -f /root/.ssh/jibri ]] && \
     cp /root/.ssh/jibri $ROOTFS/home/jibri/.ssh/ || \
     true
