@@ -66,8 +66,8 @@ JITSI_HOST=$(egrep '^JVB_HOSTNAME=' $JITSI_ROOTFS/etc/jitsi/videobridge/config |
 JVB_SECRET=$(egrep '^JVB_SECRET=' $JITSI_ROOTFS/etc/jitsi/videobridge/config | \
              cut -d '=' -f2)
 SHARD_PASSWD=$(egrep '^org.jitsi.videobridge.xmpp.user.shard.PASSWORD' \
-	     $JITSI_ROOTFS/etc/jitsi/videobridge/sip-communicator.properties | \
-             cut -d '=' -f2)
+    $JITSI_ROOTFS/etc/jitsi/videobridge/sip-communicator.properties | \
+    cut -d '=' -f2)
 
 
 # -----------------------------------------------------------------------------
