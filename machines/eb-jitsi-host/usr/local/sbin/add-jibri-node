@@ -80,6 +80,19 @@ fi
 
 
 # -----------------------------------------------------------------------------
+# jibri ssh key
+# -----------------------------------------------------------------------------
+# create ssh key if not exists
+if [[ ! -f /root/.ssh/jibri ]] || [[ ! -f /root/.ssh/jibri.pub ]]; then
+    rm -f /root/.ssh/jibri{,.pub}
+    ssh-keygen -qP '' -t rsa -b 2048 -f /root/.ssh/jibri
+    cp /root/.ssh/jibri.pub $JITSI_ROOTFS/usr/share/jitsi-meet/static/
+fi
+
+scp_ /root/.ssh/jibri /root/.ssh/
+
+
+# -----------------------------------------------------------------------------
 # cluster related parameters
 # -----------------------------------------------------------------------------
 if [[ -f $JIBRI_ROOTFS/etc/jitsi/jibri/jibri.conf ]]; then
