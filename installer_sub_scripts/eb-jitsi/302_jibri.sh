@@ -273,6 +273,22 @@ sed -i "/liveStreamingEnabled:/a \\\n    hiddenDomain: 'recorder.$JITSI_HOST'," 
     $JITSI_ROOTFS/etc/jitsi/meet/$JITSI_HOST-config.js
 
 # -----------------------------------------------------------------------------
+# JIBRI SSH KEY
+# -----------------------------------------------------------------------------
+mkdir -p /root/.ssh
+chmod 700 /root/.ssh
+
+# create ssh key if not exists
+if [[ ! -f /root/.ssh/jibri ]] || [[ ! -f /root/.ssh/jibri.pub ]]
+then
+    rm -f /root/.ssh/jibri{,.pub}
+    ssh-keygen -qP '' -t rsa -b 2048 -f /root/.ssh/jibri
+fi
+
+# copy the public key to a downloadable place
+cp /root/.ssh/jibri.pub $JITSI_ROOTFS/usr/share/jitsi-meet/static/
+
+# -----------------------------------------------------------------------------
 # JIBRI
 # -----------------------------------------------------------------------------
 # jibri groups
@@ -280,6 +296,17 @@ lxc-attach -n $MACH -- \
     zsh -c \
     "set -e
      usermod -aG adm,audio,video,plugdev jibri"
+
+# jibri ssh
+mkdir -p $ROOTFS/home/jibri/.ssh
+chmod 700 $ROOTFS/home/jibri/.ssh
+cp $ROOTFS/home/jibri/.ssh/jibri-config /root/.ssh/
+cp /root/.ssh/jibri $ROOTFS/home/jibri/.ssh/
+
+lxc-attach -n $MACH -- \
+    zsh -c \
+    "set -e
+     chown jibri:jibri /home/jibri/.ssh -R"
 
 # recordings directory
 lxc-attach -n $MACH -- \
