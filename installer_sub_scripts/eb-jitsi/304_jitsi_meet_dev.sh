@@ -15,11 +15,11 @@ ROOTFS="/var/lib/lxc/$MACH/rootfs"
 # -----------------------------------------------------------------------------
 # NFTABLES RULES
 # -----------------------------------------------------------------------------
-# tcp/8080
-nft delete element eb-nat tcp2ip { 8080 } 2>/dev/null || true
-nft add element eb-nat tcp2ip { 8080 : $JITSI }
-nft delete element eb-nat tcp2port { 8080 } 2>/dev/null || true
-nft add element eb-nat tcp2port { 8080 : 8080 }
+# tcp/8000
+nft delete element eb-nat tcp2ip { 8000 } 2>/dev/null || true
+nft add element eb-nat tcp2ip { 8000 : $JITSI }
+nft delete element eb-nat tcp2port { 8000 } 2>/dev/null || true
+nft add element eb-nat tcp2port { 8000 : 8000 }
 
 # -----------------------------------------------------------------------------
 # INIT
