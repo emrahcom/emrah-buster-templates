@@ -91,6 +91,7 @@ sed -i "s~/usr/share/jitsi-meet~/root/jitsi-meet~g" \
 
 # enable?
 if [[ "$ENABLE_JITSI_MEET_DEV" = true ]]; then
+    rm -f $ROOTFS/etc/nginx/sites-enabled/$JITSI_HOST.conf
     rm -f $ROOTFS/etc/nginx/sites-enabled/$JITSI_HOST-dev.conf
     ln -s ../sites-available/$JITSI_HOST-dev.conf \
         $ROOTFS/etc/nginx/sites-enabled/
