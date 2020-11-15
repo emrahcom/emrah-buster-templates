@@ -84,7 +84,7 @@ lxc-attach -n $MACH -- \
     "set -e
      cd /home/dev
      rm -rf lib-jitsi-meet
-     git clone https://github.com/jitsi/lib-jitsi-meet.git
+     git clone --depth=1 https://github.com/jitsi/lib-jitsi-meet.git
      cd /home/dev/lib-jitsi-meet
      npm update"
 
@@ -94,7 +94,7 @@ lxc-attach -n $MACH -- \
     "set -e
      cd /home/dev
      rm -rf jitsi-meet
-     git clone https://github.com/jitsi/jitsi-meet.git
+     git clone --depth=1 https://github.com/jitsi/jitsi-meet.git
      cd /home/dev/jitsi-meet
      npm install ../lib-jitsi-meet
      npm update
