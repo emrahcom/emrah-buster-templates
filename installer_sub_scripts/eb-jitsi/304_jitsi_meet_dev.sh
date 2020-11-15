@@ -10,6 +10,8 @@ source $INSTALLER/000_source
 MACH="eb-jitsi"
 cd $MACHINES/$MACH
 
+ROOTFS="/var/lib/lxc/$MACH/rootfs"
+
 # -----------------------------------------------------------------------------
 # NFTABLES RULES
 # -----------------------------------------------------------------------------
@@ -74,6 +76,7 @@ lxc-attach -n $MACH -- \
     zsh -c \
     "set -e
      cd
+     rm -rf jitsi-meet lib-jitsi-meet
      git clone https://github.com/jitsi/jitsi-meet.git
      git clone https://github.com/jitsi/lib-jitsi-meet.git"
 
@@ -97,6 +100,16 @@ if [[ "$ENABLE_JITSI_MEET_DEV" = true ]]; then
         "set -e
          systemctl restart nginx"
 fi
+
+# dev tools
+cp usr/local/sbin/enable-jitsi-meet-dev $ROOTFS/usr/local/sbin/
+cp usr/local/sbin/disable-jitsi-meet-dev $ROOTFS/usr/local/sbin/
+sed -i "s/___JITSI_HOST___/$JITSI_HOST/" \
+    $ROOTFS/usr/local/sbin/enable-jitsi-meet-dev
+sed -i "s/___JITSI_HOST___/$JITSI_HOST/" \
+    $ROOTFS/usr/local/sbin/disable-jitsi-meet-dev
+chmod 744 $ROOTFS/usr/local/sbin/enable-jitsi-meet-dev
+chmod 744 $ROOTFS/usr/local/sbin/disable-jitsi-meet-dev
 
 # -----------------------------------------------------------------------------
 # SYSTEM INFO
