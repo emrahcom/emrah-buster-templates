@@ -71,15 +71,34 @@ lxc-attach -n $MACH -- \
 # -----------------------------------------------------------------------------
 # JITSI-MEET DEV
 # -----------------------------------------------------------------------------
-# clones
+# dev folder
 lxc-attach -n $MACH -- \
     zsh -c \
     "set -e
      mkdir -p /home/dev
+     cd /home/dev"
+
+# lib-jitsi-meet
+lxc-attach -n $MACH -- \
+    zsh -c \
+    "set -e
      cd /home/dev
-     rm -rf jitsi-meet lib-jitsi-meet
+     rm -rf lib-jitsi-meet
+     git clone https://github.com/jitsi/lib-jitsi-meet.git
+     cd /home/dev/lib-jitsi-meet
+     npm update"
+
+# jitsi-meet
+lxc-attach -n $MACH -- \
+    zsh -c \
+    "set -e
+     cd /home/dev
+     rm -rf jitsi-meet
      git clone https://github.com/jitsi/jitsi-meet.git
-     git clone https://github.com/jitsi/lib-jitsi-meet.git"
+     cd /home/dev/jitsi-meet
+     npm install ../lib-jitsi-meet
+     npm update
+     make"
 
 # -----------------------------------------------------------------------------
 # SYSTEM CONFIGURATION
