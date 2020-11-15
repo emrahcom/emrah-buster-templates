@@ -75,7 +75,8 @@ lxc-attach -n $MACH -- \
 lxc-attach -n $MACH -- \
     zsh -c \
     "set -e
-     cd
+     mkdir -p /home/dev
+     cd /home/dev
      rm -rf jitsi-meet lib-jitsi-meet
      git clone https://github.com/jitsi/jitsi-meet.git
      git clone https://github.com/jitsi/lib-jitsi-meet.git"
@@ -86,7 +87,7 @@ lxc-attach -n $MACH -- \
 # nginx
 cp $ROOTFS/etc/nginx/sites-available/$JITSI_HOST.conf \
     $ROOTFS/etc/nginx/sites-available/$JITSI_HOST-dev.conf
-sed -i "s~/usr/share/jitsi-meet~/root/jitsi-meet~g" \
+sed -i "s~/usr/share/jitsi-meet~/home/dev/jitsi-meet~g" \
     $ROOTFS/etc/nginx/sites-available/$JITSI_HOST-dev.conf
 
 # enable?
