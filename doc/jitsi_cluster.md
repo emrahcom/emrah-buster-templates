@@ -13,9 +13,10 @@ Easy way to create a Jitsi cluster based on Debian Buster
   - [2.2 Installing JMS](#22-installing-jms)
     - [2.2.1 Downloading the installer](#221-downloading-the-installer)
     - [2.2.2 Setting the host addresses](#222-setting-the-host-addresses)
-    - [2.2.3 Running the installer](#223-running-the-installer)
-    - [2.2.4 Let's Encrypt certificate](#224-lets-encrypt-certificate)
-    - [2.2.5 Reboot](#225-reboot)
+    - [2.2.3 Development environment](#223-development-environment-optional)
+    - [2.2.4 Running the installer](#224-running-the-installer)
+    - [2.2.5 Let's Encrypt certificate](#225-lets-encrypt-certificate)
+    - [2.2.6 Reboot](#226-reboot)
 - [3. Additional Jitsi Videobridge (JVB) node](#3-additional-jitsi-videobridge-jvb-node)
   - [3.1 Prerequisites](#31-prerequisites)
     - [3.1.1 Machine features](#311-machine-features)
@@ -117,8 +118,8 @@ Installation will be done with
 ##### 2.2.1 Downloading the installer
 
 ```bash
-wget https://raw.githubusercontent.com/emrahcom/emrah-buster-base/master/installer/eb
-wget https://raw.githubusercontent.com/emrahcom/emrah-buster-templates/master/installer/eb-jitsi.conf
+wget -O eb https://raw.githubusercontent.com/emrahcom/emrah-buster-base/master/installer/eb
+wget -O eb-jitsi.conf https://raw.githubusercontent.com/emrahcom/emrah-buster-templates/master/installer/eb-jitsi.conf
 ```
 
 ##### 2.2.2 Setting the host addresses
@@ -131,13 +132,31 @@ echo export TURN_HOST=turn.mydomain.com >> eb-jitsi.conf
 echo export JITSI_HOST=meet.mydomain.com >> eb-jitsi.conf
 ```
 
-##### 2.2.3 Running the installer
+##### 2.2.3 Development environment (optional)
+This is an advanced option and skip this step if you don't need a development
+environment. Don't use this option on the production server.
+
+To install the development environment:
+
+```bash
+echo export INSTALL_JICOFO_DEV=true >> eb-jitsi.conf
+echo export INSTALL_JITSI_MEET_DEV=true >> eb-jitsi.conf
+```
+
+And set the following parameter if you want to enable the development
+environment by default:
+
+```bash
+echo export ENABLE_JITSI_MEET_DEV=true >> eb-jitsi.conf
+```
+
+##### 2.2.4 Running the installer
 
 ```bash
 bash eb eb-jitsi
 ```
 
-##### 2.2.4 Let's Encrypt certificate
+##### 2.2.5 Let's Encrypt certificate
 Let's say the host address of JMS is `meet.mydomain.com` and the host address
 of TURN is `turn.mydomain.com`. To set the Let's Encrypt certificate:
 
@@ -145,7 +164,7 @@ of TURN is `turn.mydomain.com`. To set the Let's Encrypt certificate:
 set-letsencrypt-cert meet.mydomain.com,turn.mydomain.com
 ```
 
-##### 2.2.5 Reboot
+##### 2.2.6 Reboot
 Reboot the server
 
 ```bash

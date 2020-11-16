@@ -13,15 +13,6 @@ cd $MACHINES/$MACH
 ROOTFS="/var/lib/lxc/$MACH/rootfs"
 
 # -----------------------------------------------------------------------------
-# NFTABLES RULES
-# -----------------------------------------------------------------------------
-# tcp/8000
-nft delete element eb-nat tcp2ip { 8000 } 2>/dev/null || true
-nft add element eb-nat tcp2ip { 8000 : $JITSI }
-nft delete element eb-nat tcp2port { 8000 } 2>/dev/null || true
-nft add element eb-nat tcp2port { 8000 : 8000 }
-
-# -----------------------------------------------------------------------------
 # INIT
 # -----------------------------------------------------------------------------
 [ "$INSTALL_JITSI_MEET_DEV" != true ] && exit
