@@ -67,7 +67,7 @@ to switch to the development web server.
 enable-jitsi-meet-dev
 ```
 
-To active the stable JMS again, use the following command
+To activate the stable JMS again, use the following command
 
 ```bash
 disable-jitsi-meet-dev
