@@ -98,9 +98,8 @@ cp -arp /root/eb_store/lib-jitsi-meet $ROOTFS/home/dev/
 lxc-attach -n $MACH -- \
     zsh -c \
     "set -e
-     export TMP=/tmp
      cd /home/dev/lib-jitsi-meet
-     npm update"
+     TMP=/tmp npm update"
 
 # jitsi-meet
 if [[ ! -d /root/eb_store/jitsi-meet ]]; then
@@ -119,11 +118,10 @@ cp -arp /root/eb_store/jitsi-meet $ROOTFS/home/dev/
 lxc-attach -n $MACH -- \
     zsh -c \
     "set -e
-     export TMP=/tmp
      cd /home/dev/jitsi-meet
-     npm install ../lib-jitsi-meet
-     npm update
-     make"
+     TMP=/tmp DISABLE_V8_COMPILE_CACHE=1 npm install ../lib-jitsi-meet
+     TMP=/tmp npm update
+     TMP=/tmp make"
 
 # -----------------------------------------------------------------------------
 # SYSTEM CONFIGURATION
