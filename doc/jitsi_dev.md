@@ -31,7 +31,7 @@ echo export ENABLE_JITSI_MEET_DEV=true >> eb-jitsi.conf
 ```
 
 ## 3. Login
-JMS run in a containerized environment which is named as `eb-jitsi`. There is
+JMS run in a containerized environment which is named as `eb-jitsi`. There are
 two common ways to login this environment:
 
 * Login to the host using `SSH` and then attach to the container
