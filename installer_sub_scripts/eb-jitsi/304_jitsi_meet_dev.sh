@@ -98,6 +98,7 @@ cp -arp /root/eb_store/lib-jitsi-meet $ROOTFS/home/dev/
 lxc-attach -n $MACH -- \
     zsh -c \
     "set -e
+     export TMP=/tmp
      cd /home/dev/lib-jitsi-meet
      npm update"
 
@@ -118,6 +119,7 @@ cp -arp /root/eb_store/jitsi-meet $ROOTFS/home/dev/
 lxc-attach -n $MACH -- \
     zsh -c \
     "set -e
+     export TMP=/tmp
      cd /home/dev/jitsi-meet
      npm install ../lib-jitsi-meet
      npm update
