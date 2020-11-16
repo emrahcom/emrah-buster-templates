@@ -6,7 +6,7 @@ Jitsi Development on eb-jitsi
 - [3. Login](#3-login)
 - [4. Dev folder](#4-dev-folder)
 - [5. Development](#5-development)
-- [6. Enable the development environment](#6-enable-the-development-environment)
+- [6. Enable the development web server](#6-enable-the-development-web-server)
 
 ## 1. About
 This guide provides the base info to use [eb-jitsi](jitsi_cluster.md) as a
@@ -23,7 +23,7 @@ echo export INSTALL_JICOFO_DEV=true >> eb-jitsi.conf
 echo export INSTALL_JITSI_MEET_DEV=true >> eb-jitsi.conf
 ```
 
-if you want to enable the development environment by default, set the following
+if you want to enable the development web server by default, set the following
 parameter too:
 
 ```bash
@@ -47,8 +47,8 @@ ssh -l root -p 30014 your.domain.com
 ```
 
 ## 4. Dev folder
-The related repositories are already cloned on `/home/dev`. Go there and start
-working:
+The development tools are already installed and the related repositories are
+already cloned on `/home/dev`. Go there and start working:
 
 ```bash
 cd /home/dev
@@ -59,9 +59,9 @@ ls
 How to change the codes is beyond the scope of this guide. See   
 [How to build Jitsi Meet from source: A developer’s guide](https://community.jitsi.org/t/how-to-how-to-build-jitsi-meet-from-source-a-developers-guide/75422)
 
-## 6. Enable the development environment
+## 6. Enable the development web server
 The web server run using the stable JMS by default. Use the following command
-to switch it to the development environment
+to switch to the development web server.
 
 ```bash
 enable-jitsi-meet-dev

@@ -144,7 +144,7 @@ echo export INSTALL_JITSI_MEET_DEV=true >> eb-jitsi.conf
 ```
 
 And set the following parameter if you want to enable the development
-environment by default:
+web server by default:
 
 ```bash
 echo export ENABLE_JITSI_MEET_DEV=true >> eb-jitsi.conf
