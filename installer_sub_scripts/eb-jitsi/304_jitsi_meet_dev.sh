@@ -71,6 +71,9 @@ lxc-attach -n $MACH -- \
 # -----------------------------------------------------------------------------
 # JITSI-MEET DEV
 # -----------------------------------------------------------------------------
+# store folder
+mkdir -p /root/eb_store
+
 # dev folder
 lxc-attach -n $MACH -- \
     zsh -c \
@@ -79,22 +82,42 @@ lxc-attach -n $MACH -- \
      cd /home/dev"
 
 # lib-jitsi-meet
+if [[ ! -d /root/eb_store/lib-jitsi-meet ]]; then
+    git clone --depth=1 -b master https://github.com/jitsi/lib-jitsi-meet.git \
+        /root/eb_store/lib-jitsi-meet
+fi
+
+bash -c \
+    "set -e
+     cd /root/eb_store/lib-jitsi-meet
+     git pull"
+
+rm -rf $ROOTFS/home/dev/lib-jitsi-meet
+cp -arp /root/eb_store/lib-jitsi-meet $ROOTFS/home/dev/
+
 lxc-attach -n $MACH -- \
     zsh -c \
     "set -e
-     cd /home/dev
-     rm -rf lib-jitsi-meet
-     git clone --depth=1 https://github.com/jitsi/lib-jitsi-meet.git
      cd /home/dev/lib-jitsi-meet
      npm update"
 
 # jitsi-meet
+if [[ ! -d /root/eb_store/jitsi-meet ]]; then
+    git clone --depth=1 -b master https://github.com/jitsi/jitsi-meet.git \
+        /root/eb_store/jitsi-meet
+fi
+
+bash -c \
+    "set -e
+     cd /root/eb_store/jitsi-meet
+     git pull"
+
+rm -rf $ROOTFS/home/dev/jitsi-meet
+cp -arp /root/eb_store/jitsi-meet $ROOTFS/home/dev/
+
 lxc-attach -n $MACH -- \
     zsh -c \
     "set -e
-     cd /home/dev
-     rm -rf jitsi-meet
-     git clone --depth=1 https://github.com/jitsi/jitsi-meet.git
      cd /home/dev/jitsi-meet
      npm install ../lib-jitsi-meet
      npm update
