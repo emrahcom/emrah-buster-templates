@@ -74,7 +74,8 @@ lxc-attach -n $MACH -- \
 
 # lib-jitsi-meet
 if [[ ! -d /root/eb_store/lib-jitsi-meet ]]; then
-    git clone --depth=1 -b master https://github.com/jitsi/lib-jitsi-meet.git \
+    git clone --depth=200 -b master \
+        https://github.com/jitsi/lib-jitsi-meet.git \
         /root/eb_store/lib-jitsi-meet
 fi
 
@@ -94,7 +95,7 @@ lxc-attach -n $MACH -- \
 
 # jitsi-meet
 if [[ ! -d /root/eb_store/jitsi-meet ]]; then
-    git clone --depth=1 -b master https://github.com/jitsi/jitsi-meet.git \
+    git clone --depth=200 -b master https://github.com/jitsi/jitsi-meet.git \
         /root/eb_store/jitsi-meet
 fi
 

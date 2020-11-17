@@ -68,7 +68,7 @@ lxc-attach -n $MACH -- \
 
 # jicofo
 if [[ ! -d /root/eb_store/jicofo ]]; then
-    git clone --depth=1 -b master https://github.com/jitsi/jicofo.git \
+    git clone --depth=200 -b master https://github.com/jitsi/jicofo.git \
         /root/eb_store/jicofo
 fi
 
