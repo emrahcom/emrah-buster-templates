@@ -12,11 +12,24 @@ JITSI_MEET="/var/lib/lxc/eb-jitsi/rootfs/usr/share/jitsi-meet"
 INTERFACE="$JITSI_MEET/interface_config.js"
 CONFIG="/var/lib/lxc/eb-jitsi/rootfs/etc/jitsi/meet/___JITSI_HOST___-config.js"
 PROSODY="/var/lib/lxc/eb-jitsi/rootfs/etc/prosody/conf.avail/___JITSI_HOST___.cfg.lua"
+JICOFO="/var/lib/lxc/eb-jitsi/rootfs/etc/jitsi/jicofo"
 
 APP_NAME="Jitsi Meet"
 FAVICON="$BASEDIR/favicon.ico"
 WATERMARK="$BASEDIR/watermark.png"
 WATERMARK_LINK="https://jitsi.org"
+
+# -----------------------------------------------------------------------------
+# backup
+# -----------------------------------------------------------------------------
+DATE=$(date +'%Y%m%d%H%M%S')
+BACKUP=$BASEDIR/backup/$DATE
+
+mkdir -p $BACKUP
+cp $INTERFACE $BACKUP/
+cp $CONFIG $BACKUP/
+cp $JITSI_MEET/images/favicon.ico $BACKUP/
+cp $JITSI_MEET/images/watermark.png $BACKUP/
 
 # -----------------------------------------------------------------------------
 # interface_config.js
@@ -72,3 +85,51 @@ sed -i "/disableInviteFunctions:/ s~//\s*~~" $CONFIG
 sed -i "/disableInviteFunctions:/ s~:.*~: false,~" $CONFIG
 sed -i "/doNotStoreRoom:/ s~//\s*~~" $CONFIG
 sed -i "/doNotStoreRoom:/ s~:.*~: false,~" $CONFIG
+
+#sed -i "/resolution:/ s~//\s*~~" $CONFIG
+#sed -i "/resolution:/ s~:.*~: 720,~" $CONFIG
+#sed -i "/constraints:/ s~//\s*~~" $CONFIG
+#sed -i "/constraints:/ s~:.*~: \
+#{\
+#video: {\
+#aspectRatio: 16 / 9, \
+#height: {\
+#ideal: 720, \
+#max: 720, \
+#min: 240}}},~" $CONFIG
+
+# -----------------------------------------------------------------------------
+# token
+# -----------------------------------------------------------------------------
+#lxc-attach -n eb-jitsi -- \
+#    zsh -c \
+#    "set -e
+#     export DEBIAN_FRONTEND=noninteractive
+#     debconf-set-selections <<< \
+#         'jitsi-meet-tokens jitsi-meet-tokens/appid string myappid'
+#     debconf-set-selections <<< \
+#         'jitsi-meet-tokens jitsi-meet-tokens/appsecret password myappsecret'
+#     apt-get -y install jitsi-meet-tokens"
+#
+#sed -i '/allow_empty_token/d' $PROSODY
+#sed -i '/token_affiliation/d' $PROSODY
+#sed -i '/\s*app_secret=/a \        allow_empty_token = false' $PROSODY
+#sed -i '/\s*"token_verification"/a \        "token_affiliation";' $PROSODY
+#sed -i '/\s*"token_affiliation"/a \        "token_owner_party";' $PROSODY
+#
+#lxc-attach -n eb-jitsi -- systemctl restart prosody.service
+#
+#sed -i "/org.jitsi.jicofo.DISABLE_AUTO_OWNER/ s/^#//" \
+#    $JICOFO/sip-communicator.properties
+#
+#lxc-attach -n eb-jitsi -- \
+#    zsh -c \
+#    "set -e
+#     systemctl restart jicofo.service
+#     systemctl stop jitsi-videobridge2.service
+#     systemctl disable jitsi-videobridge2.service"
+#
+#sed -i "/enableUserRolesBasedOnToken:/ s~//\s*~~" $CONFIG
+#sed -i "/enableUserRolesBasedOnToken:/ s~:.*~: true,~" $CONFIG
+#sed -i "/enableFeaturesBasedOnToken:/ s~//\s*~~" $CONFIG
+#sed -i "/enableFeaturesBasedOnToken:/ s~:.*~: true,~" $CONFIG
