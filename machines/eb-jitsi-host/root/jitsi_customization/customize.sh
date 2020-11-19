@@ -7,17 +7,20 @@ set -e
 # usage:
 #     bash customize.sh
 # -----------------------------------------------------------------------------
+APP_NAME="Jitsi Meet"
+WATERMARK_LINK="https://jitsi.org"
+
 BASEDIR=$(dirname $0)
 JITSI_MEET="/var/lib/lxc/eb-jitsi/rootfs/usr/share/jitsi-meet"
-INTERFACE="$JITSI_MEET/interface_config.js"
-CONFIG="/var/lib/lxc/eb-jitsi/rootfs/etc/jitsi/meet/___JITSI_HOST___-config.js"
+JITSI_MEET_INTERFACE="$JITSI_MEET/interface_config.js"
+JITSI_MEET_CONFIG="/var/lib/lxc/eb-jitsi/rootfs/etc/jitsi/meet/___JITSI_HOST___-config.js"
+JITSI_MEET_VERSION=$(apt-cache policy jitsi-meet | grep Installed | \
+                     cut -d: -f2 | xargs)
 PROSODY="/var/lib/lxc/eb-jitsi/rootfs/etc/prosody/conf.avail/___JITSI_HOST___.cfg.lua"
 JICOFO="/var/lib/lxc/eb-jitsi/rootfs/etc/jitsi/jicofo"
 
-APP_NAME="Jitsi Meet"
 FAVICON="$BASEDIR/favicon.ico"
 WATERMARK="$BASEDIR/watermark.png"
-WATERMARK_LINK="https://jitsi.org"
 
 # -----------------------------------------------------------------------------
 # backup
@@ -26,69 +29,44 @@ DATE=$(date +'%Y%m%d%H%M%S')
 BACKUP=$BASEDIR/backup/$DATE
 
 mkdir -p $BACKUP
-cp $INTERFACE $BACKUP/
-cp $CONFIG $BACKUP/
+cp $JITSI_MEET_INTERFACE $BACKUP/
+cp $JITSI_MEET_CONFIG $BACKUP/
 cp $JITSI_MEET/images/favicon.ico $BACKUP/
 cp $JITSI_MEET/images/watermark.png $BACKUP/
 
 # -----------------------------------------------------------------------------
-# interface_config.js
+# jitsi-meet config.js
 # -----------------------------------------------------------------------------
-cp $FAVICON $JITSI_MEET/images/favicon.ico
-cp $WATERMARK $JITSI_MEET/images/watermark.png
-cp $WATERMARK $JITSI_MEET/images/watermark-custom.png
-sed -i "/^\s*DEFAULT_LOGO_URL:/ s~:.*~: 'images/watermark-custom.png',~" \
-        $INTERFACE
-sed -i "/^\s*APP_NAME:/ s~:.*~: '$APP_NAME',~" $INTERFACE
-
-sed -i "/^\s*DISABLE_JOIN_LEAVE_NOTIFICATIONS:/ s~:.*~: true,~" $INTERFACE
-sed -i "/^\s*DISABLE_VIDEO_BACKGROUND:/ s~:.*~: true,~" $INTERFACE
-sed -i "/^\s*GENERATE_ROOMNAMES_ON_WELCOME_PAGE:/ s~:.*~: false,~" $INTERFACE
-sed -i "/^\s*HIDE_INVITE_MORE_HEADER:/ s~:.*~: false,~" $INTERFACE
-sed -i "/^\s*JITSI_WATERMARK_LINK:/ s~:.*~: '$WATERMARK_LINK',~" $INTERFACE
-sed -i "/^\s*LANG_DETECTION:/ s~:.*~: true,~" $INTERFACE
-sed -i "/ENFORCE_NOTIFICATION_AUTO_DISMISS_TIMEOUT:/ s~//\s*~~" $INTERFACE
-sed -i "/^\s*ENFORCE_NOTIFICATION_AUTO_DISMISS_TIMEOUT:/ s~:.*~: 5000,~" \
-    $INTERFACE
-
-sed -i "s~'videobackgroundblur', *~~" $INTERFACE
-#sed -i "s~'embedmeeting', *~~" $INTERFACE
-#sed -i "s~'invite', *~~" $INTERFACE
-#sed -i "s~'feedback', *~~" $INTERFACE
-
-# -----------------------------------------------------------------------------
-# config.js
-# -----------------------------------------------------------------------------
-sed -i "/^\s*p2pTestMode:/ s~false$~false,~" $CONFIG
-sed -i '/^\s*capScreenshareBitrate:/d' $CONFIG
+sed -i "/^\s*p2pTestMode:/ s~false$~false,~" $JITSI_MEET_CONFIG
+sed -i '/^\s*capScreenshareBitrate:/d' $JITSI_MEET_CONFIG
 sed -i '/\/\/ capScreenshareBitrate/a \        capScreenshareBitrate: 1' \
-    $CONFIG
+    $JITSI_MEET_CONFIG
 
-sed -i "/disableAudioLevels:/ s~//\s*~~" $CONFIG
-sed -i "/disableAudioLevels:/ s~:.*~: true,~" $CONFIG
-sed -i "/startAudioMuted:/ s~//\s*~~" $CONFIG
-sed -i "/startAudioMuted:/ s~:.*~: 10,~" $CONFIG
-sed -i "/startWithAudioMuted:/ s~//\s*~~" $CONFIG
-sed -i "/startWithAudioMuted:/ s~:.*~: false,~" $CONFIG
+sed -i "/disableAudioLevels:/ s~//\s*~~" $JITSI_MEET_CONFIG
+sed -i "/disableAudioLevels:/ s~:.*~: true,~" $JITSI_MEET_CONFIG
+sed -i "/startAudioMuted:/ s~//\s*~~" $JITSI_MEET_CONFIG
+sed -i "/startAudioMuted:/ s~:.*~: 10,~" $JITSI_MEET_CONFIG
+sed -i "/startWithAudioMuted:/ s~//\s*~~" $JITSI_MEET_CONFIG
+sed -i "/startWithAudioMuted:/ s~:.*~: false,~" $JITSI_MEET_CONFIG
 
-sed -i "/startVideoMuted:/ s~//\s*~~" $CONFIG
-sed -i "/startVideoMuted:/ s~:.*~: 10,~" $CONFIG
-sed -i "/startWithVideoMuted:/ s~//\s*~~" $CONFIG
-sed -i "/startWithVideoMuted:/ s~:.*~: true,~" $CONFIG
-sed -i "/channelLastN:/ s~//\s*~~" $CONFIG
-sed -i "/channelLastN:/ s~:.*~: 2,~" $CONFIG
-sed -i "/requireDisplayName:/ s~//\s*~~" $CONFIG
-sed -i "/requireDisplayName:/ s~:.*~: true,~" $CONFIG
-sed -i "/defaultLanguage:/ s~//\s*~~" $CONFIG
-sed -i "/defaultLanguage:/ s~:.*~: 'en',~" $CONFIG
-sed -i "/disableInviteFunctions:/ s~//\s*~~" $CONFIG
-sed -i "/disableInviteFunctions:/ s~:.*~: false,~" $CONFIG
-sed -i "/doNotStoreRoom:/ s~//\s*~~" $CONFIG
-sed -i "/doNotStoreRoom:/ s~:.*~: false,~" $CONFIG
+sed -i "/startVideoMuted:/ s~//\s*~~" $JITSI_MEET_CONFIG
+sed -i "/startVideoMuted:/ s~:.*~: 10,~" $JITSI_MEET_CONFIG
+sed -i "/startWithVideoMuted:/ s~//\s*~~" $JITSI_MEET_CONFIG
+sed -i "/startWithVideoMuted:/ s~:.*~: true,~" $JITSI_MEET_CONFIG
+sed -i "/channelLastN:/ s~//\s*~~" $JITSI_MEET_CONFIG
+sed -i "/channelLastN:/ s~:.*~: 2,~" $JITSI_MEET_CONFIG
+sed -i "/requireDisplayName:/ s~//\s*~~" $JITSI_MEET_CONFIG
+sed -i "/requireDisplayName:/ s~:.*~: true,~" $JITSI_MEET_CONFIG
+sed -i "/defaultLanguage:/ s~//\s*~~" $JITSI_MEET_CONFIG
+sed -i "/defaultLanguage:/ s~:.*~: 'en',~" $JITSI_MEET_CONFIG
+sed -i "/disableInviteFunctions:/ s~//\s*~~" $JITSI_MEET_CONFIG
+sed -i "/disableInviteFunctions:/ s~:.*~: false,~" $JITSI_MEET_CONFIG
+sed -i "/doNotStoreRoom:/ s~//\s*~~" $JITSI_MEET_CONFIG
+sed -i "/doNotStoreRoom:/ s~:.*~: false,~" $JITSI_MEET_CONFIG
 
-#sed -i "/resolution:/ s~//\s*~~" $CONFIG
-#sed -i "/resolution:/ s~:.*~: 720,~" $CONFIG
-#sed -i "/constraints:/ s~//\s*~~" $CONFIG
+#sed -i "/resolution:/ s~//\s*~~" $JITSI_MEET_CONFIG
+#sed -i "/resolution:/ s~:.*~: 720,~" $JITSI_MEET_CONFIG
+#sed -i "/constraints:/ s~//\s*~~" $JITSI_MEET_CONFIG
 #sed -i "/constraints:/ s~:.*~: \
 #{\
 #video: {\
@@ -96,10 +74,52 @@ sed -i "/doNotStoreRoom:/ s~:.*~: false,~" $CONFIG
 #height: {\
 #ideal: 720, \
 #max: 720, \
-#min: 240}}},~" $CONFIG
+#min: 240}}},~" $JITSI_MEET_CONFIG
 
 # -----------------------------------------------------------------------------
-# token
+# jitsi-meet interface_config.js
+# -----------------------------------------------------------------------------
+cp $FAVICON $JITSI_MEET/images/favicon.ico
+cp $WATERMARK $JITSI_MEET/images/watermark.png
+cp $WATERMARK $JITSI_MEET/images/watermark-custom.png
+
+sed -i "/^\s*DEFAULT_LOGO_URL:/ s~:.*~: 'images/watermark-custom.png',~" \
+    $JITSI_MEET_INTERFACE
+sed -i "/^\s*APP_NAME:/ s~:.*~: '$APP_NAME',~" $JITSI_MEET_INTERFACE
+sed -i "/^\s*DISABLE_JOIN_LEAVE_NOTIFICATIONS:/ s~:.*~: true,~" \
+    $JITSI_MEET_INTERFACE
+sed -i "/^\s*DISABLE_VIDEO_BACKGROUND:/ s~:.*~: true,~" $JITSI_MEET_INTERFACE
+sed -i "/^\s*GENERATE_ROOMNAMES_ON_WELCOME_PAGE:/ s~:.*~: false,~" \
+    $JITSI_MEET_INTERFACE
+sed -i "/^\s*HIDE_INVITE_MORE_HEADER:/ s~:.*~: false,~" $JITSI_MEET_INTERFACE
+sed -i "/^\s*JITSI_WATERMARK_LINK:/ s~:.*~: '$WATERMARK_LINK',~" \
+    $JITSI_MEET_INTERFACE
+sed -i "/^\s*LANG_DETECTION:/ s~:.*~: true,~" $JITSI_MEET_INTERFACE
+sed -i "/ENFORCE_NOTIFICATION_AUTO_DISMISS_TIMEOUT:/ s~//\s*~~" \
+    $JITSI_MEET_INTERFACE
+sed -i "/^\s*ENFORCE_NOTIFICATION_AUTO_DISMISS_TIMEOUT:/ s~:.*~: 5000,~" \
+    $JITSI_MEET_INTERFACE
+
+sed -i "s~'videobackgroundblur'~''~" $JITSI_MEET_INTERFACE
+#sed -i "s~'embedmeeting'~''~" $JITSI_MEET_INTERFACE
+#sed -i "s~'invite'~''~" $JITSI_MEET_INTERFACE
+#sed -i "s~'feedback'~''~" $JITSI_MEET_INTERFACE
+
+# -----------------------------------------------------------------------------
+# jitsi-meet customization
+# -----------------------------------------------------------------------------
+cp $BASEDIR/chat.svg $JITSI_MEET/images/
+cp $BASEDIR/custom.css $JITSI_MEET/css/
+sed -i "/custom\.css?v=/d" $JITSI_MEET/index.html
+sed -i "/link.*stylesheet.*all.css?v=/a \
+\    <link rel=\"stylesheet\" href=\"css/custom.css?v=$JITSI_MEET_VERSION\">" \
+    $JITSI_MEET/index.html
+sed -i "/\"app\.bundle\.min\.js\",/a \
+\            \"custom.css?v=$JITSI_MEET_VERSION\"," \
+    $JITSI_MEET/index.html
+
+# -----------------------------------------------------------------------------
+# jwt
 # -----------------------------------------------------------------------------
 #lxc-attach -n eb-jitsi -- \
 #    zsh -c \
@@ -129,7 +149,7 @@ sed -i "/doNotStoreRoom:/ s~:.*~: false,~" $CONFIG
 #     systemctl stop jitsi-videobridge2.service
 #     systemctl disable jitsi-videobridge2.service"
 #
-#sed -i "/enableUserRolesBasedOnToken:/ s~//\s*~~" $CONFIG
-#sed -i "/enableUserRolesBasedOnToken:/ s~:.*~: true,~" $CONFIG
-#sed -i "/enableFeaturesBasedOnToken:/ s~//\s*~~" $CONFIG
-#sed -i "/enableFeaturesBasedOnToken:/ s~:.*~: true,~" $CONFIG
+#sed -i "/enableUserRolesBasedOnToken:/ s~//\s*~~" $JITSI_MEET_CONFIG
+#sed -i "/enableUserRolesBasedOnToken:/ s~:.*~: true,~" $JITSI_MEET_CONFIG
+#sed -i "/enableFeaturesBasedOnToken:/ s~//\s*~~" $JITSI_MEET_CONFIG
+#sed -i "/enableFeaturesBasedOnToken:/ s~:.*~: true,~" $JITSI_MEET_CONFIG

@@ -1,0 +1,21 @@
+@keyframes color {
+    from {
+        background: white;
+    }
+    to {
+        background: #165ecc;
+    }
+}
+.toolbox-content .button-group-left .toolbox-button:nth-child(2) .toolbox-icon.toggled {
+     animation: color 3s infinite;
+}
+
+.toolbox-content .button-group-left .toolbox-button:nth-child(1) .toolbox-icon .jitsi-icon > svg {
+    fill: transparent;
+}
+.toolbox-content .button-group-left .toolbox-button:nth-child(1) .toolbox-icon .jitsi-icon {
+    background-image: url("../images/chat.svg");
+    background-repeat: no-repeat;
+    background-position-x: center;
+    background-size: contain;
+}
