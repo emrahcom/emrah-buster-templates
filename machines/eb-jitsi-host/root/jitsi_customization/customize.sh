@@ -146,8 +146,7 @@ sed -i "/\"app\.bundle\.min\.js\",/a \
 #    zsh -c \
 #    "set -e
 #     systemctl restart jicofo.service
-#     systemctl stop jitsi-videobridge2.service
-#     systemctl disable jitsi-videobridge2.service"
+#     systemctl restart jitsi-videobridge2.service"
 #
 #sed -i "/enableUserRolesBasedOnToken:/ s~//\s*~~" $JITSI_MEET_CONFIG
 #sed -i "/enableUserRolesBasedOnToken:/ s~:.*~: true,~" $JITSI_MEET_CONFIG
