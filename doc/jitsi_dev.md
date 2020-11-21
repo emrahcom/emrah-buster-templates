@@ -6,7 +6,10 @@ Jitsi Development on eb-jitsi
 - [3. Login](#3-login)
 - [4. Dev folder](#4-dev-folder)
 - [5. Development](#5-development)
-- [6. Enable the development web server](#6-enable-the-development-web-server)
+- [6. Build](#6-build)
+  - [6.1 Jitsi-meet Build](#61-jitsi-meet-build)
+  - [6.2 Jicofo Build](#62-jicofo-build)
+- [7. Enable the development web server](#7-enable-the-development-web-server)
 
 ## 1. About
 This guide provides the base info to use [eb-jitsi](jitsi_cluster.md) as a
@@ -21,13 +24,6 @@ starting the installer.
 ```bash
 echo export INSTALL_JICOFO_DEV=true >> eb-jitsi.conf
 echo export INSTALL_JITSI_MEET_DEV=true >> eb-jitsi.conf
-```
-
-if you want to enable the development web server by default, set the following
-parameter too:
-
-```bash
-echo export ENABLE_JITSI_MEET_DEV=true >> eb-jitsi.conf
 ```
 
 ## 3. Login
@@ -59,7 +55,44 @@ ls
 How to change the codes is beyond the scope of this guide. See   
 [How to build Jitsi Meet from source: A developer’s guide](https://community.jitsi.org/t/how-to-how-to-build-jitsi-meet-from-source-a-developers-guide/75422)
 
-## 6. Enable the development web server
+If you want to edit the codes for the installed version, first check the
+installed version and switch to the related working tree.
+
+```bash
+dpkg -l jitsi-meet jicofo
+
+cd /home/dev/jitsi-meet
+git checkout jitsi-meet_<TAG>
+git checkout -b <TAG>
+```
+
+## 6. Build
+#### 6.1 Jitsi-meet build
+If you want to use the local `lib-jitsi-meet` repo
+
+```bash
+cd /home/dev/lib-jitsi-meet
+npm update
+
+cd /home/dev/jitsi-meet
+npm install ../lib-jitsi-meet
+```
+
+To build `jitsi-meet`
+
+```bash
+cd /home/dev/jitsi-meet
+npm update
+make
+```
+
+#### 6.2 Jicofo build
+```bash
+cd /home/dev/jicofo
+mvn install
+```
+
+## 7. Enable the development web server
 The web server run using the stable JMS by default. Use the following command
 to switch to the development web server.
 

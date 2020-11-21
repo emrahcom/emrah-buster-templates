@@ -134,20 +134,13 @@ echo export JITSI_HOST=meet.mydomain.com >> eb-jitsi.conf
 
 ##### 2.2.3 Development environment (optional)
 This is an advanced option and skip this step if you don't need a development
-environment. Don't use this option on the production server.
+environment.
 
 To install the development environment:
 
 ```bash
 echo export INSTALL_JICOFO_DEV=true >> eb-jitsi.conf
 echo export INSTALL_JITSI_MEET_DEV=true >> eb-jitsi.conf
-```
-
-And set the following parameter if you want to enable the development
-web server by default:
-
-```bash
-echo export ENABLE_JITSI_MEET_DEV=true >> eb-jitsi.conf
 ```
 
 ##### 2.2.4 Running the installer
