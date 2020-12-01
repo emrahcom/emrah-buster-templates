@@ -345,6 +345,11 @@ JICOFO_MAX_MEMORY=3072m' \
 lxc-attach -n $MACH -- systemctl restart jicofo.service
 
 # nginx
+mkdir -p $ROOTFS/systemd/system/nginx.service.d
+cp etc/systemd/system/nginx.service.d/override.conf \
+    $ROOTFS/systemd/system/nginx.service.d/
+sed -i "/worker_connections/ s/\\S*;/8192;/" \
+    $ROOTFS/etc/nginx/nginx.conf
 mkdir -p $ROOTFS/usr/local/share/nginx/modules-available
 cp usr/local/share/nginx/modules-available/jitsi-meet.conf \
     $ROOTFS/usr/local/share/nginx/modules-available/
@@ -365,6 +370,7 @@ lxc-attach -n $MACH -- \
      rm -rf /var/www/html
      ln -s /usr/share/jitsi-meet /var/www/html"
 
+lxc-attach -n $MACH -- systemctl daemon-reload
 lxc-attach -n $MACH -- systemctl stop nginx.service
 lxc-attach -n $MACH -- systemctl start nginx.service
 
