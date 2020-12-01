@@ -345,9 +345,9 @@ JICOFO_MAX_MEMORY=3072m' \
 lxc-attach -n $MACH -- systemctl restart jicofo.service
 
 # nginx
-mkdir -p $ROOTFS/systemd/system/nginx.service.d
+mkdir -p $ROOTFS/etc/systemd/system/nginx.service.d
 cp etc/systemd/system/nginx.service.d/override.conf \
-    $ROOTFS/systemd/system/nginx.service.d/
+    $ROOTFS/etc/systemd/system/nginx.service.d/
 sed -i "/worker_connections/ s/\\S*;/8192;/" \
     $ROOTFS/etc/nginx/nginx.conf
 mkdir -p $ROOTFS/usr/local/share/nginx/modules-available
