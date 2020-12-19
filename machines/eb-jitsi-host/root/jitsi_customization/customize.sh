@@ -86,6 +86,8 @@ cp $WATERMARK $JITSI_MEET/images/watermark-custom.png
 sed -i "/^\s*APP_NAME:/ s~:.*~: '$APP_NAME',~" $JITSI_MEET_INTERFACE
 sed -i "/^\s*DEFAULT_LOGO_URL:/ s~:.*~: 'images/watermark-custom.png',~" \
     $JITSI_MEET_INTERFACE
+sed -i "/^\s*DISABLE_FOCUS_INDICATOR:/ s~:.*~: true,~" \
+    $JITSI_MEET_INTERFACE
 sed -i "/^\s*DISABLE_JOIN_LEAVE_NOTIFICATIONS:/ s~:.*~: true,~" \
     $JITSI_MEET_INTERFACE
 sed -i "/^\s*DISABLE_VIDEO_BACKGROUND:/ s~:.*~: true,~" $JITSI_MEET_INTERFACE
