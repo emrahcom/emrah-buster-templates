@@ -135,6 +135,7 @@ sed -i "/\"app\.bundle\.min\.js\",/a \
 #
 #sed -i '/allow_empty_token/d' $PROSODY
 #sed -i '/token_affiliation/d' $PROSODY
+#sed -i '/token_owner_party/d' $PROSODY
 #sed -i '/\s*app_secret=/a \        allow_empty_token = false' $PROSODY
 #sed -i '/\s*"token_verification"/a \        "token_affiliation";' $PROSODY
 #sed -i '/\s*"token_affiliation"/a \        "token_owner_party";' $PROSODY
