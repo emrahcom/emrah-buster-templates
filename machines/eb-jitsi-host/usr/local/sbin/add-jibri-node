@@ -131,7 +131,7 @@ ssh_ "cd /tmp && bash eb eb-jibri"
 # configuration
 # -----------------------------------------------------------------------------
 [[ -n "$(ssh_ dig +short $JITSI_HOST)" ]] || \
-    ssh_ "echo \"$REMOTE_IP\t$JITSI_HOST\" >> $JIBRI_ROOTFS/etc/hosts"
+    ssh_ "echo \"$REMOTE_IP $JITSI_HOST\" >> $JIBRI_ROOTFS/etc/hosts"
 
 scp_ $JITSI_ROOTFS/usr/local/share/ca-certificates/jms-CA.crt \
     $JIBRI_ROOTFS/usr/local/share/ca-certificates/

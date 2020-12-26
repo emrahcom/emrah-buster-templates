@@ -93,7 +93,7 @@ ssh_ sed -i \"s/^JVB_SECRET=.*/JVB_SECRET=$JVB_SECRET/\" \
     $JVB_ROOTFS/etc/jitsi/videobridge/config
 
 [[ -n "$(ssh_ dig +short $JITSI_HOST)" ]] || \
-    ssh_ "echo \"$REMOTE_IP\t$JITSI_HOST\" >> $JVB_ROOTFS/etc/hosts"
+    ssh_ "echo \"$REMOTE_IP $JITSI_HOST\" >> $JVB_ROOTFS/etc/hosts"
 
 ssh_ lxc-attach -n eb-jvb systemctl stop jitsi-videobridge2.service
 ssh_ lxc-attach -n eb-jvb systemctl start jitsi-videobridge2.service
