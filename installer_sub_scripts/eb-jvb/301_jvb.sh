@@ -24,6 +24,11 @@ nft delete element eb-nat tcp2ip { $SSH_PORT } 2>/dev/null || true
 nft add element eb-nat tcp2ip { $SSH_PORT : $IP }
 nft delete element eb-nat tcp2port { $SSH_PORT } 2>/dev/null || true
 nft add element eb-nat tcp2port { $SSH_PORT : 22 }
+# tcp/9090
+nft delete element eb-nat tcp2ip { 9090 } 2>/dev/null || true
+nft add element eb-nat tcp2ip { 9090 : $IP }
+nft delete element eb-nat tcp2port { 9090 } 2>/dev/null || true
+nft add element eb-nat tcp2port { 9090 : 9090 }
 # udp/10000
 nft delete element eb-nat udp2ip { 10000 } 2>/dev/null || true
 nft add element eb-nat udp2ip { 10000 : $IP }
