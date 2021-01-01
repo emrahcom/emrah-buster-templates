@@ -92,7 +92,7 @@ lxc-attach -n $MACH -- \
     zsh -c \
     "set -e
      echo $MACH > /etc/hostname
-     sed -i 's/\(127.0.1.1\s*\).*$/\1 $MACH/' /etc/hosts
+     sed -i 's/\(127.0.1.1\s*\).*$/\1$MACH/' /etc/hosts
      hostname $MACH"
 
 # -----------------------------------------------------------------------------
