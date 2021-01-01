@@ -1,0 +1,37 @@
+#!/bin/bash
+
+# -----------------------------------------------------------------------------
+# SCALE-DOWN-JVB-NODES
+# -----------------------------------------------------------------------------
+# Poweroff the idle JVBs. TCP/30015 must be accessable on JVB.
+# -----------------------------------------------------------------------------
+SSH_CONFIG=/root/.ssh/jms-config
+IDLE_MIN=2
+UPTIME_MIN=1200
+
+idle=0
+for ip in $(lxc-attach -n eb-jitsi -- bash -c "netstat -tnp | \
+            grep ESTABLISHED | grep '172.22.22.[0-9]\+:5222' | cut -d: -f2 | \
+            grep -v '172.22.22.' | awk '{print \$2;}' | sort -R"); do
+    # skip if it's not a JVB
+    ssh -F $SSH_CONFIG -p 30015 $ip -- true 2>/dev/null || continue
+
+    # skip if the uptime is less than UPTIME_MIN seconds
+    uptime=$(ssh -F $SSH_CONFIG $ip -- cat /proc/uptime | cut -d ' ' -f1 | \
+             cut -d '.' -f1)
+    [[ $uptime -lt $UPTIME_MIN ]] && continue
+
+    # skip if there is an active meeting on JVB
+    [[ "$(ssh -F $SSH_CONFIG -p 30015 $ip -- \
+        curl -s http://127.0.0.1:8080/colibri/conferences)" != "[]" ]] && \
+        continue
+
+    # skip if number of idle nodes is less than IDLE_MIN
+    (( idle = idle + 1 ))
+    [[ $idle -le $IDLE_MIN ]] && continue
+
+    # poweroff
+    ssh -F $SSH_CONFIG $ip -- poweroff 2>/dev/null
+done
+
+true
