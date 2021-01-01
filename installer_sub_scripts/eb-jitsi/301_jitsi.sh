@@ -438,7 +438,7 @@ chmod 744 /usr/local/sbin/set-letsencrypt-cert
 # Scale down JVBs (disabled by default)
 cp $MACHINES/eb-jitsi-host/usr/local/sbin/scale-down-jvb-nodes /usr/local/sbin/
 chmod 744 /usr/local/sbin/scale-down-jvb-nodes
-cp $MACHINES/etc/systemd/system/scale-down-jvb-nodes.service \
+cp $MACHINES/eb-jitsi-host/etc/systemd/system/scale-down-jvb-nodes.service \
     /etc/systemd/system/
 
 systemctl daemon-reload
