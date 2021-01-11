@@ -54,7 +54,7 @@ sed -i "/startVideoMuted:/ s~:.*~: 10,~" $JITSI_MEET_CONFIG
 sed -i "/startWithVideoMuted:/ s~//\s*~~" $JITSI_MEET_CONFIG
 sed -i "/startWithVideoMuted:/ s~:.*~: true,~" $JITSI_MEET_CONFIG
 sed -i "/channelLastN:/ s~//\s*~~" $JITSI_MEET_CONFIG
-sed -i "/channelLastN:/ s~:.*~: 2,~" $JITSI_MEET_CONFIG
+sed -i "/channelLastN:/ s~:.*~: 4,~" $JITSI_MEET_CONFIG
 sed -i "/requireDisplayName:/ s~//\s*~~" $JITSI_MEET_CONFIG
 sed -i "/requireDisplayName:/ s~:.*~: true,~" $JITSI_MEET_CONFIG
 sed -i "/defaultLanguage:/ s~//\s*~~" $JITSI_MEET_CONFIG
