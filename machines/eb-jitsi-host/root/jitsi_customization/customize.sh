@@ -20,7 +20,7 @@ PROSODY="/var/lib/lxc/eb-jitsi/rootfs/etc/prosody/conf.avail/___JITSI_HOST___.cf
 JICOFO="/var/lib/lxc/eb-jitsi/rootfs/etc/jitsi/jicofo"
 
 FAVICON="$BASEDIR/favicon.ico"
-WATERMARK="$BASEDIR/watermark.png"
+WATERMARK="$BASEDIR/watermark.svg"
 
 # -----------------------------------------------------------------------------
 # backup
@@ -32,7 +32,7 @@ mkdir -p $BACKUP
 cp $JITSI_MEET_INTERFACE $BACKUP/
 cp $JITSI_MEET_CONFIG $BACKUP/
 cp $JITSI_MEET/images/favicon.ico $BACKUP/
-cp $JITSI_MEET/images/watermark.png $BACKUP/
+cp $JITSI_MEET/images/watermark.svg $BACKUP/
 
 # -----------------------------------------------------------------------------
 # jitsi-meet config.js
@@ -80,12 +80,9 @@ sed -i "/doNotStoreRoom:/ s~:.*~: false,~" $JITSI_MEET_CONFIG
 # jitsi-meet interface_config.js
 # -----------------------------------------------------------------------------
 cp $FAVICON $JITSI_MEET/images/favicon.ico
-cp $WATERMARK $JITSI_MEET/images/watermark.png
-cp $WATERMARK $JITSI_MEET/images/watermark-custom.png
+cp $WATERMARK $JITSI_MEET/images/watermark.svg
 
 sed -i "/^\s*APP_NAME:/ s~:.*~: '$APP_NAME',~" $JITSI_MEET_INTERFACE
-sed -i "/^\s*DEFAULT_LOGO_URL:/ s~:.*~: 'images/watermark-custom.png',~" \
-    $JITSI_MEET_INTERFACE
 sed -i "/^\s*DISABLE_FOCUS_INDICATOR:/ s~:.*~: true,~" \
     $JITSI_MEET_INTERFACE
 sed -i "/^\s*DISABLE_JOIN_LEAVE_NOTIFICATIONS:/ s~:.*~: true,~" \

@@ -27,7 +27,7 @@ if [[ ! -d "/root/jitsi_customization" ]]
 then
     cp -arp root/jitsi_customization /root/
     cp $JITSI_MEET/images/favicon.ico /root/jitsi_customization/
-    cp $JITSI_MEET/images/watermark.png /root/jitsi_customization/
+    cp $JITSI_MEET/images/watermark.svg /root/jitsi_customization/
 
     sed -i "s/___TURN_HOST___/$TURN_HOST/g" \
         /root/jitsi_customization/README.md
