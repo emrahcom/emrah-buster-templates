@@ -79,9 +79,10 @@ sed -i "/doNotStoreRoom:/ s~:.*~: false,~" $JITSI_MEET_CONFIG
 # -----------------------------------------------------------------------------
 # jitsi-meet interface_config.js
 # -----------------------------------------------------------------------------
-cp $FAVICON $JITSI_MEET/images/favicon.ico
-cp $WATERMARK $JITSI_MEET/images/watermark.svg
+cp $FAVICON $JITSI_MEET/images/
+cp $WATERMARK $JITSI_MEET/images/
 
+#sed -i "s/watermark.svg/watermark.png/" $JITSI_MEET_INTERFACE
 sed -i "/^\s*APP_NAME:/ s~:.*~: '$APP_NAME',~" $JITSI_MEET_INTERFACE
 sed -i "/^\s*DISABLE_JOIN_LEAVE_NOTIFICATIONS:/ s~:.*~: true,~" \
     $JITSI_MEET_INTERFACE
