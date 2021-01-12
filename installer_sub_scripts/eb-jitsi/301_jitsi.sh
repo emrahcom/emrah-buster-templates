@@ -199,22 +199,6 @@ lxc-attach -n $MACH -- \
      apt-get $APT_PROXY_OPTION -y install luarocks liblua5.2-dev
      apt-get $APT_PROXY_OPTION -y install gcc git"
 
-# lua-cjson (customization needed)
-lxc-attach -n $MACH -- \
-    zsh -c \
-    "set -e
-     mkdir -p /tmp/src
-     cd /tmp/src
-
-     luarocks download lua-cjson 2.1.0.6-1
-     luarocks unpack lua-cjson-2.1.0.6-1.src.rock
-     cd lua-cjson-2.1.0.6-1/lua-cjson
-     sed -i '743 s~len~// len~' lua_cjson.c
-     sed -i '744 s~len~0~' lua_cjson.c
-
-     luarocks make --pack-binary-rock
-     luarocks install lua-cjson-2.1devel-1.linux-x86_64.rock"
-
 # -----------------------------------------------------------------------------
 # EXTERNAL IP
 # -----------------------------------------------------------------------------
