@@ -6,7 +6,7 @@
 # Poweroff the idle JVBs. TCP/30015 must be accessable on JVB.
 # -----------------------------------------------------------------------------
 SSH_CONFIG=/root/.ssh/jms-config
-IDLE_MIN=2
+IDLE_MIN=1
 UPTIME_MIN=1200
 
 idle=0
