@@ -152,13 +152,13 @@ lxc-attach -n $MACH -- \
      apt-get $APT_PROXY_OPTION -y dist-upgrade"
 
 # apt-transport-https, gnupg
-# ngrep, netcat-openbsd, jq
+# ngrep, ncat, jq
 lxc-attach -n $MACH -- \
     zsh -c \
     "set -e
      export DEBIAN_FRONTEND=noninteractive
      apt-get $APT_PROXY_OPTION -y install apt-transport-https gnupg
-     apt-get $APT_PROXY_OPTION -y install ngrep netcat-openbsd jq"
+     apt-get $APT_PROXY_OPTION -y install ngrep ncat jq"
 
 # ssl packages
 lxc-attach -n $MACH -- \
