@@ -62,7 +62,8 @@ module:hook("muc-occupant-pre-join", function (event)
     local context_user = event.origin.jitsi_meet_context_user
     if context_user then
         if context_user["affiliation"] == "owner" or
-           context_user["affiliation"] == "moderator" then
+           context_user["affiliation"] == "moderator" or
+           context_user["affiliation"] == "teacher" then
             module:log(LOGLEVEL, "let the party begin")
             return
         end
