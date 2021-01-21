@@ -147,7 +147,7 @@ sed -i "/\"app\.bundle\.min\.js\",/a \
 #     systemctl restart jicofo.service
 #     systemctl restart jitsi-videobridge2.service"
 #
-#sed -i "/enableUserRolesBasedOnToken:/ s~//\s*~~" $JITSI_MEET_CONFIG
-#sed -i "/enableUserRolesBasedOnToken:/ s~:.*~: true,~" $JITSI_MEET_CONFIG
+#sed -i "/disableProfile:/ s~//\s*~~" $JITSI_MEET_CONFIG
+#sed -i "/disableProfile:/ s~:.*~: true,~" $JITSI_MEET_CONFIG
 #sed -i "/enableFeaturesBasedOnToken:/ s~//\s*~~" $JITSI_MEET_CONFIG
 #sed -i "/enableFeaturesBasedOnToken:/ s~:.*~: true,~" $JITSI_MEET_CONFIG
