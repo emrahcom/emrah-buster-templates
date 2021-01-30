@@ -24,12 +24,17 @@
 --
 --    org.jitsi.jicofo.DISABLE_AUTO_OWNER=true
 --
--- 4) Restart the services
+-- 4) If exists, remove or comment org.jitsi.jicofo.auth.URL line in
+--    /etc/jitsi/jicofo/sip-communicator.properties
+--
+--    #org.jitsi.jicofo.auth.URL=...
+--
+-- 5) Restart the services
 --
 --    systemctl restart prosody.service
 --    systemctl restart jicofo.service
 --
--- 5) Set the affiliation on token. The value may be "owner" or "member".
+-- 6) Set the affiliation on token. The value may be "owner" or "member".
 --
 --    A sample token body:
 --    {
