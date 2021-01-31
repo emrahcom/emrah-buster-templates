@@ -1,0 +1,27 @@
+<script>
+function redirect() {
+    window.location.href="https://__JITSI_HOST___";
+}
+
+function subscribeToEvents() {
+    try {
+        if (!APP.store.getState()) {
+            throw new Error("state is not ready. try again");
+        } else if (!APP.store.getState()["features/base/connection"]) {
+            throw new Error("connection is not ready. try again");
+        }
+
+        cnn = APP.store.getState()["features/base/connection"];
+        if (cnn.error) {
+            return redirect();
+        }
+
+        APP.conference._room.on("conference.kicked", redirect);
+        APP.conference._room.on("conference.left", redirect);
+    } catch(e) {
+        setTimeout(() => subscribeToEvents(), 3000);
+    }
+}
+
+subscribeToEvents();
+</script>
