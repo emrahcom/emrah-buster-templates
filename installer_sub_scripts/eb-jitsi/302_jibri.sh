@@ -135,7 +135,7 @@ lxc-attach -n $MACH -- \
          chromium-driver
      apt-get $APT_PROXY_OPTION -y --install-recommends install \
          nvidia-openjdk-8-jre
-     apt-get $APT_PROXY_OPTION -y install stunnel"
+     apt-get $APT_PROXY_OPTION -y install stunnel x11vnc"
 
 # jibri
 cp etc/apt/sources.list.d/jitsi-stable.list $ROOTFS/etc/apt/sources.list.d/
@@ -356,6 +356,14 @@ lxc-attach -n $MACH -- \
     "set -e
      systemctl enable jibri.service
      systemctl start jibri.service"
+
+# jibri vnc
+lxc-attach -n $MACH -- \
+    zsh -c \
+    "set -e
+     mkdir -p /home/jibri/.vnc
+     x11vnc -storepasswd jibri /home/jibri/.vnc/passwd
+     chown jibri:jibri /home/jibri/.vnc -R"
 
 # -----------------------------------------------------------------------------
 # CONTAINER SERVICES
