@@ -173,7 +173,7 @@ lxc-attach -n $MACH -- \
 
 # snd_aloop module
 [ -z "$(egrep '^snd_aloop' /etc/modules)" ] && echo snd_aloop >>/etc/modules
-cp $MACHINES/eb-jitsi-host/etc/modprobe.d/alsa-loopback.conf /etc/modprobe.d/
+cp $MACHINES/eb-jibri-host/etc/modprobe.d/alsa-loopback.conf /etc/modprobe.d/
 rmmod -f snd_aloop || true
 modprobe snd_aloop || true
 [[ "$DONT_CHECK_SND_ALOOP" = true ]] || [[ -n "$(lsmod | ack snd_aloop)" ]]
@@ -287,12 +287,12 @@ lxc-wait -n $MACH -s STOPPED
 # -----------------------------------------------------------------------------
 # EPHEMERAL JIBRI CONTAINERS
 # -----------------------------------------------------------------------------
-cp $MACHINES/eb-jitsi-host/usr/local/sbin/jibri-ephemeral-start /usr/local/sbin/
-cp $MACHINES/eb-jitsi-host/usr/local/sbin/jibri-ephemeral-stop /usr/local/sbin/
+cp $MACHINES/eb-jibri-host/usr/local/sbin/jibri-ephemeral-start /usr/local/sbin/
+cp $MACHINES/eb-jibri-host/usr/local/sbin/jibri-ephemeral-stop /usr/local/sbin/
 chmod 744 /usr/local/sbin/jibri-ephemeral-start
 chmod 744 /usr/local/sbin/jibri-ephemeral-stop
 
-cp $MACHINES/eb-jitsi-host/etc/systemd/system/jibri-ephemeral-container.service \
+cp $MACHINES/eb-jibri-host/etc/systemd/system/jibri-ephemeral-container.service \
     /etc/systemd/system/
 
 systemctl daemon-reload
