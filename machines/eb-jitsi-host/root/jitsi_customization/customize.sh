@@ -79,6 +79,7 @@ sed -i "/doNotStoreRoom:/ s~:.*~: false,~" $JITSI_MEET_CONFIG
 # -----------------------------------------------------------------------------
 # jitsi-meet interface_config.js
 # -----------------------------------------------------------------------------
+cp $FAVICON $JITSI_MEET/
 cp $FAVICON $JITSI_MEET/images/
 cp $WATERMARK $JITSI_MEET/images/
 
