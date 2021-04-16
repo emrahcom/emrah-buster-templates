@@ -138,9 +138,9 @@ cp etc/apt/sources.list.d/jitsi-stable.list $ROOTFS/etc/apt/sources.list.d/
 lxc-attach -n $MACH -- \
     zsh -c \
     "set -e
-     apt-get --allow-insecure-repositories update
-     apt-get $APT_PROXY_OPTION --allow-unauthenticated -y install \
-         jitsi-archive-keyring
+     wget -qO /tmp/jitsi.gpg.key https://download.jitsi.org/jitsi-key.gpg.key
+     cat /tmp/jitsi.gpg.key | gpg --dearmor > \
+         /etc/apt/trusted.gpg.d/jitsi-archive-stable.gpg
      apt-get update"
 
 lxc-attach -n $MACH -- \
