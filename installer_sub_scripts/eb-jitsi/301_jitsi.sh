@@ -174,7 +174,7 @@ lxc-attach -n $MACH -- \
     "set -e
      wget -qO /tmp/jitsi.gpg.key https://download.jitsi.org/jitsi-key.gpg.key
      cat /tmp/jitsi.gpg.key | gpg --dearmor > \
-         /etc/apt/trusted.gpg.d/jitsi-archive-stable.gpg
+         /usr/share/keyrings/jitsi-keyring.gpg
      apt-get update"
 
 lxc-attach -n $MACH -- \
