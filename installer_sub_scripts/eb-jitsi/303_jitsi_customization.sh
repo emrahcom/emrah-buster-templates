@@ -35,9 +35,11 @@ then
         /root/jitsi_customization/README.md
     sed -i "s/___JITSI_HOST___/$JITSI_HOST/g" \
         /root/jitsi_customization/customize.sh
+
+    bash /root/jitsi_customization/customize.sh
 else
-    echo "The customization folder already exists."
-    echo "Running the existing one..."
+    echo "There is already an old customization folder."
+    echo "Automatic customization skipped."
+    echo "Run your own customization script manually."
 fi
 
-bash /root/jitsi_customization/customize.sh
