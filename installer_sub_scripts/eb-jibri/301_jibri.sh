@@ -133,8 +133,6 @@ lxc-attach -n $MACH -- \
      apt-get $APT_PROXY_OPTION -y --install-recommends install ffmpeg
      apt-get $APT_PROXY_OPTION -y --install-recommends install chromium \
          chromium-driver
-     apt-get $APT_PROXY_OPTION -y --install-recommends install \
-         nvidia-openjdk-8-jre
      apt-get $APT_PROXY_OPTION -y install stunnel x11vnc"
 
 # jibri
@@ -182,20 +180,6 @@ modprobe snd_aloop || true
 mkdir -p $ROOTFS/etc/chromium/policies/managed
 cp etc/chromium/policies/managed/eb_policies.json \
     $ROOTFS/etc/chromium/policies/managed/
-
-# default java
-mv $ROOTFS/usr/lib/jvm/nvidia-java-8-openjdk-amd64/lib/security/cacerts \
-    $ROOTFS/usr/lib/jvm/nvidia-java-8-openjdk-amd64/lib/security/cacerts.org
-ln -sf /etc/ssl/certs/java/cacerts \
-    $ROOTFS/usr/lib/jvm/nvidia-java-8-openjdk-amd64/lib/security/
-
-lxc-attach -n $MACH -- \
-    zsh -c \
-    "set -e
-     update-alternatives --install /usr/bin/java java \
-         /usr/lib/jvm/nvidia-java-8-openjdk-amd64/bin/java 50
-     update-alternatives --set java \
-         /usr/lib/jvm/nvidia-java-8-openjdk-amd64/bin/java"
 
 # stunnel
 cp etc/stunnel/facebook.conf $ROOTFS/etc/stunnel/
