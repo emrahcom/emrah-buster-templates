@@ -68,35 +68,35 @@ function list-actions {
     echo "actions:"
     while read act; do
         echo "    $act"
-    done < <(echo -e "${actions[$room]}")
+    done < <(echo -e "${actions[$_room_]}")
 }
 
 # -----------------------------------------------------------------------------
 # room created
 # -----------------------------------------------------------------------------
 function created {
-    created_at[$room]=$cdatetime
-    stopped[$room]=
-    actions[$room]="$ctime +++ [$room]"
-    members[$room]=
+    created_at[$_room_]=$cdatetime
+    stopped[$_room_]=
+    actions[$_room_]="$ctime +++ [$_room_]"
+    members[$_room_]=
 }
 
 # -----------------------------------------------------------------------------
 # room stopped
 # -----------------------------------------------------------------------------
 function stopped {
-    stopped_at[$room]=$cdatetime
-    actions[$room]+="\n$ctime --- [$room]"
-    duration=$(elapsed "${created_at[$room]}" "${stopped_at[$room]}")
+    stopped_at[$_room_]=$cdatetime
+    actions[$_room_]+="\n$ctime --- [$_room_]"
+    duration=$(elapsed "${created_at[$_room_]}" "${stopped_at[$_room_]}")
     [[ "$MIN_DURATION" > "$duration" ]] && return
-    msorted=$(echo ${members[$room]} | xargs -n1 | sort -u | xargs)
+    msorted=$(echo ${members[$_room_]} | xargs -n1 | sort -u | xargs)
 
     cat <<EOF
 
-$room
-$(echo $room | sed 's/./=/g')
-created at: ${created_at[$room]}
-stopped at: ${stopped_at[$room]}
+$_room_
+$(echo $_room_ | sed 's/./=/g')
+created at: ${created_at[$_room_]}
+stopped at: ${stopped_at[$_room_]}
 duration: $duration
 number of participants: $(echo $msorted | wc -w)
 EOF
@@ -111,22 +111,22 @@ EOF
 while read l; do
     cdatetime=$(echo $l | egrep -o '[0-9]+-[0-9]+-[0-9]+ [0-9]+:[0-9]+:[0-9]+')
     ctime=$(echo $cdatetime | cut -d ' ' -f2)
-    room=$(echo $l | egrep -o '\[room=[^@]*' | cut -d= -f2)
+    _room_=$(echo $l | egrep -o '\[room=[^@]*' | cut -d= -f2)
 
     if (echo $l | egrep -qs 'Member joined:'); then
         member=$(echo $l | egrep -o 'Member joined:.*' | \
                  cut -d':' -f2 | xargs)
-        members[$room]+="$member "
-        actions[$room]+="\n$ctime ->  $member"
+        members[$_room_]+="$member "
+        actions[$_room_]+="\n$ctime ->  $member"
     elif (echo $l | egrep -qs 'Member left:'); then
         member=$(echo $l | egrep -o 'Member left:.*' | \
                  cut -d':' -f2 | xargs)
-        members[$room]+="$member "
-        actions[$room]+="\n$ctime  <- $member"
+        members[$_room_]+="$member "
+        actions[$_room_]+="\n$ctime  <- $member"
     elif (echo $l | egrep -qs 'Granted owner to .*'); then
         member=$(echo $l | egrep -o 'Granted owner to .*' | \
                  cut -d' ' -f4)
-        actions[$room]+="\n$ctime  *  $member"
+        actions[$_room_]+="\n$ctime  *  $member"
     elif (echo $l | egrep -qs 'Created new conference'); then
         created
     elif (echo $l | egrep -qs 'Stopped\.$'); then
