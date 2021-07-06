@@ -26,7 +26,7 @@ lxc-attach -n eb-jitsi
 
     curl http://127.0.0.1:8080/colibri/conferences
     curl http://127.0.0.1:8888/stats
-    egrep -o "(Created|Disposed).*count[^,]*" /var/log/jitsi/jicofo.log
+    egrep -o "\[room=.*\].*(Created|Stopped)" /var/log/jitsi/jicofo.log
 
     exit
 ```
