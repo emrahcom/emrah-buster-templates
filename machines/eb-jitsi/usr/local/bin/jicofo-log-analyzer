@@ -76,7 +76,7 @@ function list-actions {
 # -----------------------------------------------------------------------------
 function created {
     created_at[$_room_]=$cdatetime
-    stopped[$_room_]=
+    stopped_at[$_room_]=
     actions[$_room_]="$ctime +++ [$_room_]"
     members[$_room_]=
 }
