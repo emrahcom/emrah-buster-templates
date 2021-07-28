@@ -114,12 +114,12 @@ while read l; do
     _room_=$(echo $l | egrep -o '\[room=[^@]*' | cut -d= -f2)
 
     if (echo $l | egrep -qs 'Member joined:'); then
-        member=$(echo $l | egrep -o 'Member joined:.*' | \
+        member=$(echo $l | egrep -Eo 'Member joined:\S*' | \
                  cut -d':' -f2 | xargs)
         members[$_room_]+="$member "
         actions[$_room_]+="\n$ctime ->  $member"
     elif (echo $l | egrep -qs 'Member left:'); then
-        member=$(echo $l | egrep -o 'Member left:.*' | \
+        member=$(echo $l | egrep -Eo 'Member left:\S*' | \
                  cut -d':' -f2 | xargs)
         members[$_room_]+="$member "
         actions[$_room_]+="\n$ctime  <- $member"
@@ -129,7 +129,7 @@ while read l; do
         actions[$_room_]+="\n$ctime  *  $member"
     elif (echo $l | egrep -qs 'Created new conference'); then
         created
-    elif (echo $l | egrep -qs 'Stopped\.$'); then
+    elif (echo $l | egrep -qEs 'Stopped\.\s*$'); then
         stopped
     fi
 done < <(cat $LOG | egrep --line-buffered -s \
