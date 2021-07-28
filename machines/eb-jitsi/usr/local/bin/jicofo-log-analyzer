@@ -124,7 +124,7 @@ while read l; do
         members[$_room_]+="$member "
         actions[$_room_]+="\n$ctime  <- $member"
     elif (echo $l | egrep -qs 'Granted owner to .*'); then
-        member=$(echo $l | egrep -o 'Granted owner to .*' | \
+        member=$(echo $l | egrep -Eo 'Granted owner to \S*' | \
                  cut -d' ' -f4)
         actions[$_room_]+="\n$ctime  *  $member"
     elif (echo $l | egrep -qs 'Created new conference'); then
