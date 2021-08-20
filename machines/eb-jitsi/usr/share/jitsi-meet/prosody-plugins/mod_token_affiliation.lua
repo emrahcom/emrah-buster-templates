@@ -19,8 +19,13 @@
 --         "token_affiliation";
 --
 -- 3) Disable auto-ownership on Jicofo and let the module set the affiliations
---    according to the token content. Add the following line to
---    /etc/jitsi/jicofo/sip-communicator.properties
+--    according to the token content.
+--
+--    hocon -f /etc/jitsi/jicofo/jicofo.conf \
+--        set jicofo.conference.enable-auto-owner false
+--
+--    For old version, you may set the same value by adding the following line
+--    to /etc/jitsi/jicofo/sip-communicator.properties
 --
 --    org.jitsi.jicofo.DISABLE_AUTO_OWNER=true
 --

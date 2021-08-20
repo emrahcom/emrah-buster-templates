@@ -236,10 +236,13 @@ lxc-attach -n eb-jitsi -- \
      prosodyctl register recorder recorder.$JITSI_HOST $PASSWD2"
 
 # jicofo config
-cat >> $JITSI_ROOTFS/etc/jitsi/jicofo/sip-communicator.properties <<EOF
-org.jitsi.jicofo.jibri.BREWERY=JibriBrewery@internal.auth.$JITSI_HOST
-org.jitsi.jicofo.jibri.PENDING_TIMEOUT=90
-EOF
+lxc-attach -n eb-jitsi -- zsh <<EOS
+set -e
+hocon -f /etc/jitsi/jicofo/jicofo.conf \
+    set jicofo.jibri.brewery-jid "\"JibriBrewery@internal.auth.$JITSI_HOST\""
+hocon -f /etc/jitsi/jicofo/jicofo.conf \
+    set jicofo.jibri.pending-timeout "90 seconds"
+EOS
 
 lxc-attach -n eb-jitsi -- \
     zsh -c \

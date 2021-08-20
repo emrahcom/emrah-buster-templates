@@ -316,14 +316,16 @@ cp usr/share/jitsi-meet/prosody-plugins/*.lua \
 lxc-attach -n $MACH -- systemctl reload prosody.service
 
 # jicofo
-cat >> $ROOTFS/etc/jitsi/jicofo/sip-communicator.properties <<EOF
-#org.jitsi.jicofo.DISABLE_AUTO_OWNER=true
-EOF
 sed -i '/^JICOFO_AUTH_PASSWORD=/a \
 \
 # set the maximum memory for the jicofo daemon\
 JICOFO_MAX_MEMORY=3072m' \
     $ROOTFS/etc/jitsi/jicofo/config
+lxc-attach -n $MACH -- \
+    zsh -c \
+    "set -e
+     hocon -f /etc/jitsi/jicofo/jicofo.conf \
+         set jicofo.conference.enable-auto-owner true"
 lxc-attach -n $MACH -- systemctl restart jicofo.service
 
 # nginx

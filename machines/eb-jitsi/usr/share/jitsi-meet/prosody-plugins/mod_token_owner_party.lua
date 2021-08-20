@@ -26,7 +26,12 @@
 --       party_check_timeout = 20
 --
 -- 3) For most scenarios you may want to disable auto-ownership on Jicofo.
---    Add the following line to /etc/jitsi/jicofo/sip-communicator.properties
+--
+--    hocon -f /etc/jitsi/jicofo/jicofo.conf \
+--        set jicofo.conference.enable-auto-owner false
+--
+--    For old version, you may set the same value by adding the following line
+--    to /etc/jitsi/jicofo/sip-communicator.properties
 --
 --    org.jitsi.jicofo.DISABLE_AUTO_OWNER=true
 --
