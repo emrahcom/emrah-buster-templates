@@ -84,12 +84,11 @@ sed -i "/^\s*ENFORCE_NOTIFICATION_AUTO_DISMISS_TIMEOUT:/ s~:.*~: 5000,~" \
 #
 #lxc-attach -n eb-jitsi -- systemctl restart prosody.service
 #
-#sed -i "/org.jitsi.jicofo.DISABLE_AUTO_OWNER/ s/^#//" \
-#    $JICOFO/sip-communicator.properties
-#
 #lxc-attach -n eb-jitsi -- \
 #    zsh -c \
 #    "set -e
+#     hocon -f /etc/jitsi/jicofo/jicofo.conf \
+#         set jicofo.conference.enable-auto-owner false
 #     systemctl restart jicofo.service
 #     systemctl restart jitsi-videobridge2.service"
 #
