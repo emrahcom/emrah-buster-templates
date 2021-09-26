@@ -79,7 +79,7 @@ git checkout -b $TAG
 
 ## 6. Build
 #### 6.1 Jitsi-meet build
-If you want to use the local `lib-jitsi-meet` repo
+Use the local `lib-jitsi-meet` repo
 
 ```bash
 cd /home/dev/lib-jitsi-meet
@@ -87,13 +87,13 @@ npm update
 
 cd /home/dev/jitsi-meet
 npm install ../lib-jitsi-meet
+npm update
 ```
 
-To build `jitsi-meet`
+Apply your changes and to build `lib-jitsi-meet` and `jitsi-meet`
 
 ```bash
-cd /home/dev/jitsi-meet
-npm update
+npm install ../lib-jitsi-meet --force
 make
 ```
 
