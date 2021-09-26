@@ -5,7 +5,7 @@ Jitsi Development on eb-jitsi
 - [2. Installation](#2-installation)
 - [3. Login](#3-login)
 - [4. Dev folder](#4-dev-folder)
-- [5. Development](#5-development)
+- [5. Working tree](#5-working-tree)
 - [6. Build](#6-build)
   - [6.1 Jitsi-meet Build](#61-jitsi-meet-build)
   - [6.2 Jicofo Build](#62-jicofo-build)
@@ -51,19 +51,30 @@ cd /home/dev
 ls
 ```
 
-## 5. Development
+## 5. Working tree
 How to change the codes is beyond the scope of this guide. See   
 [How to build Jitsi Meet from source: A developer’s guide](https://community.jitsi.org/t/how-to-how-to-build-jitsi-meet-from-source-a-developers-guide/75422)
 
 If you want to edit the codes for the installed version, first check the
 installed version and switch to the related working tree.
 
+No need to change the working tree if you will work on the `master` branch.
+
 ```bash
-dpkg -l jitsi-meet jicofo
+TAG=$(apt-cache policy jitsi-meet | grep Installed | egrep -o '[0-9]{4,}')
+echo $TAG
+
+cd /home/dev/lib-jitsi-meet
+git checkout jitsi-meet_$TAG
+git checkout -b $TAG
 
 cd /home/dev/jitsi-meet
-git checkout jitsi-meet_<TAG>
-git checkout -b <TAG>
+git checkout jitsi-meet_$TAG
+git checkout -b $TAG
+
+cd /home/dev/jicofo
+git checkout jitsi-meet_$TAG
+git checkout -b $TAG
 ```
 
 ## 6. Build
