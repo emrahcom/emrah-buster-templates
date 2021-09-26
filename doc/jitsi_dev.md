@@ -1,5 +1,4 @@
-Jitsi Development on eb-jitsi
-=============================
+# Jitsi Development on eb-jitsi
 
 - [1. About](#1-about)
 - [2. Installation](#2-installation)
@@ -12,14 +11,16 @@ Jitsi Development on eb-jitsi
 - [7. Enable the development web server](#7-enable-the-development-web-server)
 
 ## 1. About
+
 This guide provides the base info to use [eb-jitsi](jitsi_cluster.md) as a
 `Jitsi` development environment. This guide is for experienced developers who
 are comfortable with a Linux environment.
 
 ## 2. Installation
-Install JMS (Jitsi Meet Server) according to [this guide](jitsi_cluster.md).
-Set the following parameters to install the development environment before
-starting the installer.
+
+Install JMS (Jitsi Meet Server) according to [this guide](jitsi_cluster.md). Set
+the following parameters to install the development environment before starting
+the installer.
 
 ```bash
 echo export INSTALL_JICOFO_DEV=true >> eb-jitsi.conf
@@ -27,22 +28,24 @@ echo export INSTALL_JITSI_MEET_DEV=true >> eb-jitsi.conf
 ```
 
 ## 3. Login
+
 JMS run in a containerized environment which is named as `eb-jitsi`. There are
 two common ways to login this environment:
 
-* Login to the host using `SSH` and then attach to the container
+- Login to the host using `SSH` and then attach to the container
 
 ```bash
 lxc-attach -n eb-jitsi
 ```
 
-* Login directly to the container using `SSH`
+- Login directly to the container using `SSH`
 
 ```bash
 ssh -l root -p 30014 your.domain.com
 ```
 
 ## 4. Dev folder
+
 The development tools are already installed and the related repositories are
 already cloned on `/home/dev`. Go there and start working:
 
@@ -52,7 +55,8 @@ ls
 ```
 
 ## 5. Working tree
-How to change the codes is beyond the scope of this guide. See   
+
+How to change the codes is beyond the scope of this guide. See\
 [How to build Jitsi Meet from source: A developer’s guide](https://community.jitsi.org/t/how-to-how-to-build-jitsi-meet-from-source-a-developers-guide/75422)
 
 If you want to edit the codes for the installed version, first check the
@@ -78,7 +82,9 @@ git checkout -b $TAG
 ```
 
 ## 6. Build
+
 #### 6.1 Jitsi-meet build
+
 Use the local `lib-jitsi-meet` repo
 
 ```bash
@@ -98,14 +104,16 @@ make
 ```
 
 #### 6.2 Jicofo build
+
 ```bash
 cd /home/dev/jicofo
 mvn install
 ```
 
 ## 7. Enable the development web server
-The web server run using the stable JMS by default. Use the following command
-to switch to the development web server.
+
+The web server run using the stable JMS by default. Use the following command to
+switch to the development web server.
 
 ```bash
 enable-jitsi-meet-dev
