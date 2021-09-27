@@ -99,6 +99,7 @@ npm update
 Apply your changes and to build `lib-jitsi-meet` and `jitsi-meet`
 
 ```bash
+cd /home/dev/jitsi-meet
 npm install ../lib-jitsi-meet --force
 make
 ```
