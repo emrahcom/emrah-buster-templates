@@ -144,6 +144,10 @@ ssh_ sed -i \"s/___PASSWD2___/$PASSWD2/\" \
 
 ssh_ lxc-start -n eb-jibri-template
 ssh_ lxc-wait -n eb-jibri-template -s RUNNING
+for i in $(seq 0 9); do
+    ssh_ "lxc-attach -n eb-jibri-template -- ping -c1 host" && break || true
+    sleep 1
+done
 
 ssh_ "lxc-attach -n eb-jibri-template -- update-ca-certificates"
 ssh_ "lxc-attach -n eb-jibri-template -- zsh -c \" \
