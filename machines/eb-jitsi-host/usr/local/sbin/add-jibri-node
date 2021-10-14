@@ -141,6 +141,7 @@ ssh_ sed -i \"s/___PASSWD1___/$PASSWD1/\" \
 ssh_ sed -i \"s/___PASSWD2___/$PASSWD2/\" \
     $JIBRI_ROOTFS/etc/jitsi/jibri/jibri.conf
 
+ssh_ systemctl stop jibri-ephemeral-container.service
 ssh_ lxc-start -n eb-jibri-template
 ssh_ lxc-wait -n eb-jibri-template -s RUNNING
 for i in $(seq 0 9); do
