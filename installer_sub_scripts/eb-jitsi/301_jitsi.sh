@@ -329,9 +329,7 @@ lxc-attach -n $MACH -- \
 lxc-attach -n $MACH -- systemctl restart jicofo.service
 
 # nginx
-mkdir -p $ROOTFS/etc/systemd/system/nginx.service.d
-cp etc/systemd/system/nginx.service.d/override.conf \
-    $ROOTFS/etc/systemd/system/nginx.service.d/
+cp $ROOTFS/etc/nginx/nginx.conf $ROOTFS/etc/nginx/nginx.conf.old
 sed -i "/worker_connections/ s/\\S*;/8192;/" \
     $ROOTFS/etc/nginx/nginx.conf
 mkdir -p $ROOTFS/usr/local/share/nginx/modules-available
