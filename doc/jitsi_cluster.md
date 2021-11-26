@@ -2,6 +2,7 @@
 
 # Easy way to create a Jitsi cluster based on Debian Buster
 
+- [0. Warning](#0-warning)
 - [1. About](#1-about)
 - [2. Jitsi Meet Server (JMS)](#2-jitsi-meet-server-jms)
   - [2.1 Prerequisites](#21-prerequisites)
@@ -35,6 +36,13 @@
 - [5- FAQ](#5-faq)
 
 ---
+
+## 0. Warning
+
+This document is for the old version of Debian (`Debian 10 Buster`). Please
+check
+[the new guide](https://github.com/emrahcom/emrah-bullseye-templates/blob/main/docs/jitsi-cluster.md)
+to create a Jitsi cluster based on `Debian 11 Bullseye`.
 
 ## 1. About
 
