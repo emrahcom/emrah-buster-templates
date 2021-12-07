@@ -125,13 +125,14 @@ lxc-attach -n $MACH -- \
      apt-get $APT_PROXY_OPTION -y dist-upgrade"
 
 # apt-transport-https, gnupg
-# ngrep, ncat, jq
+# ngrep, ncat, jq, ruby-hocon
 lxc-attach -n $MACH -- \
     zsh -c \
     "set -e
      export DEBIAN_FRONTEND=noninteractive
      apt-get $APT_PROXY_OPTION -y install apt-transport-https gnupg
-     apt-get $APT_PROXY_OPTION -y install ngrep ncat jq"
+     apt-get $APT_PROXY_OPTION -y install ngrep ncat jq
+     apt-get $APT_PROXY_OPTION -y install ruby-hocon"
 
 # jvb
 cp etc/apt/sources.list.d/jitsi-stable.list $ROOTFS/etc/apt/sources.list.d/
@@ -170,17 +171,16 @@ VIDEOBRIDGE_MAX_MEMORY=3072m' \
 lxc-attach -n $MACH -- systemctl restart jitsi-videobridge2.service
 
 # colibri
-sed -i '/^JVB_OPTS/ s/--apis=/--apis=rest/' \
-    $ROOTFS/etc/jitsi/videobridge/config
-
-cat >>$ROOTFS/etc/jitsi/videobridge/sip-communicator.properties <<EOF
-org.jitsi.videobridge.rest.private.jetty.port=8080
-org.jitsi.videobridge.rest.private.jetty.host=0.0.0.0
-EOF
+lxc-attach -n $MACH -- \
+    zsh -c \
+    "set -e
+     hocon -f /etc/jitsi/videobridge/jvb.conf \
+         set videobridge.apis.rest.enabled true
+     hocon -f /etc/jitsi/videobridge/jvb.conf \
+         set videobridge.ice.udp.port 10000"
 
 # NAT harvester. theese will be needed if this is an in-house server.
 cat >>$ROOTFS/etc/jitsi/videobridge/sip-communicator.properties <<EOF
-org.jitsi.videobridge.SINGLE_PORT_HARVESTER_PORT=10000
 #org.ice4j.ice.harvest.NAT_HARVESTER_LOCAL_ADDRESS=$IP
 #org.ice4j.ice.harvest.NAT_HARVESTER_PUBLIC_ADDRESS=$REMOTE_IP
 EOF
