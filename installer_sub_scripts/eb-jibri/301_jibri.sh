@@ -126,14 +126,41 @@ lxc-attach -n $MACH -- \
     zsh -c \
     "set -e
      export DEBIAN_FRONTEND=noninteractive
-     apt-get $APT_PROXY_OPTION -y install apt-transport-https gnupg
+     apt-get $APT_PROXY_OPTION -y install apt-transport-https gnupg unzip
      apt-get $APT_PROXY_OPTION -y install ca-certificates
      apt-get $APT_PROXY_OPTION -y install libnss3-tools
      apt-get $APT_PROXY_OPTION -y install va-driver-all vdpau-driver-all
      apt-get $APT_PROXY_OPTION -y --install-recommends install ffmpeg
-     apt-get $APT_PROXY_OPTION -y --install-recommends install chromium \
-         chromium-driver
      apt-get $APT_PROXY_OPTION -y install stunnel x11vnc"
+
+# google chrome
+cp etc/apt/sources.list.d/google-chrome.list $ROOTFS/etc/apt/sources.list.d/
+lxc-attach -n $MACH -- zsh <<EOS
+set -e
+wget -qO /tmp/google-chrome.gpg.key \
+    https://dl.google.com/linux/linux_signing_key.pub
+apt-key add /tmp/google-chrome.gpg.key
+apt-get $APT_PROXY_OPTION update
+EOS
+
+lxc-attach -n $MACH -- zsh <<EOS
+set -e
+export DEBIAN_FRONTEND=noninteractive
+apt-get $APT_PROXY_OPTION -y --install-recommends install google-chrome-stable
+EOS
+
+# chromedriver
+lxc-attach -n $MACH -- zsh <<EOS
+set -e
+CHROME_VER=\$(dpkg -s google-chrome-stable | egrep "^Version" | \
+    cut -d " " -f2 | cut -d. -f1)
+CHROMEDRIVER_VER=\$(curl -s \
+    https://chromedriver.storage.googleapis.com/LATEST_RELEASE_\$CHROME_VER)
+wget -qO /tmp/chromedriver_linux64.zip \
+    https://chromedriver.storage.googleapis.com/\$CHROMEDRIVER_VER/chromedriver_linux64.zip
+unzip /tmp/chromedriver_linux64.zip -d /usr/local/bin/
+chmod 755 /usr/local/bin/chromedriver
+EOS
 
 # jibri
 cp etc/apt/sources.list.d/jitsi-stable.list $ROOTFS/etc/apt/sources.list.d/
@@ -177,9 +204,9 @@ modprobe snd_aloop || true
 [[ "$DONT_CHECK_SND_ALOOP" = true ]] || [[ -n "$(lsmod | ack snd_aloop)" ]]
 
 # chromium managed policies
-mkdir -p $ROOTFS/etc/chromium/policies/managed
-cp etc/chromium/policies/managed/eb_policies.json \
-    $ROOTFS/etc/chromium/policies/managed/
+mkdir -p $ROOTFS/etc/opt/chrome/policies/managed
+cp etc/opt/chrome/policies/managed/eb_policies.json \
+    $ROOTFS/etc/opt/chrome/policies/managed/
 
 # stunnel
 cp etc/stunnel/facebook.conf $ROOTFS/etc/stunnel/
@@ -209,6 +236,12 @@ lxc-attach -n $MACH -- \
     zsh -c \
     "set -e
      chown jibri:jibri /home/jibri/.ssh -R"
+
+# jibri icewm startup
+mkdir -p $ROOTFS/home/jibri/.icewm
+cp home/jibri/.icewm/startup $ROOTFS/home/jibri/.icewm/
+sed -i "s/___JITSI_FQDN___/$JITSI_HOST/" $ROOTFS/home/jibri/.icewm/startup
+chmod 755 $ROOTFS/home/jibri/.icewm/startup
 
 # recordings directory
 lxc-attach -n $MACH -- \
