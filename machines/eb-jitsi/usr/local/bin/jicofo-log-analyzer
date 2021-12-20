@@ -1,9 +1,9 @@
 #!/bin/bash
 set -e
 
-# -----------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 # jicofo-log-analyzer
-# -----------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 # Analyzes the Jicofo log and generates a report.
 # Copy to the /usr/local/bin folder and give the execute permission.
 #
@@ -14,7 +14,7 @@ set -e
 #    jicofo-log-analyzer /var/log/jitsi/jicofo.log > myreport.txt
 #    zcat /var/log/jitsi/jicofo.log.2.gz  | jicofo-log-analyzer
 #    tail -f /var/log/jitsi/jicofo.log | jicofo-log-analyzer
-# -----------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 LIST_MEMBERS=true
 LIST_ACTIONS=true
 MIN_DURATION="00:02:00"
@@ -30,18 +30,18 @@ declare -A stopped_at
 declare -A members
 declare -A actions
 
-# -----------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 # elapsed time
-# -----------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 function elapsed {
     local t0=$(date -u -d "$1" +"%s")
     local t1=$(date -u -d "$2" +"%s")
     echo $(date -u -d "0 $t1 sec - $t0 sec" +"%H:%M:%S")
 }
 
-# -----------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 # list members
-# -----------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 function list-members {
     echo "participants:"
 
@@ -61,9 +61,9 @@ function list-members {
     [[ "$i" != "1" ]] && echo || true
 }
 
-# -----------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 # list actions
-# -----------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 function list-actions {
     echo "actions:"
     while read act; do
@@ -71,9 +71,9 @@ function list-actions {
     done < <(echo -e "${actions[$_room_]}")
 }
 
-# -----------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 # room created
-# -----------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 function created {
     created_at[$_room_]=$cdatetime
     stopped_at[$_room_]=
@@ -81,9 +81,9 @@ function created {
     members[$_room_]=
 }
 
-# -----------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 # room stopped
-# -----------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 function stopped {
     stopped_at[$_room_]=$cdatetime
     actions[$_room_]+="\n$ctime --- [$_room_]"
@@ -105,35 +105,51 @@ EOF
     [[ "$LIST_ACTIONS" == true ]] && list-actions || true
 }
 
-# -----------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 # main
-# -----------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 while read l; do
     cdatetime=$(echo $l | egrep -o '[0-9]+-[0-9]+-[0-9]+ [0-9]+:[0-9]+:[0-9]+')
     ctime=$(echo $cdatetime | cut -d ' ' -f2)
     _room_=$(echo $l | egrep -o '\[room=[^@]*' | cut -d= -f2)
 
     if (echo $l | egrep -qs 'Member joined:'); then
-        member=$(echo $l | egrep -Eo 'Member joined:\S*' | \
+        member=$(echo $l | egrep -Eo 'Member joined:.*' | \
                  cut -d':' -f2 | xargs)
         members[$_room_]+="$member "
         actions[$_room_]+="\n$ctime ->  $member"
     elif (echo $l | egrep -qs 'Member left:'); then
-        member=$(echo $l | egrep -Eo 'Member left:\S*' | \
+        member=$(echo $l | egrep -Eo 'Member left:.*' | \
                  cut -d':' -f2 | xargs)
         members[$_room_]+="$member "
         actions[$_room_]+="\n$ctime  <- $member"
+    elif (echo $l | egrep -qs 'Member kicked:'); then
+        member=$(echo $l | egrep -Eo 'Member kicked:.*' | \
+                 cut -d':' -f2 | xargs)
+        members[$_room_]+="$member "
+        actions[$_room_]+="\n$ctime  k  $member"
     elif (echo $l | egrep -qs 'Granted owner to .*'); then
         member=$(echo $l | egrep -Eo 'Granted owner to \S*' | \
                  cut -d' ' -f4)
+        actions[$_room_]+="\n$ctime  *  $member"
+    elif (echo $l | egrep -qs 'Electing new owner:'); then
+        chatmember=$(echo $l | egrep -Eo 'ChatMember[^, ]*')
+        _room_=$(echo $chatmember | cut -d'[' -f2 | cut -d@ -f1)
+        member=$(echo $chatmember | rev | cut -d/ -f1 | rev)
+        members[$_room_]+="$member "
         actions[$_room_]+="\n$ctime  *  $member"
     elif (echo $l | egrep -qs 'Created new conference'); then
         created
     elif (echo $l | egrep -qEs 'Stopped\.\s*$'); then
         stopped
     fi
-done < <(cat $LOG | egrep --line-buffered -s \
-         '(Member |Granted |Created |Stopped\.)')
+done < <(egrep --line-buffered -s \
+             -e 'Member ' \
+             -e 'Granted ' \
+             -e 'Created ' \
+             -e 'Stopped\.' \
+             -e 'AutoOwnerRoleManager' \
+             $LOG)
 
 echo
 echo created at $(date +'%Y-%m-%d %H:%M:%S')
