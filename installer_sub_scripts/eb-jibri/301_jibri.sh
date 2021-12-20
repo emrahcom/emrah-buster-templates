@@ -240,7 +240,6 @@ lxc-attach -n $MACH -- \
 # jibri icewm startup
 mkdir -p $ROOTFS/home/jibri/.icewm
 cp home/jibri/.icewm/startup $ROOTFS/home/jibri/.icewm/
-sed -i "s/___JITSI_FQDN___/$JITSI_HOST/" $ROOTFS/home/jibri/.icewm/startup
 chmod 755 $ROOTFS/home/jibri/.icewm/startup
 
 # recordings directory
