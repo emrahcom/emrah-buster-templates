@@ -17,7 +17,7 @@ function subscribeToEvents() {
         }
 
         APP.conference._room.on("conference.kicked", redirect);
-        APP.conference._room.on("conference.left", redirect);
+        //APP.conference._room.on("conference.left", redirect);
     } catch(e) {
         setTimeout(() => subscribeToEvents(), 3000);
     }
