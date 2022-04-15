@@ -252,7 +252,7 @@ lxc-attach -n $MACH -- \
     "set -e
      curl -s -X POST \
      -d 'app_name=Gitea: Git with a cup of tea' \
-     -d 'db_type=MySQL&db_host=/var/run/mysqld/mysqld.sock' \
+     -d 'db_type=mysql&db_host=/var/run/mysqld/mysqld.sock' \
      -d 'db_user=gitea&db_passwd=&db_name=gitea&charset=utf8mb4' \
      -d 'repo_root_path=/home/gitea/gitea-repositories' \
      -d 'lfs_root_path=/home/gitea/data/lfs' \
@@ -260,7 +260,7 @@ lxc-attach -n $MACH -- \
      -d 'domain=$REMOTE_IP&ssh_port=$SSH_PORT&run_user=gitea' \
      -d 'app_url=https://$REMOTE_IP/&http_port=3000' \
      -d 'ssl_mode=disable' \
-     http://127.0.0.1:3000/install
+     http://127.0.0.1:3000
      sleep 3"
 lxc-attach -n $MACH -- \
     zsh -c \
