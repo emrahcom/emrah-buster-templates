@@ -96,5 +96,3 @@ sed -i "/^\s*ENFORCE_NOTIFICATION_AUTO_DISMISS_TIMEOUT:/ s~:.*~: 5000,~" \
 #
 #sed -i "/disableProfile:/ s~//\s*~~" $JITSI_MEET_CONFIG
 #sed -i "/disableProfile:/ s~:.*~: true,~" $JITSI_MEET_CONFIG
-#sed -i "/enableFeaturesBasedOnToken:/ s~//\s*~~" $JITSI_MEET_CONFIG
-#sed -i "/enableFeaturesBasedOnToken:/ s~:.*~: true,~" $JITSI_MEET_CONFIG
