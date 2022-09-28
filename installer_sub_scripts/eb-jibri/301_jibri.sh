@@ -222,7 +222,8 @@ lxc-attach -n $MACH -- \
 lxc-attach -n $MACH -- \
     zsh -c \
     "set -e
-     usermod -aG adm,audio,video,plugdev jibri"
+     usermod -aG adm,audio,video,plugdev jibri
+     chown jibri:jibri /home/jibri"
 
 # jibri ssh
 mkdir -p $ROOTFS/home/jibri/.ssh
