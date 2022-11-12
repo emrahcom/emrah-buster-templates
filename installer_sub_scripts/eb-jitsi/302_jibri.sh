@@ -286,7 +286,10 @@ sed -i "/^\s*\/\/ Recording$/a \
 \        hideStorageWarning: false,\n\
 \    },\n\
 \n\
-\    liveStreamingEnabled: true,\n\
+\    liveStreaming: {\n\
+\        enabled: true,\n\
+\    },\n\
+\n\
 \    hiddenDomain: 'recorder.$JITSI_HOST'," \
     $JITSI_ROOTFS/etc/jitsi/meet/$JITSI_HOST-config.js
 
