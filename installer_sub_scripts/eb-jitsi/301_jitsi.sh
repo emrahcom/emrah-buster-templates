@@ -317,11 +317,11 @@ cp usr/share/jitsi-meet/prosody-plugins/*.lua \
 lxc-attach -n $MACH -- systemctl reload prosody.service
 
 # jicofo
-sed -i '/^JICOFO_AUTH_PASSWORD=/a \
-\
-# set the maximum memory for the jicofo daemon\
-JICOFO_MAX_MEMORY=3072m' \
-    $ROOTFS/etc/jitsi/jicofo/config
+cat >>$ROOTFS/etc/jitsi/jicofo/config <<EOF
+
+# set the maximum memory for the jicofo daemon
+JICOFO_MAX_MEMORY=3072m
+EOF
 lxc-attach -n $MACH -- \
     zsh -c \
     "set -e
