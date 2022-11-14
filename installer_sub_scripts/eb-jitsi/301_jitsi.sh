@@ -368,11 +368,11 @@ lxc-attach -n $MACH -- systemctl start nginx.service
 # JVB
 # -----------------------------------------------------------------------------
 # default memory limit
-sed -i '/^JVB_SECRET=/a \
-\
-# set the maximum memory for the JVB daemon\
-VIDEOBRIDGE_MAX_MEMORY=3072m' \
-    $ROOTFS/etc/jitsi/videobridge/config
+cat >>$ROOTFS/etc/jitsi/videobridge/config <<EOF
+
+# set the maximum memory for the JVB daemon
+VIDEOBRIDGE_MAX_MEMORY=3072m
+EOF
 
 # colibri
 lxc-attach -n $MACH -- \
