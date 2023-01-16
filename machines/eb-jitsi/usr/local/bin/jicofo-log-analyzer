@@ -28,6 +28,7 @@ fi
 declare -A created_at
 declare -A stopped_at
 declare -A members
+declare -A jibris
 declare -A actions
 
 # ------------------------------------------------------------------------------
@@ -62,6 +63,30 @@ function list-members {
 }
 
 # ------------------------------------------------------------------------------
+# list jibris
+# ------------------------------------------------------------------------------
+function list-jibris {
+    [[ -z "$jsorted" ]] && return
+
+    echo "jibri & jigasi:"
+
+    i=1
+    for m in $jsorted; do
+        if [[ "$i" == 1 ]]; then
+            echo -n "    $m"
+            (( i+=1 ))
+        elif [[ "$i" == "$MCOL" ]]; then
+            echo ", $m"
+            i=1
+        else
+            echo -n ", $m"
+            (( i+=1 ))
+        fi
+    done
+    [[ "$i" != "1" ]] && echo || true
+}
+
+# ------------------------------------------------------------------------------
 # list actions
 # ------------------------------------------------------------------------------
 function list-actions {
@@ -79,6 +104,7 @@ function created {
     stopped_at[$_room_]=
     actions[$_room_]="$ctime +++ [$_room_]"
     members[$_room_]=
+    jibris[$_room_]=
 }
 
 # ------------------------------------------------------------------------------
@@ -90,6 +116,7 @@ function stopped {
     duration=$(elapsed "${created_at[$_room_]}" "${stopped_at[$_room_]}")
     [[ "$MIN_DURATION" > "$duration" ]] && return
     msorted=$(echo ${members[$_room_]} | xargs -n1 | sort -u | xargs)
+    jsorted=$(echo ${jibris[$_room_]} | xargs -n1 | sort -u | xargs)
 
     cat <<EOF
 
@@ -102,6 +129,7 @@ number of participants: $(echo $msorted | wc -w)
 EOF
 
     [[ "$LIST_MEMBERS" == true ]] && list-members || true
+    [[ "$LIST_MEMBERS" == true ]] && list-jibris || true
     [[ "$LIST_ACTIONS" == true ]] && list-actions || true
 }
 
@@ -114,30 +142,25 @@ while read l; do
     _room_=$(echo $l | egrep -o '\[room=[^@]*' | cut -d= -f2)
 
     if (echo $l | egrep -qs 'Member joined:'); then
-        member=$(echo $l | egrep -Eo 'Member joined:.*' | \
+        member=$(echo $l | egrep -Eo 'Member joined:[^ ]*' | \
                  cut -d':' -f2 | xargs)
         members[$_room_]+="$member "
         actions[$_room_]+="\n$ctime ->  $member"
+
+	[[ -n $(echo $l | egrep -o 'isJibri=true') ]] && \
+            jibris[$_room_]+="$member "
+	[[ -n $(echo $l | egrep -o 'isJigasi=true') ]] && \
+            jibris[$_room_]+="$member "
     elif (echo $l | egrep -qs 'Member left:'); then
-        member=$(echo $l | egrep -Eo 'Member left:.*' | \
+        member=$(echo $l | egrep -Eo 'Member left:[^ ]*' | \
                  cut -d':' -f2 | xargs)
         members[$_room_]+="$member "
         actions[$_room_]+="\n$ctime  <- $member"
     elif (echo $l | egrep -qs 'Member kicked:'); then
-        member=$(echo $l | egrep -Eo 'Member kicked:.*' | \
+        member=$(echo $l | egrep -Eo 'Member kicked:[^ ]*' | \
                  cut -d':' -f2 | xargs)
         members[$_room_]+="$member "
         actions[$_room_]+="\n$ctime  k  $member"
-    elif (echo $l | egrep -qs 'Granted owner to .*'); then
-        member=$(echo $l | egrep -Eo 'Granted owner to \S*' | \
-                 cut -d' ' -f4)
-        actions[$_room_]+="\n$ctime  *  $member"
-    elif (echo $l | egrep -qs 'Electing new owner:'); then
-        chatmember=$(echo $l | egrep -Eo 'ChatMember[^, ]*')
-        _room_=$(echo $chatmember | cut -d'[' -f2 | cut -d@ -f1)
-        member=$(echo $chatmember | rev | cut -d/ -f1 | rev)
-        members[$_room_]+="$member "
-        actions[$_room_]+="\n$ctime  *  $member"
     elif (echo $l | egrep -qs 'Created new conference'); then
         created
     elif (echo $l | egrep -qEs 'Stopped\.\s*$'); then
@@ -145,10 +168,8 @@ while read l; do
     fi
 done < <(egrep --line-buffered -s \
              -e 'Member ' \
-             -e 'Granted ' \
              -e 'Created ' \
              -e 'Stopped\.' \
-             -e 'AutoOwnerRoleManager' \
              $LOG)
 
 echo
