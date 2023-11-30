@@ -134,6 +134,15 @@ lxc-attach -n $MACH -- \
      apt-get $APT_PROXY_OPTION -y install ngrep ncat jq
      apt-get $APT_PROXY_OPTION -y install ruby-hocon"
 
+# ssl packages
+lxc-attach -n $MACH -- \
+    zsh -c \
+    "set -e
+     export DEBIAN_FRONTEND=noninteractive
+     apt-get $APT_PROXY_OPTION -y install ca-certificates ca-certificates-java
+
+     update-ca-certificates"
+
 # jvb
 cp etc/apt/sources.list.d/jitsi-stable.list $ROOTFS/etc/apt/sources.list.d/
 lxc-attach -n $MACH -- \
@@ -152,7 +161,8 @@ lxc-attach -n $MACH -- \
          'jitsi-videobridge2 jitsi-videobridge/jvb-hostname string $JITSI_HOST'
 
      apt-get $APT_PROXY_OPTION -y --install-recommends install \
-         jitsi-videobridge2=2.2-22-g42bc1b99-1"
+         jitsi-videobridge2=2.2-22-g42bc1b99-1
+     apt-mark hold jitsi-videobridge2"
 
 # -----------------------------------------------------------------------------
 # JVB
