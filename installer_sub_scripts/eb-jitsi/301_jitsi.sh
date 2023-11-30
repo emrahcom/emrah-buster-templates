@@ -197,7 +197,8 @@ lxc-attach -n $MACH -- \
          jitsi-meet-prosody=1.0.6447-1 \
          jitsi-meet-turnserver=1.0.6918-1 \
          jitsi-videobridge2=2.2-22-g42bc1b99-1 \
-         jicofo=1.0-911-1"
+         jicofo=1.0-911-1
+     apt-mark hold 'jitsi-*' jicofo"
 
 # jitsi-meet-tokens related packages
 lxc-attach -n $MACH -- \
