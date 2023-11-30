@@ -187,7 +187,14 @@ lxc-attach -n $MACH -- \
      debconf-set-selections <<< \
          'jitsi-meet-web-config jitsi-meet/cert-choice select Generate a new self-signed certificate'
 
-     apt-get $APT_PROXY_OPTION -y --install-recommends install jitsi-meet"
+     apt-get $APT_PROXY_OPTION -y --install-recommends install \
+         jitsi-meet=2.0.7648-1 \
+         jitsi-meet-web=1.0.6447-1 \
+         jitsi-meet-web-config=1.0.6447-1 \
+         jitsi-meet-prosody=1.0.6447-1 \
+         jitsi-meet-turnserver=1.0.6918-1 \
+         jitsi-videobridge2=2.2-22-g42bc1b99-1 \
+         jicofo=1.0-911-1"
 
 # jitsi-meet-tokens related packages
 lxc-attach -n $MACH -- \
