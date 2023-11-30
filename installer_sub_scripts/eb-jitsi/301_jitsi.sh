@@ -166,7 +166,10 @@ lxc-attach -n $MACH -- \
     zsh -c \
     "set -e
      export DEBIAN_FRONTEND=noninteractive
-     apt-get $APT_PROXY_OPTION -y install ssl-cert ca-certificates certbot"
+     apt-get $APT_PROXY_OPTION -y install ssl-cert certbot
+     apt-get $APT_PROXY_OPTION -y install ca-certificates ca-certificates-java
+
+     update-ca-certificates"
 
 # jitsi
 cp etc/apt/sources.list.d/jitsi-stable.list $ROOTFS/etc/apt/sources.list.d/

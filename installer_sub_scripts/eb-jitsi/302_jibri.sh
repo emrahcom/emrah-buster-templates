@@ -128,11 +128,13 @@ lxc-attach -n $MACH -- \
      export DEBIAN_FRONTEND=noninteractive
      apt-get $APT_PROXY_OPTION -y install jq
      apt-get $APT_PROXY_OPTION -y install apt-transport-https gnupg unzip
-     apt-get $APT_PROXY_OPTION -y install ssl-cert ca-certificates
+     apt-get $APT_PROXY_OPTION -y install ca-certificates ca-certificates-java
      apt-get $APT_PROXY_OPTION -y install libnss3-tools
      apt-get $APT_PROXY_OPTION -y install va-driver-all vdpau-driver-all
      apt-get $APT_PROXY_OPTION -y --install-recommends install ffmpeg
-     apt-get $APT_PROXY_OPTION -y install stunnel x11vnc"
+     apt-get $APT_PROXY_OPTION -y install stunnel x11vnc
+
+     update-ca-certificates"
 
 # google chrome
 cp etc/apt/sources.list.d/google-chrome.list $ROOTFS/etc/apt/sources.list.d/
