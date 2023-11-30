@@ -128,7 +128,7 @@ lxc-attach -n $MACH -- \
      export DEBIAN_FRONTEND=noninteractive
      apt-get $APT_PROXY_OPTION -y install jq
      apt-get $APT_PROXY_OPTION -y install apt-transport-https gnupg unzip
-     apt-get $APT_PROXY_OPTION -y install ca-certificates
+     apt-get $APT_PROXY_OPTION -y install ssl-cert ca-certificates
      apt-get $APT_PROXY_OPTION -y install libnss3-tools
      apt-get $APT_PROXY_OPTION -y install va-driver-all vdpau-driver-all
      apt-get $APT_PROXY_OPTION -y --install-recommends install ffmpeg
