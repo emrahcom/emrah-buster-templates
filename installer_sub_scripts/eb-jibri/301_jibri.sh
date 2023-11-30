@@ -159,7 +159,7 @@ set -e
 CHROME_VER=\$(dpkg -s google-chrome-stable | egrep "^Version" | \
     cut -d " " -f2 | cut -d. -f1-3)
 CHROMELAB_LINK="https://googlechromelabs.github.io/chrome-for-testing"
-CHROMEDRIVER_VER=\$(curl -s \
+CHROMEDRIVER_LINK=\$(curl -s \
     \$CHROMELAB_LINK/known-good-versions-with-downloads.json | \
     jq -r ".versions[].downloads.chromedriver | select(. != null) | .[].url" | \
     grep linux64 | grep "\$CHROME_VER" | tail -1)
